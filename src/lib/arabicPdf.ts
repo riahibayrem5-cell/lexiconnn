@@ -6,8 +6,8 @@
 // so jsPDF can place the resulting visually-ordered string left-to-right
 // and end up with a correct RTL rendering.
 import bidiFactory from "bidi-js";
-// @ts-expect-error — no types
-import { ArabicShaper } from "arabic-persian-reshaper";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { ArabicShaper } = require("arabic-persian-reshaper") as { ArabicShaper: { convertArabic: (s: string) => string } };
 
 const bidi = bidiFactory();
 
