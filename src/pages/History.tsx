@@ -463,7 +463,7 @@ function DossierBody({
       {/* Sticky TOC — desktop only */}
       <aside className="hidden lg:block lg:col-span-3">
         <nav className="sticky top-6 space-y-1">
-          <p className="mono text-[0.55rem] tracking-[0.3em] uppercase text-muted-foreground mb-3">Contents</p>
+          <p className="mono text-[0.55rem] tracking-[0.3em] uppercase text-muted-foreground mb-3">{t("Contents")}</p>
           {SECTIONS.map(s => (
             <button
               key={s.id}
@@ -476,7 +476,7 @@ function DossierBody({
               )}
             >
               {s.icon}
-              <span>{s.label}</span>
+              <span>{t(s.label)}</span>
             </button>
           ))}
         </nav>
