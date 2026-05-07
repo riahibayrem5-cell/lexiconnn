@@ -239,6 +239,7 @@ function BookCard({ card, onClick }: { card: VaultCard; onClick: () => void }) {
 }
 
 function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => void }) {
+  const { t } = useLang();
   const [cached, setCached] = useState<CachedDossier | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMode, setLoadingMode] = useState<"regenerate" | "extend" | null>(null);
