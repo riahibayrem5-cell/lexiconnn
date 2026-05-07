@@ -131,7 +131,7 @@ export default function History() {
             <Input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search your vault…"
+              placeholder={t("Search your vault…")}
               className="pl-9"
             />
           </div>
@@ -147,7 +147,7 @@ export default function History() {
                     : "border-border text-muted-foreground hover:text-foreground"
                 )}
               >
-                {s.label}
+                {t(s.label)}
               </button>
             ))}
           </div>
@@ -156,7 +156,7 @@ export default function History() {
         {loading && cards.length === 0 && (
           <Card className="p-12 text-center text-muted-foreground border-dashed">
             <Loader2 className="h-6 w-6 mx-auto mb-3 animate-spin" />
-            <p className="font-display tracking-wide">Loading your vault…</p>
+            <p className="font-display tracking-wide">{t("Loading your vault…")}</p>
           </Card>
         )}
 
@@ -164,10 +164,12 @@ export default function History() {
           <Card className="p-12 text-center text-muted-foreground border-dashed">
             <Library className="h-10 w-10 mx-auto mb-3 opacity-50" />
             <p className="font-display tracking-wide">
-              {query ? "No dossiers match that search." : "No dossiers yet."}
+              {query ? t("No dossiers match that search.") : t("No dossiers yet.")}
             </p>
             <p className="text-xs mt-2">
-              Open any book on your shelf and tap <span className="font-display text-primary">Generate dossier</span> — it lands here, saved forever.
+              {lang === "ar"
+                ? <>افتح أي كتاب في رفك واضغط <span className="font-display text-primary">{t("Generate dossier")}</span> — يُحفظ هنا إلى الأبد.</>
+                : <>Open any book on your shelf and tap <span className="font-display text-primary">Generate dossier</span> — it lands here, saved forever.</>}
             </p>
           </Card>
         )}
