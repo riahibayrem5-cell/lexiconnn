@@ -274,9 +274,9 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
         dossier, generatedAt,
       });
       setCached(saved);
-      toast.success("Dossier regenerated");
+      toast.success(t("Dossier regenerated"));
     } catch (e: any) {
-      toast.error(e?.message ?? "Could not regenerate");
+      toast.error(e?.message ?? t("Could not regenerate"));
     } finally {
       setLoading(false);
       setLoadingMode(null);
@@ -295,7 +295,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
         onProgress: (pass, total) => setExtendProgress({ pass, total }),
       });
       setCached(saved);
-      toast.success(passes === 1 ? "Dossier extended" : `Extended ${passes}× — deeper than ever`);
+      toast.success(passes === 1 ? t("Dossier extended") : `${t("Dossier extended")} ${passes}×`);
     } catch (e: any) {
       const which = extendProgress?.pass ?? 1;
       toast.error(`Pass ${which} failed — kept previous version`);
