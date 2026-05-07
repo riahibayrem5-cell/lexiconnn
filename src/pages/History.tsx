@@ -21,6 +21,7 @@ import {
   type CachedDossier,
 } from "@/lib/dossier";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 type SortMode = "recent" | "extended" | "author";
 
@@ -44,6 +45,7 @@ interface VaultCard {
 
 export default function History() {
   const { books } = useLibrary();
+  const { t, lang } = useLang();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortMode>("recent");
@@ -129,7 +131,7 @@ export default function History() {
             <Input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search your vault…"
+              placeholder={t("Search your vault…")}
               className="pl-9"
             />
           </div>
@@ -145,7 +147,7 @@ export default function History() {
                     : "border-border text-muted-foreground hover:text-foreground"
                 )}
               >
-                {s.label}
+                {t(s.label)}
               </button>
             ))}
           </div>
@@ -154,7 +156,7 @@ export default function History() {
         {loading && cards.length === 0 && (
           <Card className="p-12 text-center text-muted-foreground border-dashed">
             <Loader2 className="h-6 w-6 mx-auto mb-3 animate-spin" />
-            <p className="font-display tracking-wide">Loading your vault…</p>
+            <p className="font-display tracking-wide">{t("Loading your vault…")}</p>
           </Card>
         )}
 
@@ -162,10 +164,12 @@ export default function History() {
           <Card className="p-12 text-center text-muted-foreground border-dashed">
             <Library className="h-10 w-10 mx-auto mb-3 opacity-50" />
             <p className="font-display tracking-wide">
-              {query ? "No dossiers match that search." : "No dossiers yet."}
+              {query ? t("No dossiers match that search.") : t("No dossiers yet.")}
             </p>
             <p className="text-xs mt-2">
-              Open any book on your shelf and tap <span className="font-display text-primary">Generate dossier</span> — it lands here, saved forever.
+              {lang === "ar"
+                ? <>افتح أي كتاب في رفك واضغط <span className="font-display text-primary">{t("Generate dossier")}</span> — يُحفظ هنا إلى الأبد.</>
+                : <>Open any book on your shelf and tap <span className="font-display text-primary">Generate dossier</span> — it lands here, saved forever.</>}
             </p>
           </Card>
         )}
@@ -235,6 +239,7 @@ function BookCard({ card, onClick }: { card: VaultCard; onClick: () => void }) {
 }
 
 function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => void }) {
+  const { t } = useLang();
   const [cached, setCached] = useState<CachedDossier | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMode, setLoadingMode] = useState<"regenerate" | "extend" | null>(null);
@@ -269,9 +274,9 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
         dossier, generatedAt,
       });
       setCached(saved);
-      toast.success("Dossier regenerated");
+      toast.success(t("Dossier regenerated"));
     } catch (e: any) {
-      toast.error(e?.message ?? "Could not regenerate");
+      toast.error(e?.message ?? t("Could not regenerate"));
     } finally {
       setLoading(false);
       setLoadingMode(null);
@@ -290,7 +295,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
         onProgress: (pass, total) => setExtendProgress({ pass, total }),
       });
       setCached(saved);
-      toast.success(passes === 1 ? "Dossier extended" : `Extended ${passes}× — deeper than ever`);
+      toast.success(passes === 1 ? t("Dossier extended") : `${t("Dossier extended")} ${passes}×`);
     } catch (e: any) {
       const which = extendProgress?.pass ?? 1;
       toast.error(`Pass ${which} failed — kept previous version`);
@@ -314,7 +319,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
         </div>
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           <div>
-            <p className="mono text-[0.6rem] tracking-[0.3em] uppercase text-primary/80 mb-1">Memory Vault</p>
+            <p className="mono text-[0.6rem] tracking-[0.3em] uppercase text-primary/80 mb-1">{t("Memory Vault")}</p>
             <h1 className="font-display text-2xl lg:text-4xl tracking-wide leading-tight">{card.title}</h1>
             <p className="text-sm lg:text-base text-muted-foreground mt-1">{card.author}{card.year ? ` · ${card.year}` : ""}</p>
           </div>
@@ -322,7 +327,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
             <div className="flex flex-wrap items-center gap-1.5">
               <Button size="sm" variant="ghost" className="h-7 px-2 text-[0.7rem] font-display tracking-wide" onClick={regenerate} disabled={loading}>
                 {loadingMode === "regenerate" ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}
-                Regenerate
+                {t("Regenerate")}
               </Button>
 
               {/* Segmented Extend control */}
@@ -331,7 +336,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
                   {loadingMode === "extend"
                     ? <Loader2 className="h-3 w-3 animate-spin" />
                     : <Plus className="h-3 w-3" />}
-                  Extend
+                  {t("Extend")}
                 </span>
                 {([1, 2, 3] as const).map(n => (
                   <button
@@ -342,7 +347,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
                       "px-2.5 h-full text-[0.7rem] font-display tracking-wide border-r border-primary/30 last:border-r-0 transition-colors",
                       "text-primary hover:bg-primary/15 disabled:opacity-50",
                     )}
-                    title={n === 1 ? "One deeper pass" : n === 2 ? "Two passes — much richer" : "Three passes — deepest dive"}
+                    title={n === 1 ? t("One deeper pass") : n === 2 ? t("Two passes — much richer") : t("Three passes — deepest dive")}
                   >
                     {n}×
                   </button>
@@ -351,12 +356,12 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
 
               <Button size="sm" variant="ghost" className="h-7 px-2 text-[0.7rem] font-display tracking-wide" onClick={() => setRevealSpoilers(v => !v)}>
                 {revealSpoilers ? <Eye className="h-3 w-3 mr-1" /> : <EyeOff className="h-3 w-3 mr-1" />}
-                {revealSpoilers ? "Spoilers on" : "Spoilers off"}
+                {revealSpoilers ? t("Spoilers on") : t("Spoilers off")}
               </Button>
               <Button size="sm" variant="ghost" className="h-7 px-2 text-[0.7rem] font-display tracking-wide text-primary hover:text-primary"
                 onClick={async () => {
                   try {
-                    toast.message("Composing PDF…");
+                    toast.message(t("Composing PDF…"));
                     await exportDossierPdf({
                       title: card.title, author: card.author, year: card.year,
                       coverUrl: card.coverUrl,
@@ -364,16 +369,16 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
                       generatedAt: cached.generatedAt,
                       extendedAt: cached.extendedAt,
                     });
-                    toast.success("PDF exported");
+                    toast.success(t("PDF exported"));
                   } catch (e: any) {
-                    toast.error(e?.message ?? "PDF export failed");
+                    toast.error(e?.message ?? t("PDF export failed"));
                   }
                 }}
-                title="Download a beautifully designed PDF of this dossier">
+                title={t("Download a beautifully designed PDF of this dossier")}>
                 <Download className="h-3 w-3 mr-1" /> PDF
               </Button>
               {(cached.extensionCount ?? 0) > 0 && (
-                <Badge variant="outline" className="text-[0.6rem] tracking-wide self-center">extended ×{cached.extensionCount}</Badge>
+                <Badge variant="outline" className="text-[0.6rem] tracking-wide self-center">{t("extended")} ×{cached.extensionCount}</Badge>
               )}
               {extendProgress && extendProgress.total > 1 && (
                 <span className="text-[0.65rem] mono tracking-[0.2em] uppercase text-primary">
@@ -393,17 +398,17 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
           {!hydrated && (
             <div className="text-center py-24 text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin mx-auto mb-3" />
-              <p className="text-xs font-display tracking-wide">Loading dossier…</p>
+              <p className="text-xs font-display tracking-wide">{t("Loading dossier…")}</p>
             </div>
           )}
           {hydrated && !cached && (
             <Card className="p-10 text-center border-dashed max-w-md mx-auto">
               <Sparkles className="h-8 w-8 mx-auto mb-3 text-primary opacity-70" />
-              <p className="font-display text-base mb-3">Dossier missing</p>
-              <p className="text-xs text-muted-foreground mb-4">It may have been removed. Regenerate to bring it back.</p>
+              <p className="font-display text-base mb-3">{t("Dossier missing")}</p>
+              <p className="text-xs text-muted-foreground mb-4">{t("It may have been removed. Regenerate to bring it back.")}</p>
               <Button size="sm" onClick={regenerate} disabled={loading}>
                 {loading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}
-                Regenerate
+                {t("Regenerate")}
               </Button>
             </Card>
           )}
@@ -429,6 +434,7 @@ function DossierBody({
   dossier: BookDossier; revealSpoilers: boolean; generatedAt: string;
   extendedAt?: string; extensionCount?: number;
 }) {
+  const { t } = useLang();
   const [activeSection, setActiveSection] = useState("essence");
 
   // Track which section is in view (sticky TOC highlight)
@@ -457,7 +463,7 @@ function DossierBody({
       {/* Sticky TOC — desktop only */}
       <aside className="hidden lg:block lg:col-span-3">
         <nav className="sticky top-6 space-y-1">
-          <p className="mono text-[0.55rem] tracking-[0.3em] uppercase text-muted-foreground mb-3">Contents</p>
+          <p className="mono text-[0.55rem] tracking-[0.3em] uppercase text-muted-foreground mb-3">{t("Contents")}</p>
           {SECTIONS.map(s => (
             <button
               key={s.id}
@@ -470,7 +476,7 @@ function DossierBody({
               )}
             >
               {s.icon}
-              <span>{s.label}</span>
+              <span>{t(s.label)}</span>
             </button>
           ))}
         </nav>
@@ -495,18 +501,18 @@ function DossierBody({
         </header>
 
         {/* ESSENCE */}
-        <Section id="essence" title="Essence" icon={<BookOpen className="h-4 w-4" />}>
+        <Section id="essence" title={t("Essence")} icon={<BookOpen className="h-4 w-4" />}>
           <p className="text-base lg:text-lg leading-relaxed text-foreground/90 first-letter:font-display first-letter:text-5xl first-letter:float-left first-letter:mr-2 first-letter:leading-none first-letter:text-primary first-letter:mt-1">
             {dossier.summary}
           </p>
           {dossier.themes.length > 0 && (
             <div className="space-y-4 pt-6">
-              <SubHead icon={<Tag className="h-3.5 w-3.5" />} label="Themes" />
+              <SubHead icon={<Tag className="h-3.5 w-3.5" />} label={t("Themes")} />
               <div className="grid sm:grid-cols-2 gap-4">
-                {dossier.themes.map((t, i) => (
+                {dossier.themes.map((th, i) => (
                   <Card key={i} className="p-4 bg-muted/10 border-l-2 border-l-primary/60">
-                    <div className="font-display text-sm text-primary mb-1.5">{t.name}</div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{t.description}</p>
+                    <div className="font-display text-sm text-primary mb-1.5">{th.name}</div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{th.description}</p>
                   </Card>
                 ))}
               </div>
@@ -514,7 +520,7 @@ function DossierBody({
           )}
           {dossier.symbols && dossier.symbols.length > 0 && (
             <div className="space-y-4 pt-6">
-              <SubHead icon={<Sparkles className="h-3.5 w-3.5" />} label="Symbols & motifs" />
+              <SubHead icon={<Sparkles className="h-3.5 w-3.5" />} label={t("Symbols & motifs")} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {dossier.symbols.map((s, i) => (
                   <Card key={i} className="p-3 bg-muted/20">
@@ -528,7 +534,7 @@ function DossierBody({
         </Section>
 
         {/* IDEAS */}
-        <Section id="ideas" title="Ideas to Remember" icon={<Lightbulb className="h-4 w-4" />}>
+        <Section id="ideas" title={t("Ideas to Remember")} icon={<Lightbulb className="h-4 w-4" />}>
           <div className="space-y-4">
             {dossier.mainIdeas.map((idea, i) => (
               <Card key={i} className="p-5 border-l-4 border-l-primary shadow-sm">
@@ -538,7 +544,7 @@ function DossierBody({
                     <div className="font-display text-base lg:text-lg mb-2">{idea.idea}</div>
                     <p className="text-sm lg:text-base text-foreground/90 leading-relaxed mb-3">{idea.explanation}</p>
                     <p className="text-xs lg:text-sm text-muted-foreground italic pl-3 border-l border-primary/30">
-                      <span className="mono not-italic text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 mr-1.5">Why it matters</span>
+                      <span className="mono not-italic text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 mr-1.5">{t("Why it matters")}</span>
                       {idea.whyItMatters}
                     </p>
                   </div>
@@ -549,7 +555,7 @@ function DossierBody({
         </Section>
 
         {/* PEOPLE */}
-        <Section id="people" title="People" icon={<Users className="h-4 w-4" />}>
+        <Section id="people" title={t("People")} icon={<Users className="h-4 w-4" />}>
           <div className="grid sm:grid-cols-2 gap-3">
             {dossier.characters.map((c, i) => (
               <Card key={i} className="p-4 flex flex-col">
@@ -570,7 +576,7 @@ function DossierBody({
         </Section>
 
         {/* QUOTES */}
-        <Section id="quotes" title="Key Quotes" icon={<QuoteIcon className="h-4 w-4" />}>
+        <Section id="quotes" title={t("Key Quotes")} icon={<QuoteIcon className="h-4 w-4" />}>
           <div className="space-y-6">
             {dossier.keyQuotes.map((q, i) => (
               <figure key={i} className="relative pl-10 pr-2">
@@ -589,7 +595,7 @@ function DossierBody({
         </Section>
 
         {/* LESSONS */}
-        <Section id="lessons" title="Lessons to Carry" icon={<ListChecks className="h-4 w-4" />}>
+        <Section id="lessons" title={t("Lessons to Carry")} icon={<ListChecks className="h-4 w-4" />}>
           <ul className="space-y-3">
             {dossier.lessons.map((l, i) => (
               <li key={i} className="flex gap-3 text-sm lg:text-base leading-relaxed">
@@ -600,7 +606,7 @@ function DossierBody({
           </ul>
           {dossier.discussionQuestions && dossier.discussionQuestions.length > 0 && (
             <div className="space-y-3 pt-8">
-              <SubHead icon={<MessageCircle className="h-3.5 w-3.5" />} label="Questions to sit with" />
+              <SubHead icon={<MessageCircle className="h-3.5 w-3.5" />} label={t("Questions to sit with")} />
               <ul className="space-y-2">
                 {dossier.discussionQuestions.map((q, i) => (
                   <li key={i} className="text-sm text-muted-foreground italic leading-relaxed">— {q}</li>
@@ -610,7 +616,7 @@ function DossierBody({
           )}
           {dossier.criticisms && dossier.criticisms.length > 0 && (
             <div className="space-y-3 pt-8">
-              <SubHead icon={<ListChecks className="h-3.5 w-3.5" />} label="Honest critique" />
+              <SubHead icon={<ListChecks className="h-3.5 w-3.5" />} label={t("Honest critique")} />
               <ul className="space-y-1.5">
                 {dossier.criticisms.map((c, i) => (
                   <li key={i} className="text-sm text-muted-foreground">• {c}</li>
@@ -620,7 +626,7 @@ function DossierBody({
           )}
           {dossier.ifYouLiked && dossier.ifYouLiked.length > 0 && (
             <div className="space-y-3 pt-8">
-              <SubHead icon={<Library className="h-3.5 w-3.5" />} label="If you liked this" />
+              <SubHead icon={<Library className="h-3.5 w-3.5" />} label={t("If you liked this")} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {dossier.ifYouLiked.map((r, i) => (
                   <Card key={i} className="p-3 bg-muted/20">
@@ -635,7 +641,7 @@ function DossierBody({
         </Section>
 
         {/* PLOT */}
-        <Section id="plot" title="Plot" icon={<Skull className="h-4 w-4" />}>
+        <Section id="plot" title={t("Plot")} icon={<Skull className="h-4 w-4" />}>
           <SpoilerWrap revealed={revealSpoilers}>
             <ol className="space-y-4 relative border-l border-border ml-2 pl-6">
               {dossier.timeline.map((b, i) => (
@@ -649,12 +655,12 @@ function DossierBody({
           </SpoilerWrap>
           {dossier.twists && dossier.twists.length > 0 && (
             <div className="pt-6">
-              <SubHead icon={<Skull className="h-3.5 w-3.5" />} label="Major twists" />
+              <SubHead icon={<Skull className="h-3.5 w-3.5" />} label={t("Major twists")} />
               <SpoilerWrap revealed={revealSpoilers}>
                 <div className="space-y-2 pt-2">
-                  {dossier.twists.map((t, i) => (
+                  {dossier.twists.map((tw, i) => (
                     <Card key={i} className="p-3 bg-destructive/5 border-l-2 border-l-destructive/60">
-                      <p className="text-sm text-foreground/90 leading-relaxed">{t}</p>
+                      <p className="text-sm text-foreground/90 leading-relaxed">{tw}</p>
                     </Card>
                   ))}
                 </div>
@@ -663,7 +669,7 @@ function DossierBody({
           )}
           {dossier.ending && (
             <div className="pt-6">
-              <SubHead icon={<BookOpen className="h-3.5 w-3.5" />} label="The ending" />
+              <SubHead icon={<BookOpen className="h-3.5 w-3.5" />} label={t("The ending")} />
               <SpoilerWrap revealed={revealSpoilers}>
                 <p className="text-sm lg:text-base text-foreground/90 leading-relaxed pt-2">{dossier.ending}</p>
               </SpoilerWrap>
@@ -672,10 +678,10 @@ function DossierBody({
         </Section>
 
         <div className="pt-8 border-t border-border mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">
-          Composed {new Date(generatedAt).toLocaleDateString()}
-          {extendedAt ? ` · last extended ${new Date(extendedAt).toLocaleDateString()}` : ""}
-          {(extensionCount ?? 0) > 0 ? ` · extended ×${extensionCount}` : ""}
-          {" · AI-generated, verify before quoting"}
+          {t("Composed", "Composed")} {new Date(generatedAt).toLocaleDateString()}
+          {extendedAt ? ` · ${t("extended")} ${new Date(extendedAt).toLocaleDateString()}` : ""}
+          {(extensionCount ?? 0) > 0 ? ` · ${t("extended")} ×${extensionCount}` : ""}
+          {" · " + t("AI-generated, verify before quoting")}
         </div>
       </div>
     </div>
@@ -705,6 +711,7 @@ function SubHead({ icon, label }: { icon: React.ReactNode; label: string }) {
 }
 
 function SpoilerWrap({ revealed, children }: { revealed: boolean; children: React.ReactNode }) {
+  const { t } = useLang();
   if (revealed) return <div className="animate-in fade-in duration-300">{children}</div>;
   return (
     <div className="relative">
@@ -712,7 +719,7 @@ function SpoilerWrap({ revealed, children }: { revealed: boolean; children: Reac
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-background/90 border border-border rounded-sm px-4 py-2 flex items-center gap-2 shadow-md">
           <EyeOff className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="text-xs font-display tracking-wide text-muted-foreground">Spoilers hidden — toggle to reveal</span>
+          <span className="text-xs font-display tracking-wide text-muted-foreground">{t("Spoilers hidden — toggle to reveal")}</span>
         </div>
       </div>
     </div>
