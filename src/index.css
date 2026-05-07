@@ -1,0 +1,901 @@
+/* Fonts loaded non-blocking via <link> in index.html for faster first paint. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   LEXICON — Editorial Dark Luxury Design System
+   Rare bookshop at 2am · ink · leather · gold foil
+   All colors HSL.
+   ============================================ */
+
+@layer base {
+  /* ============================================================
+     DEFAULT — Amber Library (rare bookshop at 2am)
+     ============================================================ */
+  :root, [data-theme="amber"] {
+    --background: 30 18% 5%;
+    --foreground: 38 35% 86%;
+    --surface: 30 16% 8%;
+    --surface-2: 30 14% 11%;
+    --surface-3: 30 12% 15%;
+    --card: 30 16% 8%;
+    --card-foreground: 38 35% 86%;
+    --popover: 30 18% 7%;
+    --popover-foreground: 38 35% 86%;
+    --parchment: 38 56% 90%;
+    --parchment-foreground: 30 25% 12%;
+    --primary: 41 55% 54%;
+    --primary-foreground: 30 25% 8%;
+    --primary-glow: 41 70% 64%;
+    --secondary: 30 14% 14%;
+    --secondary-foreground: 38 35% 86%;
+    --muted: 30 12% 13%;
+    --muted-foreground: 38 18% 58%;
+    --accent: 16 49% 43%;
+    --accent-foreground: 38 40% 92%;
+    --ink: 30 30% 4%;
+    --gold: 41 55% 54%;
+    --gold-soft: 41 35% 38%;
+    --terracotta: 16 49% 43%;
+    --terracotta-soft: 16 30% 28%;
+    --destructive: 0 55% 42%;
+    --destructive-foreground: 38 35% 92%;
+    --border: 30 14% 18%;
+    --border-strong: 41 25% 30%;
+    --input: 30 14% 14%;
+    --ring: 41 55% 54%;
+    --radius: 0.25rem;
+    --sidebar-background: 30 22% 4%;
+    --sidebar-foreground: 38 25% 70%;
+    --sidebar-primary: 41 55% 54%;
+    --sidebar-primary-foreground: 30 25% 8%;
+    --sidebar-accent: 30 14% 11%;
+    --sidebar-accent-foreground: 38 40% 88%;
+    --sidebar-border: 30 14% 14%;
+    --sidebar-ring: 41 55% 54%;
+    --arc-positive: 86 30% 45%;
+    --arc-complex: 41 55% 54%;
+    --arc-difficult: 8 55% 45%;
+    --shadow-spine: 0 4px 18px -4px hsl(30 30% 2% / 0.7), inset -2px 0 0 hsl(30 30% 2% / 0.4);
+    --shadow-card: 0 12px 40px -8px hsl(30 30% 2% / 0.8);
+    --shadow-gold: 0 0 24px -4px hsl(41 55% 54% / 0.35);
+    --inset-foil: inset 0 1px 0 hsl(41 55% 60% / 0.25), inset 0 -1px 0 hsl(30 30% 2% / 0.5);
+    --bg-grad-1: 41 40% 20%;
+    --bg-grad-2: 16 40% 20%;
+    --t-slow: 600ms cubic-bezier(.2,.7,.2,1);
+    --t-med: 320ms cubic-bezier(.2,.7,.2,1);
+    --t-fast: 160ms cubic-bezier(.2,.7,.2,1);
+  }
+
+  /* ============================================================
+     IVORY VELLUM — light editorial · cream paper, ink, oxblood
+     ============================================================ */
+  [data-theme="ivory"] {
+    --background: 38 45% 94%;
+    --foreground: 28 25% 14%;
+    --surface: 38 50% 97%;
+    --surface-2: 38 40% 92%;
+    --surface-3: 35 30% 86%;
+    --card: 38 50% 97%;
+    --card-foreground: 28 25% 14%;
+    --popover: 38 50% 97%;
+    --popover-foreground: 28 25% 14%;
+    --parchment: 38 56% 90%;
+    --parchment-foreground: 28 25% 14%;
+    --primary: 0 55% 32%;
+    --primary-foreground: 38 50% 96%;
+    --primary-glow: 0 55% 42%;
+    --secondary: 38 30% 88%;
+    --secondary-foreground: 28 25% 14%;
+    --muted: 38 25% 88%;
+    --muted-foreground: 28 15% 38%;
+    --accent: 41 70% 42%;
+    --accent-foreground: 38 50% 96%;
+    --ink: 28 30% 10%;
+    --gold: 41 70% 42%;
+    --gold-soft: 41 50% 55%;
+    --terracotta: 16 55% 38%;
+    --terracotta-soft: 16 35% 50%;
+    --destructive: 0 65% 42%;
+    --destructive-foreground: 38 50% 96%;
+    --border: 28 20% 78%;
+    --border-strong: 28 25% 55%;
+    --input: 38 35% 90%;
+    --ring: 0 55% 32%;
+    --sidebar-background: 38 45% 90%;
+    --sidebar-foreground: 28 22% 28%;
+    --sidebar-primary: 0 55% 32%;
+    --sidebar-primary-foreground: 38 50% 96%;
+    --sidebar-accent: 38 35% 84%;
+    --sidebar-accent-foreground: 28 25% 14%;
+    --sidebar-border: 28 20% 78%;
+    --sidebar-ring: 0 55% 32%;
+    --arc-positive: 95 35% 35%;
+    --arc-complex: 41 70% 42%;
+    --arc-difficult: 8 60% 42%;
+    --shadow-spine: 0 6px 20px -6px hsl(28 30% 30% / 0.35), inset -2px 0 0 hsl(28 30% 20% / 0.15);
+    --shadow-card: 0 10px 36px -10px hsl(28 30% 30% / 0.25);
+    --shadow-gold: 0 0 20px -4px hsl(41 70% 42% / 0.35);
+    --inset-foil: inset 0 1px 0 hsl(41 80% 55% / 0.4), inset 0 -1px 0 hsl(28 30% 20% / 0.2);
+    --bg-grad-1: 41 50% 80%;
+    --bg-grad-2: 16 45% 80%;
+  }
+
+  /* ============================================================
+     MIDNIGHT VELVET — deep navy + silver foil, moonlit study
+     ============================================================ */
+  [data-theme="midnight"] {
+    --background: 222 35% 7%;
+    --foreground: 215 25% 88%;
+    --surface: 222 30% 10%;
+    --surface-2: 222 28% 13%;
+    --surface-3: 222 25% 17%;
+    --card: 222 30% 10%;
+    --card-foreground: 215 25% 88%;
+    --popover: 222 32% 9%;
+    --popover-foreground: 215 25% 88%;
+    --parchment: 215 30% 92%;
+    --parchment-foreground: 222 35% 10%;
+    --primary: 210 35% 78%;
+    --primary-foreground: 222 35% 10%;
+    --primary-glow: 210 50% 86%;
+    --secondary: 222 28% 16%;
+    --secondary-foreground: 215 25% 88%;
+    --muted: 222 25% 15%;
+    --muted-foreground: 215 18% 62%;
+    --accent: 240 45% 55%;
+    --accent-foreground: 215 30% 92%;
+    --ink: 222 40% 5%;
+    --gold: 210 35% 78%;
+    --gold-soft: 210 25% 55%;
+    --terracotta: 240 45% 55%;
+    --terracotta-soft: 240 30% 38%;
+    --destructive: 350 55% 50%;
+    --destructive-foreground: 215 25% 92%;
+    --border: 222 22% 20%;
+    --border-strong: 210 25% 38%;
+    --input: 222 25% 16%;
+    --ring: 210 35% 78%;
+    --sidebar-background: 222 38% 5%;
+    --sidebar-foreground: 215 22% 72%;
+    --sidebar-primary: 210 35% 78%;
+    --sidebar-primary-foreground: 222 35% 10%;
+    --sidebar-accent: 222 28% 13%;
+    --sidebar-accent-foreground: 215 30% 90%;
+    --sidebar-border: 222 22% 16%;
+    --sidebar-ring: 210 35% 78%;
+    --arc-positive: 165 40% 55%;
+    --arc-complex: 210 35% 78%;
+    --arc-difficult: 350 55% 55%;
+    --shadow-spine: 0 4px 18px -4px hsl(222 60% 2% / 0.8), inset -2px 0 0 hsl(222 60% 2% / 0.5);
+    --shadow-card: 0 12px 40px -8px hsl(222 60% 2% / 0.85);
+    --shadow-gold: 0 0 24px -4px hsl(210 50% 70% / 0.4);
+    --inset-foil: inset 0 1px 0 hsl(210 40% 85% / 0.3), inset 0 -1px 0 hsl(222 60% 2% / 0.5);
+    --bg-grad-1: 240 50% 25%;
+    --bg-grad-2: 210 50% 18%;
+  }
+
+  /* ============================================================
+     FOREST BINDERY — deep green + brass, botanist's library
+     ============================================================ */
+  [data-theme="forest"] {
+    --background: 150 25% 6%;
+    --foreground: 60 25% 86%;
+    --surface: 150 22% 9%;
+    --surface-2: 150 20% 12%;
+    --surface-3: 150 18% 16%;
+    --card: 150 22% 9%;
+    --card-foreground: 60 25% 86%;
+    --popover: 150 25% 8%;
+    --popover-foreground: 60 25% 86%;
+    --parchment: 60 35% 88%;
+    --parchment-foreground: 150 25% 10%;
+    --primary: 38 55% 52%;
+    --primary-foreground: 150 25% 8%;
+    --primary-glow: 38 65% 62%;
+    --secondary: 150 18% 14%;
+    --secondary-foreground: 60 25% 86%;
+    --muted: 150 16% 13%;
+    --muted-foreground: 60 15% 60%;
+    --accent: 25 50% 45%;
+    --accent-foreground: 60 30% 92%;
+    --ink: 150 30% 4%;
+    --gold: 38 55% 52%;
+    --gold-soft: 38 35% 38%;
+    --terracotta: 25 50% 45%;
+    --terracotta-soft: 25 30% 30%;
+    --destructive: 0 55% 45%;
+    --destructive-foreground: 60 30% 92%;
+    --border: 150 18% 18%;
+    --border-strong: 38 25% 30%;
+    --input: 150 18% 14%;
+    --ring: 38 55% 52%;
+    --sidebar-background: 150 28% 5%;
+    --sidebar-foreground: 60 22% 70%;
+    --sidebar-primary: 38 55% 52%;
+    --sidebar-primary-foreground: 150 25% 8%;
+    --sidebar-accent: 150 20% 12%;
+    --sidebar-accent-foreground: 60 28% 88%;
+    --sidebar-border: 150 18% 14%;
+    --sidebar-ring: 38 55% 52%;
+    --arc-positive: 95 40% 50%;
+    --arc-complex: 38 55% 52%;
+    --arc-difficult: 8 55% 48%;
+    --shadow-spine: 0 4px 18px -4px hsl(150 40% 2% / 0.75), inset -2px 0 0 hsl(150 40% 2% / 0.4);
+    --shadow-card: 0 12px 40px -8px hsl(150 40% 2% / 0.8);
+    --shadow-gold: 0 0 24px -4px hsl(38 55% 52% / 0.4);
+    --inset-foil: inset 0 1px 0 hsl(38 60% 60% / 0.3), inset 0 -1px 0 hsl(150 40% 2% / 0.5);
+    --bg-grad-1: 95 40% 18%;
+    --bg-grad-2: 38 40% 20%;
+  }
+
+  /* ============================================================
+     CRIMSON FOLIO — oxblood + ivory + gold, antiquarian gravitas
+     ============================================================ */
+  [data-theme="crimson"] {
+    --background: 0 28% 6%;
+    --foreground: 38 35% 88%;
+    --surface: 0 25% 9%;
+    --surface-2: 0 22% 12%;
+    --surface-3: 0 20% 16%;
+    --card: 0 25% 9%;
+    --card-foreground: 38 35% 88%;
+    --popover: 0 28% 8%;
+    --popover-foreground: 38 35% 88%;
+    --parchment: 38 56% 90%;
+    --parchment-foreground: 0 30% 12%;
+    --primary: 41 65% 58%;
+    --primary-foreground: 0 30% 8%;
+    --primary-glow: 41 75% 68%;
+    --secondary: 0 20% 14%;
+    --secondary-foreground: 38 35% 88%;
+    --muted: 0 18% 13%;
+    --muted-foreground: 38 18% 60%;
+    --accent: 0 65% 42%;
+    --accent-foreground: 38 40% 92%;
+    --ink: 0 35% 4%;
+    --gold: 41 65% 58%;
+    --gold-soft: 41 40% 42%;
+    --terracotta: 0 65% 42%;
+    --terracotta-soft: 0 40% 30%;
+    --destructive: 0 70% 48%;
+    --destructive-foreground: 38 35% 92%;
+    --border: 0 20% 19%;
+    --border-strong: 41 30% 35%;
+    --input: 0 20% 14%;
+    --ring: 41 65% 58%;
+    --sidebar-background: 0 32% 5%;
+    --sidebar-foreground: 38 25% 72%;
+    --sidebar-primary: 41 65% 58%;
+    --sidebar-primary-foreground: 0 30% 8%;
+    --sidebar-accent: 0 22% 11%;
+    --sidebar-accent-foreground: 38 40% 90%;
+    --sidebar-border: 0 22% 14%;
+    --sidebar-ring: 41 65% 58%;
+    --arc-positive: 86 35% 48%;
+    --arc-complex: 41 65% 58%;
+    --arc-difficult: 0 65% 48%;
+    --shadow-spine: 0 4px 18px -4px hsl(0 40% 2% / 0.75), inset -2px 0 0 hsl(0 40% 2% / 0.45);
+    --shadow-card: 0 12px 40px -8px hsl(0 40% 2% / 0.85);
+    --shadow-gold: 0 0 24px -4px hsl(41 65% 58% / 0.4);
+    --inset-foil: inset 0 1px 0 hsl(41 75% 65% / 0.3), inset 0 -1px 0 hsl(0 40% 2% / 0.5);
+    --bg-grad-1: 0 50% 20%;
+    --bg-grad-2: 41 45% 22%;
+  }
+
+  /* ============================================================
+     DA7EE7 — purple/magenta retro YouTube vibe
+     Inspired by Da7ee7 (Egyptian YouTuber) — bold violet, hot pink,
+     creamy yellow accent on a deep aubergine background.
+     ============================================================ */
+  [data-theme="da7ee7"] {
+    --background: 280 35% 8%;
+    --foreground: 50 60% 90%;
+    --surface: 280 32% 11%;
+    --surface-2: 280 30% 14%;
+    --surface-3: 280 28% 18%;
+    --card: 280 32% 11%;
+    --card-foreground: 50 60% 90%;
+    --popover: 280 35% 10%;
+    --popover-foreground: 50 60% 90%;
+    --parchment: 50 70% 88%;
+    --parchment-foreground: 280 40% 12%;
+    --primary: 320 75% 60%;
+    --primary-foreground: 280 35% 10%;
+    --primary-glow: 320 85% 70%;
+    --secondary: 280 28% 16%;
+    --secondary-foreground: 50 60% 90%;
+    --muted: 280 25% 15%;
+    --muted-foreground: 50 30% 65%;
+    --accent: 50 85% 60%;
+    --accent-foreground: 280 40% 12%;
+    --ink: 280 50% 5%;
+    --gold: 50 85% 60%;
+    --gold-soft: 50 55% 45%;
+    --terracotta: 320 75% 60%;
+    --terracotta-soft: 320 45% 40%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 50 60% 92%;
+    --border: 280 25% 22%;
+    --border-strong: 320 40% 40%;
+    --input: 280 28% 16%;
+    --ring: 320 75% 60%;
+    --sidebar-background: 280 40% 6%;
+    --sidebar-foreground: 50 40% 75%;
+    --sidebar-primary: 320 75% 60%;
+    --sidebar-primary-foreground: 280 35% 10%;
+    --sidebar-accent: 280 30% 13%;
+    --sidebar-accent-foreground: 50 60% 90%;
+    --sidebar-border: 280 25% 16%;
+    --sidebar-ring: 320 75% 60%;
+    --arc-positive: 165 60% 50%;
+    --arc-complex: 320 75% 60%;
+    --arc-difficult: 0 70% 55%;
+    --shadow-spine: 0 4px 18px -4px hsl(280 60% 2% / 0.8), inset -2px 0 0 hsl(280 60% 2% / 0.45);
+    --shadow-card: 0 12px 40px -8px hsl(280 60% 2% / 0.85);
+    --shadow-gold: 0 0 28px -4px hsl(320 75% 60% / 0.5);
+    --inset-foil: inset 0 1px 0 hsl(50 85% 70% / 0.35), inset 0 -1px 0 hsl(280 60% 2% / 0.5);
+    --bg-grad-1: 320 60% 25%;
+    --bg-grad-2: 50 70% 25%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    @apply bg-background text-foreground;
+    min-height: 100%;
+  }
+
+  body {
+    font-family: 'Lora', Georgia, serif;
+    font-feature-settings: "liga" 1, "kern" 1, "onum" 1;
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(ellipse at 20% 0%, hsl(var(--bg-grad-1) / 0.12), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, hsl(var(--bg-grad-2) / 0.10), transparent 55%);
+    background-attachment: fixed;
+    position: relative;
+    transition: background-color 400ms ease, color 400ms ease;
+  }
+
+  /* Grain overlay — applied app-wide */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.85  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  h1, h2, h3, h4, .serif-display {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .mono, code, kbd {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-feature-settings: "ss01" 1, "cv01" 1;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+    color: hsl(var(--foreground));
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border-strong) / 0.4);
+    border-radius: 6px;
+    border: 2px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary) / 0.5); }
+}
+
+@layer components {
+  /* Editorial section title with hairline */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      hsl(var(--primary) / 0.6) 20%,
+      hsl(var(--primary) / 0.6) 80%,
+      transparent);
+  }
+
+  .ink-card {
+    background: linear-gradient(180deg, hsl(var(--surface)) 0%, hsl(var(--surface-2)) 100%);
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-card);
+  }
+
+  .luxury-panel {
+    background:
+      linear-gradient(120deg, transparent 0%, hsl(var(--primary) / 0.08) 28%, transparent 56%) var(--shine-x, -180%) 0 / 220% 100% no-repeat,
+      linear-gradient(135deg, hsl(var(--surface) / 0.92), hsl(var(--surface-2) / 0.76)),
+      linear-gradient(90deg, hsl(var(--primary) / 0.10), transparent 42%);
+    border: 1px solid hsl(var(--border) / 0.72);
+    box-shadow: inset 0 1px 0 hsl(var(--primary) / 0.12), 0 18px 36px -28px hsl(0 0% 0% / 0.8);
+    transition: transform var(--t-med), border-color var(--t-med), box-shadow var(--t-med), background-position 900ms cubic-bezier(.16,1,.3,1);
+  }
+
+  .luxury-panel:hover {
+    transform: translateY(-2px);
+    --shine-x: 180%;
+    border-color: hsl(var(--primary) / 0.35);
+    box-shadow: inset 0 1px 0 hsl(var(--primary) / 0.18), 0 24px 44px -30px hsl(var(--primary) / 0.42);
+  }
+
+  .foil-text {
+    background: linear-gradient(180deg, hsl(41 70% 70%) 0%, hsl(41 55% 50%) 60%, hsl(41 40% 38%) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stamp {
+    border: 1.5px solid hsl(var(--accent) / 0.7);
+    color: hsl(var(--accent));
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+    display: inline-block;
+    border-radius: 2px;
+    background: hsl(var(--accent) / 0.04);
+  }
+
+  .hairline {
+    border-color: hsl(var(--border));
+  }
+
+  /* Page-turn transition */
+  .page-enter {
+    animation: page-turn-in 420ms cubic-bezier(.2,.7,.2,1);
+    transform-origin: left center;
+  }
+
+  /* Book spine */
+  .spine {
+    position: relative;
+    overflow: hidden;
+    transition: width 520ms cubic-bezier(.16,1,.3,1), transform 520ms cubic-bezier(.16,1,.3,1), box-shadow 520ms, filter 520ms;
+    transform-style: preserve-3d;
+    box-shadow:
+      inset calc(var(--edge-width, 6px) * -1) 0 0 hsl(var(--ink) / 0.24),
+      inset var(--edge-width, 6px) 0 0 hsl(var(--parchment) / 0.16),
+      var(--shadow-spine);
+    will-change: transform, filter;
+  }
+
+  .spine-page-edge {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    width: var(--edge-width, 6px);
+    z-index: 8;
+    pointer-events: none;
+    opacity: 0.92;
+    background:
+      repeating-linear-gradient(0deg,
+        hsl(var(--parchment) / 0.46) 0 1px,
+        hsl(var(--parchment) / 0.18) 1px 2px,
+        transparent 2px var(--page-line-gap, 4px)),
+      linear-gradient(90deg, hsl(var(--parchment) / 0.18), hsl(var(--ink) / 0.20));
+  }
+
+  .spine-page-edge-left {
+    left: 0;
+    border-radius: 2px 0 0 2px;
+    box-shadow: inset -1px 0 0 hsl(var(--ink) / 0.28), 1px 0 2px hsl(var(--ink) / 0.24);
+  }
+
+  .spine-page-edge-right {
+    right: 0;
+    border-radius: 0 2px 2px 0;
+    transform: scaleX(-1);
+    box-shadow: inset -1px 0 0 hsl(var(--ink) / 0.34), -1px 0 3px hsl(var(--ink) / 0.35);
+  }
+
+  .spine-board-lip {
+    position: absolute;
+    left: var(--edge-width, 6px);
+    right: var(--edge-width, 6px);
+    height: 3px;
+    z-index: 9;
+    pointer-events: none;
+    background: linear-gradient(90deg, hsl(var(--ink) / 0.28), hsl(var(--parchment) / 0.14), hsl(var(--ink) / 0.3));
+  }
+
+  .spine-board-lip-top { top: 0; }
+  .spine-board-lip-bottom { bottom: 0; opacity: 0.72; }
+
+  .spine:hover,
+  .spine:focus-visible {
+    transform: rotate(var(--spine-tilt)) translateY(-18px) translateZ(calc(var(--spine-depth) + 38px)) rotateX(-4deg) scale(1.012);
+    filter: saturate(1.08) brightness(1.06);
+    box-shadow:
+      0 22px 34px -18px hsl(0 0% 0% / 0.75),
+      0 0 22px -12px hsl(var(--primary) / 0.75),
+      var(--shadow-spine);
+    z-index: 20;
+  }
+
+  .spine-moving {
+    cursor: grabbing;
+    animation: spine-ready 900ms ease-in-out infinite;
+  }
+
+  .spine-revealed {
+    transform: rotate(var(--spine-tilt)) translateY(-18px) translateZ(calc(var(--spine-depth) + 52px)) rotateY(-8deg) scale(1.02);
+    box-shadow: 0 28px 40px -20px hsl(var(--ink) / 0.86), 0 0 28px -14px hsl(var(--primary) / 0.8), var(--shadow-spine);
+    animation: cover-turn-in 420ms cubic-bezier(.16,1,.3,1) both;
+    z-index: 35;
+  }
+
+  .spine-moving::before {
+    background:
+      linear-gradient(105deg, transparent 0%, hsl(var(--primary) / 0.16) 42%, transparent 72%) -120% 0 / 220% 100% no-repeat,
+      linear-gradient(90deg, hsl(var(--ink) / 0.5) 0%, transparent 8%, transparent 92%, hsl(var(--ink) / 0.4) 100%);
+    animation: spine-shimmer 1.15s cubic-bezier(.16,1,.3,1) infinite;
+  }
+
+  .shelf-drop-marker {
+    position: absolute;
+    bottom: 0;
+    z-index: 40;
+    width: 3px;
+    height: 292px;
+    border-radius: 99px;
+    background: hsl(var(--primary));
+    box-shadow: 0 0 0 1px hsl(var(--background) / 0.72), 0 0 22px hsl(var(--primary) / 0.75);
+    animation: drop-marker-in 180ms cubic-bezier(.16,1,.3,1) both;
+    pointer-events: none;
+  }
+
+  .spine::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg,
+        hsl(0 0% 0% / 0.5) 0%,
+        transparent 8%,
+        transparent 92%,
+        hsl(0 0% 0% / 0.4) 100%),
+      radial-gradient(ellipse at 50% 0%, hsl(var(--parchment) / 0.08), transparent 45%);
+    border-radius: inherit;
+  }
+
+  .spine::after {
+    /* gold foil bands */
+    content: "";
+    position: absolute;
+    left: 8%; right: 8%;
+    top: 14%;
+    height: 1px;
+    background: hsl(var(--primary) / 0.45);
+    box-shadow: 0 calc(100% * 0.7) 0 0 hsl(var(--primary) / 0.35);
+    pointer-events: none;
+  }
+
+  .shelf-row {
+    perspective: 1400px;
+    perspective-origin: 50% 60%;
+    position: relative;
+  }
+
+  .shelf-stage {
+    transform-style: preserve-3d;
+    background:
+      linear-gradient(90deg, transparent, hsl(var(--primary) / 0.07), transparent) 0 100% / 180px 1px repeat-x,
+      radial-gradient(ellipse at 50% 100%, hsl(var(--primary) / 0.14), transparent 58%),
+      linear-gradient(180deg, transparent 0%, hsl(var(--surface-2) / 0.42) 100%);
+    border-bottom: 1px solid hsl(var(--border-strong) / 0.28);
+    transition: background-color var(--t-med), box-shadow var(--t-med), border-color var(--t-med);
+  }
+
+  .shelf-drop-zone:has(.shelf-stage:hover) .shelf-stage {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: inset 0 -34px 38px -44px hsl(var(--primary) / 0.8), 0 18px 36px -34px hsl(var(--primary) / 0.45);
+  }
+
+  .shelf-drop-zone:has(.spine-moving) .shelf-stage {
+    background-position: 36px 100%, 50% 100%, 0 0;
+  }
+
+  .shelf-board {
+    height: 14px;
+    background:
+      linear-gradient(180deg,
+        hsl(30 25% 14%) 0%,
+        hsl(30 30% 8%) 60%,
+        hsl(30 30% 5%) 100%);
+    box-shadow:
+      inset 0 1px 0 hsl(41 30% 30% / 0.25),
+      0 12px 24px -10px hsl(0 0% 0% / 0.7);
+    border-top: 1px solid hsl(var(--border-strong) / 0.5);
+  }
+
+  @keyframes shelf-arrival {
+    0% {
+      opacity: 0;
+      transform: rotate(calc(var(--spine-tilt) - 5deg)) translateY(26px) translateZ(-36px) rotateX(12deg);
+      filter: blur(4px) brightness(0.75);
+    }
+    62% {
+      opacity: 1;
+      transform: rotate(calc(var(--spine-tilt) + 0.8deg)) translateY(-6px) translateZ(calc(var(--spine-depth) + 10px)) rotateX(-2deg);
+      filter: blur(0) brightness(1.08);
+    }
+    100% {
+      opacity: 1;
+      transform: rotate(var(--spine-tilt)) translateZ(var(--spine-depth));
+      filter: blur(0) brightness(1);
+    }
+  }
+
+  .animate-shelf-arrival {
+    animation: shelf-arrival 760ms cubic-bezier(.16,1,.3,1) both;
+  }
+
+  @keyframes spine-ready {
+    0%, 100% { filter: saturate(1.08) brightness(1.04); }
+    50% { filter: saturate(1.16) brightness(1.10); }
+  }
+
+  @keyframes spine-shimmer {
+    0% { background-position: -140% 0, 0 0; }
+    100% { background-position: 140% 0, 0 0; }
+  }
+
+  @keyframes drop-marker-in {
+    0% { opacity: 0; transform: scaleY(0.82); }
+    100% { opacity: 1; transform: scaleY(1); }
+  }
+
+  @keyframes cover-turn-in {
+    0% { filter: brightness(0.8); transform: rotate(var(--spine-tilt)) translateZ(var(--spine-depth)) rotateY(72deg) scaleX(0.48); }
+    100% { filter: brightness(1.05); transform: rotate(var(--spine-tilt)) translateY(-18px) translateZ(calc(var(--spine-depth) + 52px)) rotateY(-8deg) scale(1.02); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-shelf-arrival {
+      animation: none;
+    }
+
+    .spine,
+    .spine:hover,
+    .spine:focus-visible {
+      transition: none;
+      transform: rotate(var(--spine-tilt)) translateZ(var(--spine-depth));
+    }
+  }
+
+  /* Subtle pulse for graph nodes */
+  @keyframes node-pulse {
+    0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+    50% { filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.6)); }
+  }
+  .node-pulse:hover { animation: node-pulse 1.6s ease-in-out infinite; }
+
+  @keyframes page-turn-in {
+    0%   { opacity: 0; transform: rotateY(-8deg) translateX(-12px); filter: blur(2px); }
+    100% { opacity: 1; transform: rotateY(0deg) translateX(0); filter: blur(0); }
+  }
+
+  @keyframes ink-drop {
+    0%   { transform: scale(0.3); opacity: 0; }
+    50%  { transform: scale(1.15); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .ink-drop { animation: ink-drop 360ms cubic-bezier(.2,.7,.2,1); }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+  }
+  .lamp-flicker { animation: flicker 4s ease-in-out infinite; }
+
+  /* ========================================================
+     3D BOOK COMPONENT — spine → cover → opened states
+     Performance: NO will-change at rest. Promote to GPU layer
+     only while hovered or actively animating (cover/open).
+     ======================================================== */
+  .book3d {
+    perspective: 1600px;
+    transform-style: preserve-3d;
+  }
+  .book3d:hover,
+  .book3d-cover,
+  .book3d-open,
+  .spine-moving {
+    will-change: transform;
+  }
+  .book3d-stage {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 720ms cubic-bezier(.16,1,.3,1);
+    transform: rotateY(0deg);
+  }
+  .book3d-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow:
+      inset -3px 0 6px hsl(0 0% 0% / 0.35),
+      inset 3px 0 4px hsl(0 0% 100% / 0.05),
+      var(--shadow-spine);
+  }
+  .book3d-face-spine {
+    transform: rotateY(0deg) translateZ(0.5px);
+    width: var(--spine-w);
+  }
+  /* The cover sits at the RIGHT edge of the spine and swings open from there,
+     so the spine remains visible behind it — the real 3D book feel. */
+  .book3d-face-cover {
+    transform-origin: left center;
+    transform: translateX(var(--spine-w)) rotateY(-92deg);
+    width: var(--cover-w);
+    box-shadow:
+      0 18px 30px -12px hsl(var(--ink) / 0.7),
+      inset 0 0 0 1px hsl(0 0% 100% / 0.05);
+    transition: transform 720ms cubic-bezier(.16,1,.3,1);
+  }
+  /* Page-block (the body of the book) sits behind the cover, giving thickness. */
+  .book3d-block {
+    position: absolute;
+    top: 2px; bottom: 2px;
+    left: var(--spine-w);
+    width: var(--cover-w);
+    transform-origin: left center;
+    transform: rotateY(-90deg) translateX(-1px);
+    background:
+      linear-gradient(90deg, hsl(38 22% 78%) 0%, hsl(38 32% 94%) 12%, hsl(38 28% 86%) 100%);
+    box-shadow:
+      inset 0 0 0 1px hsl(28 20% 30% / 0.25),
+      inset -8px 0 14px -8px hsl(28 20% 18% / 0.5);
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+    pointer-events: none;
+  }
+  .book3d-cover .book3d-block,
+  .book3d-open .book3d-block { opacity: 1; }
+
+  /* "Cover" state — book pulls forward, tilts toward camera, cover swings ~70° open. */
+  .book3d-cover .book3d-stage {
+    transform: rotateY(-22deg) rotateX(2deg);
+  }
+  .book3d-cover .book3d-face-cover {
+    transform: translateX(var(--spine-w)) rotateY(-160deg);
+  }
+  .book3d:hover {
+    transform: rotate(var(--spine-tilt)) translateY(-12px) translateZ(calc(var(--spine-depth) + 24px)) scale(1.012);
+  }
+  .book3d-cover {
+    z-index: 30;
+    transform: rotate(0deg) translateY(-22px) translateZ(calc(var(--spine-depth) + 80px)) scale(1.04) !important;
+    box-shadow: 0 32px 48px -22px hsl(var(--ink) / 0.85), 0 0 30px -14px hsl(var(--primary) / 0.7);
+  }
+  .book3d-pages {
+    position: absolute;
+    inset: 0;
+    transform: translateZ(-2px);
+    border-radius: 2px;
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, hsl(38 25% 88%) 0%, hsl(38 30% 96%) 50%, hsl(38 25% 88%) 100%);
+    box-shadow: inset 0 0 0 1px hsl(0 0% 0% / 0.15), inset 6px 0 14px -8px hsl(0 0% 0% / 0.45);
+    opacity: 0;
+    transition: opacity 320ms ease-out;
+    pointer-events: none;
+  }
+  .book3d-pages-inner {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .book3d-page-left,
+  .book3d-page-right {
+    height: 100%;
+    background:
+      repeating-linear-gradient(0deg, hsl(38 30% 82% / 0.4) 0 1px, transparent 1px 14px),
+      linear-gradient(90deg, hsl(38 35% 96%), hsl(38 25% 88%));
+    padding: 12px 0;
+    color: hsl(28 20% 18%);
+  }
+  .book3d-page-left { box-shadow: inset -6px 0 12px -6px hsl(0 0% 0% / 0.35); }
+  .book3d-page-right { box-shadow: inset 6px 0 12px -6px hsl(0 0% 0% / 0.25); }
+
+  .book3d-open .book3d-pages { opacity: 1; }
+  .book3d-open {
+    z-index: 40;
+    transform: rotate(0deg) translateY(-26px) translateZ(80px) scale(1.06) !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .book3d-stage,
+    .book3d-face-cover,
+    .book3d-block { transition: none !important; animation: none !important; }
+  }
+}
+
+/* ============================================================
+   ARABIC + RTL — fonts & directional polish
+   Activated when <html lang="ar" dir="rtl">.
+   ============================================================ */
+html[lang="ar"] {
+  font-family: "Noto Naskh Arabic", "Amiri", Lora, Georgia, serif;
+}
+html[lang="ar"] body {
+  font-family: "Noto Naskh Arabic", "Amiri", Lora, Georgia, serif;
+  letter-spacing: 0;
+}
+html[lang="ar"] .font-display,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4 {
+  font-family: "Amiri", "Noto Naskh Arabic", "Cormorant Garamond", Georgia, serif !important;
+  letter-spacing: 0 !important;
+}
+html[lang="ar"] .font-serif,
+html[lang="ar"] .serif {
+  font-family: "Noto Naskh Arabic", "Amiri", Lora, Georgia, serif !important;
+}
+/* Keep monospace for codes/IDs but render Arabic digits with the body font */
+html[lang="ar"] .mono,
+html[lang="ar"] .font-mono {
+  font-family: "JetBrains Mono", "Noto Naskh Arabic", ui-monospace, monospace;
+  letter-spacing: 0.18em;
+}
+html[lang="ar"] .eyebrow {
+  letter-spacing: 0.18em;
+}
+
+/* RTL: flip a few directional utilities that can't be auto-flipped */
+html[dir="rtl"] .lucide-chevron-right { transform: scaleX(-1); }
+html[dir="rtl"] .lucide-chevron-left { transform: scaleX(-1); }
+html[dir="rtl"] .lucide-arrow-right { transform: scaleX(-1); }
+html[dir="rtl"] .lucide-arrow-left { transform: scaleX(-1); }
+html[dir="rtl"] .lucide-send { transform: scaleX(-1); }
+
+/* The shelf is intrinsically directional — keep spines reading L→R even in RTL */
+html[dir="rtl"] .shelf-row,
+html[dir="rtl"] .shelf-scroller {
+  direction: ltr;
+}
+
+/* Italic is unusual in Arabic; render emphasis as bold instead */
+html[lang="ar"] em,
+html[lang="ar"] i,
+html[lang="ar"] .italic {
+  font-style: normal;
+  font-weight: 700;
+}

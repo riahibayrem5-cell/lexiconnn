@@ -1,0 +1,1 @@
+ALTER TABLE public.book_dossiers ALTER COLUMN book_id TYPE text USING book_id::text;

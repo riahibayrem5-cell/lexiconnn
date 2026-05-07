@@ -1,0 +1,2 @@
+ALTER TABLE public.books ADD COLUMN IF NOT EXISTS spine_url TEXT;
+ALTER TABLE public.books ADD COLUMN IF NOT EXISTS spine_generated_at TIMESTAMPTZ;
