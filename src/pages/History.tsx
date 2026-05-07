@@ -319,7 +319,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
         </div>
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           <div>
-            <p className="mono text-[0.6rem] tracking-[0.3em] uppercase text-primary/80 mb-1">Memory Vault</p>
+            <p className="mono text-[0.6rem] tracking-[0.3em] uppercase text-primary/80 mb-1">{t("Memory Vault")}</p>
             <h1 className="font-display text-2xl lg:text-4xl tracking-wide leading-tight">{card.title}</h1>
             <p className="text-sm lg:text-base text-muted-foreground mt-1">{card.author}{card.year ? ` · ${card.year}` : ""}</p>
           </div>
@@ -327,7 +327,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
             <div className="flex flex-wrap items-center gap-1.5">
               <Button size="sm" variant="ghost" className="h-7 px-2 text-[0.7rem] font-display tracking-wide" onClick={regenerate} disabled={loading}>
                 {loadingMode === "regenerate" ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}
-                Regenerate
+                {t("Regenerate")}
               </Button>
 
               {/* Segmented Extend control */}
@@ -336,7 +336,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
                   {loadingMode === "extend"
                     ? <Loader2 className="h-3 w-3 animate-spin" />
                     : <Plus className="h-3 w-3" />}
-                  Extend
+                  {t("Extend")}
                 </span>
                 {([1, 2, 3] as const).map(n => (
                   <button
@@ -347,7 +347,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
                       "px-2.5 h-full text-[0.7rem] font-display tracking-wide border-r border-primary/30 last:border-r-0 transition-colors",
                       "text-primary hover:bg-primary/15 disabled:opacity-50",
                     )}
-                    title={n === 1 ? "One deeper pass" : n === 2 ? "Two passes — much richer" : "Three passes — deepest dive"}
+                    title={n === 1 ? t("One deeper pass") : n === 2 ? t("Two passes — much richer") : t("Three passes — deepest dive")}
                   >
                     {n}×
                   </button>
@@ -356,12 +356,12 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
 
               <Button size="sm" variant="ghost" className="h-7 px-2 text-[0.7rem] font-display tracking-wide" onClick={() => setRevealSpoilers(v => !v)}>
                 {revealSpoilers ? <Eye className="h-3 w-3 mr-1" /> : <EyeOff className="h-3 w-3 mr-1" />}
-                {revealSpoilers ? "Spoilers on" : "Spoilers off"}
+                {revealSpoilers ? t("Spoilers on") : t("Spoilers off")}
               </Button>
               <Button size="sm" variant="ghost" className="h-7 px-2 text-[0.7rem] font-display tracking-wide text-primary hover:text-primary"
                 onClick={async () => {
                   try {
-                    toast.message("Composing PDF…");
+                    toast.message(t("Composing PDF…"));
                     await exportDossierPdf({
                       title: card.title, author: card.author, year: card.year,
                       coverUrl: card.coverUrl,
@@ -369,16 +369,16 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
                       generatedAt: cached.generatedAt,
                       extendedAt: cached.extendedAt,
                     });
-                    toast.success("PDF exported");
+                    toast.success(t("PDF exported"));
                   } catch (e: any) {
-                    toast.error(e?.message ?? "PDF export failed");
+                    toast.error(e?.message ?? t("PDF export failed"));
                   }
                 }}
-                title="Download a beautifully designed PDF of this dossier">
+                title={t("Download a beautifully designed PDF of this dossier")}>
                 <Download className="h-3 w-3 mr-1" /> PDF
               </Button>
               {(cached.extensionCount ?? 0) > 0 && (
-                <Badge variant="outline" className="text-[0.6rem] tracking-wide self-center">extended ×{cached.extensionCount}</Badge>
+                <Badge variant="outline" className="text-[0.6rem] tracking-wide self-center">{t("extended")} ×{cached.extensionCount}</Badge>
               )}
               {extendProgress && extendProgress.total > 1 && (
                 <span className="text-[0.65rem] mono tracking-[0.2em] uppercase text-primary">
@@ -398,17 +398,17 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
           {!hydrated && (
             <div className="text-center py-24 text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin mx-auto mb-3" />
-              <p className="text-xs font-display tracking-wide">Loading dossier…</p>
+              <p className="text-xs font-display tracking-wide">{t("Loading dossier…")}</p>
             </div>
           )}
           {hydrated && !cached && (
             <Card className="p-10 text-center border-dashed max-w-md mx-auto">
               <Sparkles className="h-8 w-8 mx-auto mb-3 text-primary opacity-70" />
-              <p className="font-display text-base mb-3">Dossier missing</p>
-              <p className="text-xs text-muted-foreground mb-4">It may have been removed. Regenerate to bring it back.</p>
+              <p className="font-display text-base mb-3">{t("Dossier missing")}</p>
+              <p className="text-xs text-muted-foreground mb-4">{t("It may have been removed. Regenerate to bring it back.")}</p>
               <Button size="sm" onClick={regenerate} disabled={loading}>
                 {loading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}
-                Regenerate
+                {t("Regenerate")}
               </Button>
             </Card>
           )}
