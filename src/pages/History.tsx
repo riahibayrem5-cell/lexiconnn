@@ -501,18 +501,18 @@ function DossierBody({
         </header>
 
         {/* ESSENCE */}
-        <Section id="essence" title="Essence" icon={<BookOpen className="h-4 w-4" />}>
+        <Section id="essence" title={t("Essence")} icon={<BookOpen className="h-4 w-4" />}>
           <p className="text-base lg:text-lg leading-relaxed text-foreground/90 first-letter:font-display first-letter:text-5xl first-letter:float-left first-letter:mr-2 first-letter:leading-none first-letter:text-primary first-letter:mt-1">
             {dossier.summary}
           </p>
           {dossier.themes.length > 0 && (
             <div className="space-y-4 pt-6">
-              <SubHead icon={<Tag className="h-3.5 w-3.5" />} label="Themes" />
+              <SubHead icon={<Tag className="h-3.5 w-3.5" />} label={t("Themes")} />
               <div className="grid sm:grid-cols-2 gap-4">
-                {dossier.themes.map((t, i) => (
+                {dossier.themes.map((th, i) => (
                   <Card key={i} className="p-4 bg-muted/10 border-l-2 border-l-primary/60">
-                    <div className="font-display text-sm text-primary mb-1.5">{t.name}</div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{t.description}</p>
+                    <div className="font-display text-sm text-primary mb-1.5">{th.name}</div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{th.description}</p>
                   </Card>
                 ))}
               </div>
@@ -520,7 +520,7 @@ function DossierBody({
           )}
           {dossier.symbols && dossier.symbols.length > 0 && (
             <div className="space-y-4 pt-6">
-              <SubHead icon={<Sparkles className="h-3.5 w-3.5" />} label="Symbols & motifs" />
+              <SubHead icon={<Sparkles className="h-3.5 w-3.5" />} label={t("Symbols & motifs")} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {dossier.symbols.map((s, i) => (
                   <Card key={i} className="p-3 bg-muted/20">
@@ -534,7 +534,7 @@ function DossierBody({
         </Section>
 
         {/* IDEAS */}
-        <Section id="ideas" title="Ideas to Remember" icon={<Lightbulb className="h-4 w-4" />}>
+        <Section id="ideas" title={t("Ideas to Remember")} icon={<Lightbulb className="h-4 w-4" />}>
           <div className="space-y-4">
             {dossier.mainIdeas.map((idea, i) => (
               <Card key={i} className="p-5 border-l-4 border-l-primary shadow-sm">
@@ -544,7 +544,7 @@ function DossierBody({
                     <div className="font-display text-base lg:text-lg mb-2">{idea.idea}</div>
                     <p className="text-sm lg:text-base text-foreground/90 leading-relaxed mb-3">{idea.explanation}</p>
                     <p className="text-xs lg:text-sm text-muted-foreground italic pl-3 border-l border-primary/30">
-                      <span className="mono not-italic text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 mr-1.5">Why it matters</span>
+                      <span className="mono not-italic text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 mr-1.5">{t("Why it matters")}</span>
                       {idea.whyItMatters}
                     </p>
                   </div>
@@ -555,7 +555,7 @@ function DossierBody({
         </Section>
 
         {/* PEOPLE */}
-        <Section id="people" title="People" icon={<Users className="h-4 w-4" />}>
+        <Section id="people" title={t("People")} icon={<Users className="h-4 w-4" />}>
           <div className="grid sm:grid-cols-2 gap-3">
             {dossier.characters.map((c, i) => (
               <Card key={i} className="p-4 flex flex-col">
@@ -576,7 +576,7 @@ function DossierBody({
         </Section>
 
         {/* QUOTES */}
-        <Section id="quotes" title="Key Quotes" icon={<QuoteIcon className="h-4 w-4" />}>
+        <Section id="quotes" title={t("Key Quotes")} icon={<QuoteIcon className="h-4 w-4" />}>
           <div className="space-y-6">
             {dossier.keyQuotes.map((q, i) => (
               <figure key={i} className="relative pl-10 pr-2">
@@ -595,7 +595,7 @@ function DossierBody({
         </Section>
 
         {/* LESSONS */}
-        <Section id="lessons" title="Lessons to Carry" icon={<ListChecks className="h-4 w-4" />}>
+        <Section id="lessons" title={t("Lessons to Carry")} icon={<ListChecks className="h-4 w-4" />}>
           <ul className="space-y-3">
             {dossier.lessons.map((l, i) => (
               <li key={i} className="flex gap-3 text-sm lg:text-base leading-relaxed">
@@ -606,7 +606,7 @@ function DossierBody({
           </ul>
           {dossier.discussionQuestions && dossier.discussionQuestions.length > 0 && (
             <div className="space-y-3 pt-8">
-              <SubHead icon={<MessageCircle className="h-3.5 w-3.5" />} label="Questions to sit with" />
+              <SubHead icon={<MessageCircle className="h-3.5 w-3.5" />} label={t("Questions to sit with")} />
               <ul className="space-y-2">
                 {dossier.discussionQuestions.map((q, i) => (
                   <li key={i} className="text-sm text-muted-foreground italic leading-relaxed">— {q}</li>
@@ -616,7 +616,7 @@ function DossierBody({
           )}
           {dossier.criticisms && dossier.criticisms.length > 0 && (
             <div className="space-y-3 pt-8">
-              <SubHead icon={<ListChecks className="h-3.5 w-3.5" />} label="Honest critique" />
+              <SubHead icon={<ListChecks className="h-3.5 w-3.5" />} label={t("Honest critique")} />
               <ul className="space-y-1.5">
                 {dossier.criticisms.map((c, i) => (
                   <li key={i} className="text-sm text-muted-foreground">• {c}</li>
@@ -626,7 +626,7 @@ function DossierBody({
           )}
           {dossier.ifYouLiked && dossier.ifYouLiked.length > 0 && (
             <div className="space-y-3 pt-8">
-              <SubHead icon={<Library className="h-3.5 w-3.5" />} label="If you liked this" />
+              <SubHead icon={<Library className="h-3.5 w-3.5" />} label={t("If you liked this")} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {dossier.ifYouLiked.map((r, i) => (
                   <Card key={i} className="p-3 bg-muted/20">
@@ -641,7 +641,7 @@ function DossierBody({
         </Section>
 
         {/* PLOT */}
-        <Section id="plot" title="Plot" icon={<Skull className="h-4 w-4" />}>
+        <Section id="plot" title={t("Plot")} icon={<Skull className="h-4 w-4" />}>
           <SpoilerWrap revealed={revealSpoilers}>
             <ol className="space-y-4 relative border-l border-border ml-2 pl-6">
               {dossier.timeline.map((b, i) => (
@@ -655,12 +655,12 @@ function DossierBody({
           </SpoilerWrap>
           {dossier.twists && dossier.twists.length > 0 && (
             <div className="pt-6">
-              <SubHead icon={<Skull className="h-3.5 w-3.5" />} label="Major twists" />
+              <SubHead icon={<Skull className="h-3.5 w-3.5" />} label={t("Major twists")} />
               <SpoilerWrap revealed={revealSpoilers}>
                 <div className="space-y-2 pt-2">
-                  {dossier.twists.map((t, i) => (
+                  {dossier.twists.map((tw, i) => (
                     <Card key={i} className="p-3 bg-destructive/5 border-l-2 border-l-destructive/60">
-                      <p className="text-sm text-foreground/90 leading-relaxed">{t}</p>
+                      <p className="text-sm text-foreground/90 leading-relaxed">{tw}</p>
                     </Card>
                   ))}
                 </div>
@@ -669,7 +669,7 @@ function DossierBody({
           )}
           {dossier.ending && (
             <div className="pt-6">
-              <SubHead icon={<BookOpen className="h-3.5 w-3.5" />} label="The ending" />
+              <SubHead icon={<BookOpen className="h-3.5 w-3.5" />} label={t("The ending")} />
               <SpoilerWrap revealed={revealSpoilers}>
                 <p className="text-sm lg:text-base text-foreground/90 leading-relaxed pt-2">{dossier.ending}</p>
               </SpoilerWrap>
@@ -678,10 +678,10 @@ function DossierBody({
         </Section>
 
         <div className="pt-8 border-t border-border mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">
-          Composed {new Date(generatedAt).toLocaleDateString()}
-          {extendedAt ? ` · last extended ${new Date(extendedAt).toLocaleDateString()}` : ""}
-          {(extensionCount ?? 0) > 0 ? ` · extended ×${extensionCount}` : ""}
-          {" · AI-generated, verify before quoting"}
+          {t("Composed", "Composed")} {new Date(generatedAt).toLocaleDateString()}
+          {extendedAt ? ` · ${t("extended")} ${new Date(extendedAt).toLocaleDateString()}` : ""}
+          {(extensionCount ?? 0) > 0 ? ` · ${t("extended")} ×${extensionCount}` : ""}
+          {" · " + t("AI-generated, verify before quoting")}
         </div>
       </div>
     </div>
