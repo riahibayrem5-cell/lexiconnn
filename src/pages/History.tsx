@@ -711,6 +711,7 @@ function SubHead({ icon, label }: { icon: React.ReactNode; label: string }) {
 }
 
 function SpoilerWrap({ revealed, children }: { revealed: boolean; children: React.ReactNode }) {
+  const { t } = useLang();
   if (revealed) return <div className="animate-in fade-in duration-300">{children}</div>;
   return (
     <div className="relative">
@@ -718,7 +719,7 @@ function SpoilerWrap({ revealed, children }: { revealed: boolean; children: Reac
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-background/90 border border-border rounded-sm px-4 py-2 flex items-center gap-2 shadow-md">
           <EyeOff className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="text-xs font-display tracking-wide text-muted-foreground">Spoilers hidden — toggle to reveal</span>
+          <span className="text-xs font-display tracking-wide text-muted-foreground">{t("Spoilers hidden — toggle to reveal")}</span>
         </div>
       </div>
     </div>
