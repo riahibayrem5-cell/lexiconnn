@@ -45,6 +45,7 @@ interface VaultCard {
 
 export default function History() {
   const { books } = useLibrary();
+  const { t, lang } = useLang();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortMode>("recent");
