@@ -21,6 +21,7 @@ import {
   type CachedDossier,
 } from "@/lib/dossier";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 type SortMode = "recent" | "extended" | "author";
 
