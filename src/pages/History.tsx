@@ -434,6 +434,7 @@ function DossierBody({
   dossier: BookDossier; revealSpoilers: boolean; generatedAt: string;
   extendedAt?: string; extensionCount?: number;
 }) {
+  const { t } = useLang();
   const [activeSection, setActiveSection] = useState("essence");
 
   // Track which section is in view (sticky TOC highlight)
