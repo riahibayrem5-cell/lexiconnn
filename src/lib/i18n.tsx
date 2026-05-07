@@ -208,7 +208,7 @@ const AR: Record<string, string> = {
   "Ideas": "الأفكار",
   "People": "الأشخاص",
   "Quotes": "الاقتباسات",
-  "Lessons": "الدروس",
+  // (Lessons key already defined above)
   "Plot": "الحبكة",
   "Ideas to Remember": "أفكار للتذكّر",
   "Why it matters": "لماذا يهم",
