@@ -51,10 +51,10 @@ export default function Quotes() {
       a.download = `lexicon-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40)}.png`;
       a.click();
       URL.revokeObjectURL(url);
-      toast.success("Card downloaded");
+      toast.success(t("Card downloaded"));
     } catch (e) {
       console.error(e);
-      toast.error("Could not render card");
+      toast.error(t("Could not render card"));
     } finally {
       setGeneratingId(null);
     }
@@ -63,9 +63,9 @@ export default function Quotes() {
   const copyMarkdown = async (text: string, title: string, author: string, page?: string) => {
     try {
       await navigator.clipboard.writeText(quoteToMarkdown(text, title, author, page));
-      toast.success("Copied as Markdown");
+      toast.success(t("Copied as Markdown"));
     } catch {
-      toast.error("Clipboard blocked");
+      toast.error(t("Clipboard blocked"));
     }
   };
 
