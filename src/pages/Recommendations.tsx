@@ -17,6 +17,7 @@ import {
 } from "@/lib/savedRecs";
 import { useLibrary } from "@/lib/storage";
 import { useNavigate } from "react-router-dom";
+import { useLang } from "@/lib/i18n";
 
 interface Result {
   query: string;
