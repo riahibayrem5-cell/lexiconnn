@@ -77,7 +77,7 @@ export default function Recommendations() {
       tools: data.tools,
     });
     setActiveRecId(saved.id);
-    toast.success("Saved to your recommendations");
+    toast.success(t("Saved to your recommendations"));
   };
 
   const copy = (text: string, label: string) => {
