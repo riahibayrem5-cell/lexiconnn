@@ -25,10 +25,10 @@ export function TodayBar() {
       <div className="luxury-panel rounded-sm p-5 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6 items-stretch">
         {/* Currently reading */}
         <div>
-          <p className="eyebrow mb-3">At the desk</p>
+          <p className="eyebrow mb-3">{t("At the desk")}</p>
           {reading.length === 0 ? (
             <p className="font-serif italic text-muted-foreground">
-              No active read. Set a book to "Reading" to begin a session.
+              {t("No active read. Set a book to \"Reading\" to begin a session.")}
             </p>
           ) : (
             <div className="grid gap-3 sm:grid-cols-2">
