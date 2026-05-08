@@ -247,13 +247,13 @@ export default function Shelf() {
               <span className="mono text-[0.6rem] tracking-[0.3em] uppercase text-primary/80">
                 {String(books.length).padStart(2, "0")}
               </span>
-              <h2 className="font-display text-2xl text-foreground">{STATUS_LABEL[status]}</h2>
+              <h2 className="font-display text-2xl text-foreground">{t(STATUS_LABEL[status])}</h2>
               <div className="flex-1 h-px bg-border/60" />
             </div>
 
             {books.length === 0 ? (
-              <p className="font-serif italic text-sm text-muted-foreground pl-2">
-                Drop a book here, or change a book's status to <span className="text-foreground not-italic">{STATUS_LABEL[status]}</span>.
+              <p className="font-serif italic text-muted-foreground pl-2 text-sm">
+                {t("Drop a book here, or change a book's status to")} <span className="text-foreground not-italic">{t(STATUS_LABEL[status])}</span>.
               </p>
             ) : viewMode === "flat" ? (
               <div className="flex items-start gap-4 pb-2 overflow-x-auto pl-2 pr-2 animate-fade-in">
