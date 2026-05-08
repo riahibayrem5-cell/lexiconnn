@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { ResonanceTag } from "@/lib/types";
 import { renderQuoteCard, quoteToMarkdown } from "@/lib/quoteCard";
+import { useLang } from "@/lib/i18n";
 
 const RESONANCE: { v: ResonanceTag; l: string }[] = [
   { v: "beautiful-language", l: "Beautiful language" },
