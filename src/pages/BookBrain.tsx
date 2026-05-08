@@ -198,7 +198,22 @@ export default function BookBrain() {
     }
   };
 
-  const generateSpine = async () => {
+  const applySourceEdition = (r: OLResult) => {
+    updateBook(book.id, b => ({
+      ...b,
+      title: r.title || b.title,
+      author: r.author || b.author,
+      year: r.year ?? b.year,
+      isbn: r.isbn ?? b.isbn,
+      pages: r.pages ?? b.pages,
+      language: r.language ?? b.language,
+      coverUrl: r.coverUrl ?? b.coverUrl,
+      coverSource: (r.source as any) ?? b.coverSource,
+      isFiction: r.isFiction ?? b.isFiction,
+      tags: Array.from(new Set([...b.tags, ...((r.categories ?? []).slice(0, 3).map(t => t.toLowerCase()))])),
+    }));
+    toast.success(`Edition applied from ${r.source ?? "source"}`);
+  };
     setGeneratingSpine(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-spine", {
