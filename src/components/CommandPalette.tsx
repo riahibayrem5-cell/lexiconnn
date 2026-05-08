@@ -51,33 +51,33 @@ export function CommandPalette() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Search books, quotes, jump anywhere…  (⌘K)" />
+      <CommandInput placeholder={t("Search books, quotes, jump anywhere…  (⌘K)")} />
       <CommandList className="max-h-[60vh]">
-        <CommandEmpty>Nothing found.</CommandEmpty>
+        <CommandEmpty>{t("Nothing found.")}</CommandEmpty>
 
-        <CommandGroup heading="Pages">
+        <CommandGroup heading={t("Pages")}>
           {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
             <CommandItem key={to} value={`page ${label}`} onSelect={() => run(() => navigate(to))}>
-              <Icon className="h-4 w-4 mr-2" /> {label}
+              <Icon className="h-4 w-4 mr-2" /> {t(label)}
             </CommandItem>
           ))}
         </CommandGroup>
 
         <CommandSeparator />
 
-        <CommandGroup heading="Quick actions">
+        <CommandGroup heading={t("Quick actions")}>
           <CommandItem value="add book" onSelect={() => run(() => navigate("/?add=1"))}>
-            <Plus className="h-4 w-4 mr-2" /> Add a book
+            <Plus className="h-4 w-4 mr-2" /> {t("Add a book")}
           </CommandItem>
           <CommandItem value="start ritual" onSelect={() => run(() => navigate("/ritual"))}>
-            <Timer className="h-4 w-4 mr-2" /> Start a reading ritual
+            <Timer className="h-4 w-4 mr-2" /> {t("Start a reading ritual")}
           </CommandItem>
         </CommandGroup>
 
         {books.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading={`Books · ${books.length}`}>
+            <CommandGroup heading={`${t("Books")} · ${books.length}`}>
               {books.slice(0, 80).map((b) => (
                 <CommandItem
                   key={b.id}
