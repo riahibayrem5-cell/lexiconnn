@@ -198,7 +198,7 @@ export default function Shelf() {
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search title, author, tag…"
+            placeholder={t("Search title, author, tag…")}
             className="pl-10 bg-input/60 border-border-strong/40 font-serif"
           />
         </div>
@@ -209,11 +209,11 @@ export default function Shelf() {
             onChange={(e) => setSort(e.target.value as typeof sort)}
             className="bg-input/60 border border-border-strong/40 rounded-sm px-3 py-2 text-sm font-serif focus:outline-none focus:border-primary"
           >
-            {SORTS.map(s => <option key={s.v} value={s.v}>{s.l}</option>)}
+            {SORTS.map(s => <option key={s.v} value={s.v}>{t(s.l)}</option>)}
           </select>
         </div>
         <div className="ml-auto mono text-xs text-muted-foreground tracking-[0.2em]">
-          {viewMode === "flat" ? "FLAT COVERS" : (scaleMode === "compact" ? "COMPACT 3D" : "TRUE-TO-PAGES 3D")} · {books.length} VOLUMES
+          {viewMode === "flat" ? t("FLAT COVERS") : (scaleMode === "compact" ? t("COMPACT 3D") : t("TRUE-TO-PAGES 3D"))} · {books.length} {t("VOLUMES")}
         </div>
       </div>
 
