@@ -14,6 +14,7 @@ import { Plus, Shuffle, Search, ArrowDownUp, BookOpen, Quote, Timer, Loader2 } f
 import type { BookStatus } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useLang } from "@/lib/i18n";
 
 import { TodayBar } from "@/components/TodayBar";
 
