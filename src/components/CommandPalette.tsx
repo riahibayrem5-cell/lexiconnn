@@ -20,6 +20,7 @@ const NAV_ITEMS = [
 export function CommandPalette() {
   const navigate = useNavigate();
   const { books } = useLibrary();
+  const { t } = useLang();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
