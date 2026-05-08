@@ -4,10 +4,12 @@ import { useReadingGoals } from "@/lib/goals";
 import { bookProgress, minutesToday, minutesThisWeek, readingStreak } from "@/lib/progress";
 import { Button } from "@/components/ui/button";
 import { Flame, Play, Target, Timer } from "lucide-react";
+import { useLang } from "@/lib/i18n";
 
 export function TodayBar() {
   const { books } = useLibrary();
   const { goals } = useReadingGoals();
+  const { t } = useLang();
   const navigate = useNavigate();
 
   const reading = books.filter(b => b.status === "reading" || b.status === "rereading").slice(0, 3);
