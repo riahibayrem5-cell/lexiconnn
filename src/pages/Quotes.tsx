@@ -121,7 +121,7 @@ export default function Quotes() {
                     variant="ghost"
                     onClick={() => copyMarkdown(qu.text, qu.book.title, qu.book.author, qu.page)}
                     className="text-muted-foreground hover:text-primary"
-                    title="Copy as Markdown"
+                    title={t("Copy as Markdown")}
                   >
                     <Copy className="h-3.5 w-3.5" />
                   </Button>
@@ -131,7 +131,7 @@ export default function Quotes() {
                     disabled={generatingId === qu.id}
                     onClick={() => downloadCard(qu.id, qu.text, qu.book.author, qu.book.title)}
                     className="text-muted-foreground hover:text-primary"
-                    title="Download share card"
+                    title={t("Download share card")}
                   >
                     {generatingId === qu.id
                       ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
