@@ -143,7 +143,7 @@ export default function Quotes() {
             </article>
           ))}
           {filtered.length === 0 && (
-            <p className="font-display italic text-muted-foreground col-span-full">No quotes match.</p>
+            <p className="font-display italic text-muted-foreground col-span-full">{t("No quotes match.")}</p>
           )}
         </div>
       </div>
