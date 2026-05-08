@@ -258,3 +258,54 @@ export async function enrichBookMetadata(input: { title: string; author: string;
 export function coverFromIsbn(isbn: string): string {
   return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
 }
+
+// ---------- Internet Archive (texts) ----------
+async function searchInternetArchive(q: string, limit = 10): Promise<OLResult[]> {
+  const query = `title:(${q}) AND mediatype:(texts)`;
+  const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&fl[]=language&fl[]=publisher&fl[]=subject&rows=${limit}&output=json`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const data = await res.json();
+    const docs = (data?.response?.docs ?? []) as any[];
+    return docs.map((d): OLResult => ({
+      key: `ia:${d.identifier}`,
+      title: d.title ?? "Untitled",
+      author: Array.isArray(d.creator) ? d.creator[0] : (d.creator ?? "Unknown"),
+      year: d.year ? Number(String(d.year).slice(0, 4)) : undefined,
+      coverUrl: `https://archive.org/services/img/${d.identifier}`,
+      language: Array.isArray(d.language) ? d.language[0] : d.language,
+      source: "internetarchive",
+      categories: Array.isArray(d.subject) ? d.subject.slice(0, 4) : d.subject ? [d.subject] : [],
+      publisher: Array.isArray(d.publisher) ? d.publisher[0] : d.publisher,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export type EditionSource = "google" | "openlibrary" | "gutendex" | "internetarchive";
+
+export const SOURCE_LABELS: Record<EditionSource, string> = {
+  google: "Google Books",
+  openlibrary: "Open Library",
+  gutendex: "Project Gutenberg",
+  internetarchive: "Internet Archive",
+};
+
+/** Search a single specific source. Used by the per-source edition picker. */
+export async function searchEditionsBySource(
+  source: EditionSource,
+  query: string,
+  limit = 12,
+): Promise<OLResult[]> {
+  const q = normalizeBookQuery(query);
+  if (!q) return [];
+  switch (source) {
+    case "google": return searchGoogleBooks(q, limit);
+    case "gutendex": return searchGutendexEnglish(q, limit);
+    case "openlibrary": return searchOpenLibraryEnglish(q, limit);
+    case "internetarchive": return searchInternetArchive(q, limit);
+  }
+}
+

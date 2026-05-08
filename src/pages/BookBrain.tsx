@@ -9,7 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, BookOpen, Quote as QuoteIcon, Sparkles, Network as NetworkIcon, NotebookPen, Headphones, Tablet, Library as LibraryIcon, Loader2, Wand2, Plus, Trash2, RefreshCw, Globe, X } from "lucide-react";
+import { ArrowLeft, BookOpen, Quote as QuoteIcon, Sparkles, Network as NetworkIcon, NotebookPen, Headphones, Tablet, Library as LibraryIcon, Loader2, Wand2, Plus, Trash2, RefreshCw, Globe, X, Library } from "lucide-react";
+import { EditionSourceDialog } from "@/components/EditionSourceDialog";
+import type { OLResult } from "@/lib/openlibrary";
 import type { ResonanceTag, BookStatus } from "@/lib/types";
 import { STATUS_LABEL } from "@/lib/seed";
 import { toast } from "sonner";
@@ -68,6 +70,7 @@ export default function BookBrain() {
   const [aiCoverOpen, setAiCoverOpen] = useState(false);
   const [generatingDossier, setGeneratingDossier] = useState(false);
   const [hasDossier, setHasDossier] = useState(false);
+  const [editionPickerOpen, setEditionPickerOpen] = useState(false);
 
   // Edition handoff from the Recommendations page (sessionStorage).
   const { recs } = useSavedRecs();
@@ -195,6 +198,23 @@ export default function BookBrain() {
     }
   };
 
+  const applySourceEdition = (r: OLResult) => {
+    updateBook(book.id, b => ({
+      ...b,
+      title: r.title || b.title,
+      author: r.author || b.author,
+      year: r.year ?? b.year,
+      isbn: r.isbn ?? b.isbn,
+      pages: r.pages ?? b.pages,
+      language: r.language ?? b.language,
+      coverUrl: r.coverUrl ?? b.coverUrl,
+      coverSource: (r.source as any) ?? b.coverSource,
+      isFiction: r.isFiction ?? b.isFiction,
+      tags: Array.from(new Set([...b.tags, ...((r.categories ?? []).slice(0, 3).map(t => t.toLowerCase()))])),
+    }));
+    toast.success(`Edition applied from ${r.source ?? "source"}`);
+  };
+
   const generateSpine = async () => {
     setGeneratingSpine(true);
     try {
@@ -318,6 +338,9 @@ export default function BookBrain() {
         <div className="flex items-center gap-2">
           <Button onClick={refreshMetadata} disabled={refreshingMeta} variant="outline" size="sm" className="border-primary/40 text-primary">
             {refreshingMeta ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5 mr-2" />} Improve details
+          </Button>
+          <Button onClick={() => setEditionPickerOpen(true)} variant="outline" size="sm" className="border-primary/40 text-primary">
+            <Library className="h-3.5 w-3.5 mr-2" /> Choose edition
           </Button>
           <Button
             onClick={generateAndSaveDossier}
@@ -877,6 +900,12 @@ export default function BookBrain() {
         onGenerated={(url) =>
           updateBook(book.id, (b) => ({ ...b, coverUrl: url, coverSource: "ai-generated" }))
         }
+      />
+      <EditionSourceDialog
+        open={editionPickerOpen}
+        onOpenChange={setEditionPickerOpen}
+        initialQuery={`${book.title} ${book.author}`.trim()}
+        onApply={applySourceEdition}
       />
     </div>
   );
