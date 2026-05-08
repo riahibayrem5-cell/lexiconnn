@@ -96,7 +96,7 @@ export function CommandPalette() {
         {quotes.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading={`Quotes · ${quotes.length}`}>
+            <CommandGroup heading={`${t("Quotes")} · ${quotes.length}`}>
               {quotes.slice(0, 30).map((q) => (
                 <CommandItem
                   key={q.id}
