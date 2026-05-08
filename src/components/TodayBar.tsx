@@ -54,7 +54,7 @@ export function TodayBar() {
                         </div>
                       )}
                       {p !== undefined && (
-                        <p className="mono text-[0.5rem] tracking-[0.18em] uppercase text-primary/80 mt-1">{Math.round(p * 100)}% read</p>
+                        <p className="mono text-[0.5rem] tracking-[0.18em] uppercase text-primary/80 mt-1">{Math.round(p * 100)}{t("% read")}</p>
                       )}
                     </div>
                   </button>
