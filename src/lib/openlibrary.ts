@@ -286,6 +286,101 @@ async function searchInternetArchive(q: string, limit = 10): Promise<OLResult[]>
 
 export type EditionSource = "google" | "openlibrary" | "gutendex" | "internetarchive";
 
+// ---------- Edition match scoring ----------
+export interface EditionMatchTarget {
+  title?: string;
+  author?: string;
+  isbn?: string;
+  oclc?: string;
+  year?: number;
+  language?: string;
+}
+
+const cleanIsbn = (s?: string) => (s ?? "").replace(/[^0-9Xx]/g, "").toUpperCase();
+
+function tokenSetRatio(a: string, b: string) {
+  const A = new Set(norm(a).split(" ").filter(Boolean));
+  const B = new Set(norm(b).split(" ").filter(Boolean));
+  if (!A.size || !B.size) return 0;
+  let inter = 0;
+  A.forEach((t) => { if (B.has(t)) inter++; });
+  return inter / Math.max(A.size, B.size);
+}
+
+/**
+ * Score how well an edition result matches a target book.
+ * Heuristics: exact ISBN > OCLC > title+author tokens > year proximity > completeness.
+ * Returns a number; higher is better. Use to pre-select best edition.
+ */
+export function scoreEditionMatch(r: OLResult, target: EditionMatchTarget): number {
+  let score = 0;
+
+  // ISBN exact match is the strongest signal
+  const tIsbn = cleanIsbn(target.isbn);
+  const rIsbn = cleanIsbn(r.isbn);
+  if (tIsbn && rIsbn) {
+    if (tIsbn === rIsbn) score += 500;
+    else if (tIsbn.length >= 10 && rIsbn.length >= 10 && tIsbn.slice(-9, -1) === rIsbn.slice(-9, -1)) {
+      // shared ISBN core (10<->13 conversion)
+      score += 280;
+    }
+  }
+
+  // OCLC (encoded in key for some sources)
+  if (target.oclc && r.key.toLowerCase().includes(target.oclc.toLowerCase())) score += 200;
+
+  // Title similarity
+  if (target.title) {
+    const t = norm(target.title);
+    const rt = norm(r.title);
+    if (t && rt) {
+      if (t === rt) score += 180;
+      else if (rt.includes(t) || t.includes(rt)) score += 90;
+      score += Math.round(tokenSetRatio(target.title, r.title) * 120);
+    }
+  }
+
+  // Author similarity
+  if (target.author) {
+    const ratio = tokenSetRatio(target.author, r.author);
+    score += Math.round(ratio * 100);
+    if (ratio === 1) score += 40;
+  }
+
+  // Year proximity
+  if (target.year && r.year) {
+    const diff = Math.abs(target.year - r.year);
+    if (diff === 0) score += 30;
+    else if (diff <= 2) score += 18;
+    else if (diff <= 10) score += 6;
+  }
+
+  // Language preference
+  if (target.language && r.language && target.language.slice(0, 2) === r.language.slice(0, 2)) {
+    score += 25;
+  }
+
+  // Completeness bonuses
+  if (r.coverUrl) score += 20;
+  if (r.isbn) score += 15;
+  if (r.publisher) score += 10;
+  if (r.pages && r.pages > 80) score += 8;
+
+  // Penalties
+  if (badTitle(r.title) || badTitle(r.author)) score -= 400;
+  if (shallowCategory(r.categories)) score -= 30;
+
+  return score;
+}
+
+/** Sort a list of editions by match score, descending. Returns a new array. */
+export function rankEditionsByMatch(results: OLResult[], target: EditionMatchTarget): OLResult[] {
+  return [...results]
+    .map((r) => ({ r, s: scoreEditionMatch(r, target) }))
+    .sort((a, b) => b.s - a.s)
+    .map((x) => x.r);
+}
+
 export const SOURCE_LABELS: Record<EditionSource, string> = {
   google: "Google Books",
   openlibrary: "Open Library",

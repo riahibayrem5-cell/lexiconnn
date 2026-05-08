@@ -906,6 +906,13 @@ export default function BookBrain() {
         onOpenChange={setEditionPickerOpen}
         initialQuery={`${book.title} ${book.author}`.trim()}
         onApply={applySourceEdition}
+        target={{
+          title: book.title,
+          author: book.author,
+          isbn: book.isbn,
+          year: book.year,
+          language: book.language,
+        }}
       />
     </div>
   );

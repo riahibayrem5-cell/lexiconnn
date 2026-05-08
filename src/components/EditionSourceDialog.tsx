@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Search, BookOpen, Globe, Library, Archive, Check } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, Search, BookOpen, Globe, Library, Archive, Check, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   searchEditionsBySource,
+  rankEditionsByMatch,
+  scoreEditionMatch,
   SOURCE_LABELS,
   type EditionSource,
+  type EditionMatchTarget,
   type OLResult,
 } from "@/lib/openlibrary";
 
@@ -23,21 +28,38 @@ interface Props {
   onOpenChange: (o: boolean) => void;
   initialQuery: string;
   onApply: (edition: OLResult) => void;
+  /** Target book to match against — drives scoring & pre-selection. */
+  target?: EditionMatchTarget;
 }
 
-export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply }: Props) {
+export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply, target }: Props) {
   const [query, setQuery] = useState(initialQuery);
   const [source, setSource] = useState<EditionSource>("google");
   const [results, setResults] = useState<OLResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) setQuery(initialQuery);
   }, [open, initialQuery]);
 
+  const matchTarget: EditionMatchTarget = useMemo(
+    () => target ?? { title: initialQuery },
+    [target, initialQuery],
+  );
+
+  const ranked = useMemo(
+    () => rankEditionsByMatch(results, matchTarget),
+    [results, matchTarget],
+  );
+  const bestKey = ranked[0]?.key ?? null;
+  const topScore = ranked[0] ? scoreEditionMatch(ranked[0], matchTarget) : 0;
+  const activeKey = selectedKey ?? bestKey;
+
   const runSearch = async (src: EditionSource = source, q: string = query) => {
     if (!q.trim()) return;
     setLoading(true);
+    setSelectedKey(null);
     try {
       const r = await searchEditionsBySource(src, q, 12);
       setResults(r);
@@ -52,13 +74,15 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, source]);
 
+  const apply = (r: OLResult) => { onApply(r); onOpenChange(false); };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="ink-card max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Choose an edition</DialogTitle>
           <DialogDescription className="font-serif italic">
-            Pick a source and an edition. Cover, ISBN, publisher, year and page count will replace this book's metadata.
+            Best match is pre-selected using ISBN, title and author scoring. Press Apply best, or pick another.
           </DialogDescription>
         </DialogHeader>
 
@@ -74,6 +98,17 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply 
           />
           <Button type="submit" disabled={loading} variant="outline">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+          </Button>
+          <Button
+            type="button"
+            disabled={!activeKey || loading}
+            onClick={() => {
+              const r = ranked.find((x) => x.key === activeKey);
+              if (r) apply(r);
+            }}
+            className="bg-primary text-primary-foreground hover:bg-primary-glow"
+          >
+            <Sparkles className="h-3.5 w-3.5 mr-1" /> Apply best
           </Button>
         </form>
 
@@ -97,35 +132,55 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply 
                 <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Searching {SOURCE_LABELS[v]}…
                 </div>
-              ) : results.length === 0 ? (
+              ) : ranked.length === 0 ? (
                 <p className="text-center py-12 text-sm italic font-serif text-muted-foreground">
                   No editions found in {SOURCE_LABELS[v]}. Try refining the query.
                 </p>
               ) : (
                 <ul className="space-y-3">
-                  {results.map((r) => (
-                    <li key={r.key} className="flex gap-3 p-3 border border-border/60 rounded-sm hover:border-primary/60 transition-colors">
-                      {r.coverUrl ? (
-                        <img src={r.coverUrl} alt="" className="w-14 h-20 object-cover rounded-[2px] ring-1 ring-border/50 shrink-0" loading="lazy" />
-                      ) : (
-                        <div className="w-14 h-20 bg-muted rounded-[2px] shrink-0" />
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-display text-sm leading-tight truncate">{r.title}</p>
-                        <p className="text-xs text-muted-foreground italic font-serif truncate">{r.author}</p>
-                        <p className="mt-1 text-[0.6rem] mono uppercase tracking-wider text-muted-foreground/80">
-                          {[r.year, r.publisher, r.pages ? `${r.pages}pp` : null, r.isbn].filter(Boolean).join(" · ")}
-                        </p>
-                      </div>
-                      <Button
-                        size="sm"
-                        onClick={() => { onApply(r); onOpenChange(false); }}
-                        className="self-center bg-primary text-primary-foreground hover:bg-primary-glow"
+                  {ranked.map((r) => {
+                    const score = scoreEditionMatch(r, matchTarget);
+                    const isBest = r.key === bestKey && topScore > 0;
+                    const isActive = r.key === activeKey;
+                    return (
+                      <li
+                        key={r.key}
+                        onClick={() => setSelectedKey(r.key)}
+                        className={cn(
+                          "flex gap-3 p-3 border rounded-sm transition-colors cursor-pointer",
+                          isActive ? "border-primary bg-primary/5" : "border-border/60 hover:border-primary/60",
+                        )}
                       >
-                        <Check className="h-3.5 w-3.5 mr-1" /> Apply
-                      </Button>
-                    </li>
-                  ))}
+                        {r.coverUrl ? (
+                          <img src={r.coverUrl} alt="" className="w-14 h-20 object-cover rounded-[2px] ring-1 ring-border/50 shrink-0" loading="lazy" />
+                        ) : (
+                          <div className="w-14 h-20 bg-muted rounded-[2px] shrink-0" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-display text-sm leading-tight truncate">{r.title}</p>
+                            {isBest && (
+                              <Badge className="bg-primary text-primary-foreground text-[0.55rem] mono uppercase tracking-wider px-1.5 py-0">
+                                <Sparkles className="h-2.5 w-2.5 mr-0.5" /> Best
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground italic font-serif truncate">{r.author}</p>
+                          <p className="mt-1 text-[0.6rem] mono uppercase tracking-wider text-muted-foreground/80">
+                            {[r.year, r.publisher, r.pages ? `${r.pages}pp` : null, r.isbn].filter(Boolean).join(" · ")}
+                            {score > 0 && <span className="ml-2 text-primary/70">match {score}</span>}
+                          </p>
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={(e) => { e.stopPropagation(); apply(r); }}
+                          className="self-center bg-primary text-primary-foreground hover:bg-primary-glow"
+                        >
+                          <Check className="h-3.5 w-3.5 mr-1" /> Apply
+                        </Button>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </TabsContent>
