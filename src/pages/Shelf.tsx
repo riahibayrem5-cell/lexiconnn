@@ -227,9 +227,9 @@ export default function Shelf() {
 
       {books.length > 0 && (
         <div className="px-4 sm:px-8 lg:px-14 pt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 animate-fade-in">
-          <LibraryMetric icon={BookOpen} label="Library weight" value={`${books.length}`} detail="volumes catalogued" />
-          <LibraryMetric icon={Quote} label="Lines kept" value={`${totals.quotes}`} detail="saved fragments" />
-          <LibraryMetric icon={Timer} label="Reading time" value={`${totals.minutes}`} detail="minutes logged" />
+          <LibraryMetric icon={BookOpen} label={t("Library weight")} value={`${books.length}`} detail={t("volumes catalogued")} />
+          <LibraryMetric icon={Quote} label={t("Lines kept")} value={`${totals.quotes}`} detail={t("saved fragments")} />
+          <LibraryMetric icon={Timer} label={t("Reading time")} value={`${totals.minutes}`} detail={t("minutes logged")} />
         </div>
       )}
 
