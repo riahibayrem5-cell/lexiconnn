@@ -21,6 +21,7 @@ const RESONANCE: { v: ResonanceTag; l: string }[] = [
 
 export default function Quotes() {
   const { books } = useLibrary();
+  const { t } = useLang();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<ResonanceTag | "all">("all");
   const [generatingId, setGeneratingId] = useState<string | null>(null);
