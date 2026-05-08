@@ -17,6 +17,7 @@ import {
 } from "@/lib/savedRecs";
 import { useLibrary } from "@/lib/storage";
 import { useNavigate } from "react-router-dom";
+import { useLang } from "@/lib/i18n";
 
 interface Result {
   query: string;
@@ -29,6 +30,7 @@ export default function Recommendations() {
   const navigate = useNavigate();
   const { recs, save, remove } = useSavedRecs();
   const { books } = useLibrary();
+  const { t } = useLang();
 
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(false);
@@ -75,7 +77,7 @@ export default function Recommendations() {
       tools: data.tools,
     });
     setActiveRecId(saved.id);
-    toast.success("Saved to your recommendations");
+    toast.success(t("Saved to your recommendations"));
   };
 
   const copy = (text: string, label: string) => {

@@ -14,6 +14,7 @@ import { Plus, Shuffle, Search, ArrowDownUp, BookOpen, Quote, Timer, Loader2 } f
 import type { BookStatus } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useLang } from "@/lib/i18n";
 
 import { TodayBar } from "@/components/TodayBar";
 
@@ -29,6 +30,7 @@ export default function Shelf() {
   const navigate = useNavigate();
   const { books, isGuest, updateBook, moveBookToStatus } = useLibrary();
   const { scaleMode, viewMode } = useShelfSettings();
+  const { t } = useLang();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [q, setQ] = useState("");
@@ -175,17 +177,17 @@ export default function Shelf() {
         right={
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={random} className="text-muted-foreground hover:text-primary">
-              <Shuffle className="h-4 w-4 mr-2" /> Surprise me
+              <Shuffle className="h-4 w-4 mr-2" /> {t("Surprise me")}
             </Button>
             <Button onClick={() => setDrawerOpen(true)} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-              <Plus className="h-4 w-4 mr-2" /> Add Book
+              <Plus className="h-4 w-4 mr-2" /> {t("Add Book")}
             </Button>
           </div>
         }
       />
 
       <div className="px-4 sm:px-8 lg:px-14 pt-4">
-        <span className="stamp">{isGuest ? "Guest shelf · local" : "Synced shelf · private"}</span>
+        <span className="stamp">{isGuest ? t("Guest shelf · local") : t("Synced shelf · private")}</span>
       </div>
 
       <TodayBar />
@@ -196,7 +198,7 @@ export default function Shelf() {
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search title, author, tag…"
+            placeholder={t("Search title, author, tag…")}
             className="pl-10 bg-input/60 border-border-strong/40 font-serif"
           />
         </div>
@@ -207,27 +209,27 @@ export default function Shelf() {
             onChange={(e) => setSort(e.target.value as typeof sort)}
             className="bg-input/60 border border-border-strong/40 rounded-sm px-3 py-2 text-sm font-serif focus:outline-none focus:border-primary"
           >
-            {SORTS.map(s => <option key={s.v} value={s.v}>{s.l}</option>)}
+            {SORTS.map(s => <option key={s.v} value={s.v}>{t(s.l)}</option>)}
           </select>
         </div>
         <div className="ml-auto mono text-xs text-muted-foreground tracking-[0.2em]">
-          {viewMode === "flat" ? "FLAT COVERS" : (scaleMode === "compact" ? "COMPACT 3D" : "TRUE-TO-PAGES 3D")} · {books.length} VOLUMES
+          {viewMode === "flat" ? t("FLAT COVERS") : (scaleMode === "compact" ? t("COMPACT 3D") : t("TRUE-TO-PAGES 3D"))} · {books.length} {t("VOLUMES")}
         </div>
       </div>
 
 
       <div className="px-4 sm:px-8 lg:px-14 pt-5 flex flex-wrap gap-2">
-        <FilterChip active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>All</FilterChip>
-        {STATUS_ORDER.map(s => <FilterChip key={s} active={statusFilter === s} onClick={() => setStatusFilter(s)}>{STATUS_LABEL[s]}</FilterChip>)}
+        <FilterChip active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>{t("All")}</FilterChip>
+        {STATUS_ORDER.map(s => <FilterChip key={s} active={statusFilter === s} onClick={() => setStatusFilter(s)}>{t(STATUS_LABEL[s])}</FilterChip>)}
         {tags.length > 0 && <span className="mx-1 h-7 w-px bg-border/60" />}
-        {tags.map(t => <FilterChip key={t} active={tagFilter === t} onClick={() => setTagFilter(tagFilter === t ? "all" : t)}>{t}</FilterChip>)}
+        {tags.map(tag => <FilterChip key={tag} active={tagFilter === tag} onClick={() => setTagFilter(tagFilter === tag ? "all" : tag)}>{tag}</FilterChip>)}
       </div>
 
       {books.length > 0 && (
         <div className="px-4 sm:px-8 lg:px-14 pt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 animate-fade-in">
-          <LibraryMetric icon={BookOpen} label="Library weight" value={`${books.length}`} detail="volumes catalogued" />
-          <LibraryMetric icon={Quote} label="Lines kept" value={`${totals.quotes}`} detail="saved fragments" />
-          <LibraryMetric icon={Timer} label="Reading time" value={`${totals.minutes}`} detail="minutes logged" />
+          <LibraryMetric icon={BookOpen} label={t("Library weight")} value={`${books.length}`} detail={t("volumes catalogued")} />
+          <LibraryMetric icon={Quote} label={t("Lines kept")} value={`${totals.quotes}`} detail={t("saved fragments")} />
+          <LibraryMetric icon={Timer} label={t("Reading time")} value={`${totals.minutes}`} detail={t("minutes logged")} />
         </div>
       )}
 
@@ -245,13 +247,13 @@ export default function Shelf() {
               <span className="mono text-[0.6rem] tracking-[0.3em] uppercase text-primary/80">
                 {String(books.length).padStart(2, "0")}
               </span>
-              <h2 className="font-display text-2xl text-foreground">{STATUS_LABEL[status]}</h2>
+              <h2 className="font-display text-2xl text-foreground">{t(STATUS_LABEL[status])}</h2>
               <div className="flex-1 h-px bg-border/60" />
             </div>
 
             {books.length === 0 ? (
-              <p className="font-serif italic text-sm text-muted-foreground pl-2">
-                Drop a book here, or change a book's status to <span className="text-foreground not-italic">{STATUS_LABEL[status]}</span>.
+              <p className="font-serif italic text-muted-foreground pl-2 text-sm">
+                {t("Drop a book here, or change a book's status to")} <span className="text-foreground not-italic">{t(STATUS_LABEL[status])}</span>.
               </p>
             ) : viewMode === "flat" ? (
               <div className="flex items-start gap-4 pb-2 overflow-x-auto pl-2 pr-2 animate-fade-in">
@@ -294,16 +296,16 @@ export default function Shelf() {
 
         {books.length > 0 && grouped.every(s => s.books.length === 0) && (
           <div className="text-center py-24 luxury-panel rounded-sm">
-            <p className="font-display italic text-2xl text-muted-foreground">No volumes match this arrangement.</p>
-            <Button onClick={() => { setQ(""); setStatusFilter("all"); setTagFilter("all"); }} variant="ghost" className="mt-4 text-primary">Clear filters</Button>
+            <p className="font-display italic text-2xl text-muted-foreground">{t("No volumes match this arrangement.")}</p>
+            <Button onClick={() => { setQ(""); setStatusFilter("all"); setTagFilter("all"); }} variant="ghost" className="mt-4 text-primary">{t("Clear filters")}</Button>
           </div>
         )}
 
         {books.length === 0 && (
           <div className="text-center py-32">
-            <p className="font-display italic text-2xl text-muted-foreground">An empty shelf is a kind of patience.</p>
+            <p className="font-display italic text-2xl text-muted-foreground">{t("An empty shelf is a kind of patience.")}</p>
             <Button onClick={() => setDrawerOpen(true)} className="mt-6 bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-              <Plus className="h-4 w-4 mr-2" /> Add your first volume
+              <Plus className="h-4 w-4 mr-2" /> {t("Add your first volume")}
             </Button>
           </div>
         )}

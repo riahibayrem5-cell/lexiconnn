@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { useLibrary } from "@/lib/storage";
 import { STATUS_LABEL } from "@/lib/seed";
 import { CalendarCheck, NotebookPen, Target } from "lucide-react";
+import { useLang } from "@/lib/i18n";
 
 export default function Review() {
   const navigate = useNavigate();
   const { books } = useLibrary();
+  const { t } = useLang();
   const review = useMemo(() => {
     return [...books]
       .map(book => ({
@@ -33,7 +35,7 @@ export default function Review() {
       <div className="px-4 sm:px-8 lg:px-14 mt-8 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6">
         <section className="ink-card rounded-sm p-6 space-y-4">
           <div className="flex items-center justify-between gap-3">
-            <p className="eyebrow">Priority queue</p>
+            <p className="eyebrow">{t("Priority queue")}</p>
             <CalendarCheck className="h-5 w-5 text-primary" />
           </div>
           <div className="space-y-3">
@@ -42,13 +44,13 @@ export default function Review() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <p className="font-display text-xl text-foreground truncate">{book.title}</p>
-                    <p className="mono text-[0.58rem] tracking-[0.22em] uppercase text-muted-foreground mt-1">{book.author} · {STATUS_LABEL[book.status]}</p>
+                    <p className="mono text-[0.58rem] tracking-[0.22em] uppercase text-muted-foreground mt-1">{book.author} · {t(STATUS_LABEL[book.status])}</p>
                   </div>
-                  <span className="mono text-[0.55rem] tracking-[0.18em] uppercase text-primary shrink-0">{notes} notes</span>
+                  <span className="mono text-[0.55rem] tracking-[0.18em] uppercase text-primary shrink-0">{notes} {t("Notes")}</span>
                 </div>
               </button>
             ))}
-            {review.length === 0 && <p className="font-serif italic text-muted-foreground">Add books to build a review queue.</p>}
+            {review.length === 0 && <p className="font-serif italic text-muted-foreground">{t("Add books to build a review queue.")}</p>}
           </div>
         </section>
 
@@ -56,14 +58,14 @@ export default function Review() {
           <div className="luxury-panel rounded-sm p-6">
             <Target className="h-5 w-5 text-primary mb-4" />
             <p className="font-display text-3xl text-foreground">{books.filter(b => b.status === "reading" || b.status === "rereading").length}</p>
-            <p className="mono text-[0.58rem] tracking-[0.24em] uppercase text-muted-foreground mt-1">Active reads</p>
+            <p className="mono text-[0.58rem] tracking-[0.24em] uppercase text-muted-foreground mt-1">{t("Active reads")}</p>
           </div>
           <div className="luxury-panel rounded-sm p-6">
             <NotebookPen className="h-5 w-5 text-primary mb-4" />
             <p className="font-display text-3xl text-foreground">{books.reduce((sum, b) => sum + b.instances.reduce((s, i) => s + i.journal.length + i.quotes.length, 0), 0)}</p>
-            <p className="mono text-[0.58rem] tracking-[0.24em] uppercase text-muted-foreground mt-1">Captured thoughts</p>
+            <p className="mono text-[0.58rem] tracking-[0.24em] uppercase text-muted-foreground mt-1">{t("Captured thoughts")}</p>
           </div>
-          <Button onClick={() => navigate("/")} className="w-full bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">Back to shelf</Button>
+          <Button onClick={() => navigate("/")} className="w-full bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">{t("Back to shelf")}</Button>
         </section>
       </div>
     </div>

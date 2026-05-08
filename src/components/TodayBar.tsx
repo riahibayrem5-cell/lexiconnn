@@ -4,10 +4,12 @@ import { useReadingGoals } from "@/lib/goals";
 import { bookProgress, minutesToday, minutesThisWeek, readingStreak } from "@/lib/progress";
 import { Button } from "@/components/ui/button";
 import { Flame, Play, Target, Timer } from "lucide-react";
+import { useLang } from "@/lib/i18n";
 
 export function TodayBar() {
   const { books } = useLibrary();
   const { goals } = useReadingGoals();
+  const { t } = useLang();
   const navigate = useNavigate();
 
   const reading = books.filter(b => b.status === "reading" || b.status === "rereading").slice(0, 3);
@@ -23,10 +25,10 @@ export function TodayBar() {
       <div className="luxury-panel rounded-sm p-5 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6 items-stretch">
         {/* Currently reading */}
         <div>
-          <p className="eyebrow mb-3">At the desk</p>
+          <p className="eyebrow mb-3">{t("At the desk")}</p>
           {reading.length === 0 ? (
             <p className="font-serif italic text-muted-foreground">
-              No active read. Set a book to "Reading" to begin a session.
+              {t("No active read. Set a book to \"Reading\" to begin a session.")}
             </p>
           ) : (
             <div className="grid gap-3 sm:grid-cols-2">
@@ -52,7 +54,7 @@ export function TodayBar() {
                         </div>
                       )}
                       {p !== undefined && (
-                        <p className="mono text-[0.5rem] tracking-[0.18em] uppercase text-primary/80 mt-1">{Math.round(p * 100)}% read</p>
+                        <p className="mono text-[0.5rem] tracking-[0.18em] uppercase text-primary/80 mt-1">{Math.round(p * 100)}{t("% read")}</p>
                       )}
                     </div>
                   </button>
@@ -65,18 +67,18 @@ export function TodayBar() {
         {/* Today / week / streak */}
         <div className="flex flex-col gap-3">
           <div className="grid grid-cols-3 gap-3">
-            <Stat icon={Timer} label="today" value={today} unit="min" />
-            <Stat icon={Target} label="this week" value={week} unit={`/ ${goals.minutesPerWeek}`} />
-            <Stat icon={Flame} label="streak" value={streak} unit="d" />
+            <Stat icon={Timer} label={t("today")} value={today} unit={t("min")} />
+            <Stat icon={Target} label={t("this week")} value={week} unit={`/ ${goals.minutesPerWeek}`} />
+            <Stat icon={Flame} label={t("streak")} value={streak} unit="d" />
           </div>
           <div>
             <div className="h-1.5 rounded-full bg-border/40 overflow-hidden">
               <div className="h-full bg-primary transition-all" style={{ width: `${weekPct}%` }} />
             </div>
-            <p className="mono text-[0.5rem] tracking-[0.22em] uppercase text-muted-foreground mt-2">Weekly goal · {weekPct}%</p>
+            <p className="mono text-[0.5rem] tracking-[0.22em] uppercase text-muted-foreground mt-2">{t("Weekly goal")} · {weekPct}%</p>
           </div>
           <Button onClick={() => navigate("/ritual")} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-            <Play className="h-4 w-4 mr-2" /> Begin a ritual
+            <Play className="h-4 w-4 mr-2" /> {t("Begin a ritual")}
           </Button>
         </div>
       </div>

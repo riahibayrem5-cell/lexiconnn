@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { ResonanceTag } from "@/lib/types";
 import { renderQuoteCard, quoteToMarkdown } from "@/lib/quoteCard";
+import { useLang } from "@/lib/i18n";
 
 const RESONANCE: { v: ResonanceTag; l: string }[] = [
   { v: "beautiful-language", l: "Beautiful language" },
@@ -20,6 +21,7 @@ const RESONANCE: { v: ResonanceTag; l: string }[] = [
 
 export default function Quotes() {
   const { books } = useLibrary();
+  const { t } = useLang();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<ResonanceTag | "all">("all");
   const [generatingId, setGeneratingId] = useState<string | null>(null);
@@ -49,10 +51,10 @@ export default function Quotes() {
       a.download = `lexicon-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40)}.png`;
       a.click();
       URL.revokeObjectURL(url);
-      toast.success("Card downloaded");
+      toast.success(t("Card downloaded"));
     } catch (e) {
       console.error(e);
-      toast.error("Could not render card");
+      toast.error(t("Could not render card"));
     } finally {
       setGeneratingId(null);
     }
@@ -61,9 +63,9 @@ export default function Quotes() {
   const copyMarkdown = async (text: string, title: string, author: string, page?: string) => {
     try {
       await navigator.clipboard.writeText(quoteToMarkdown(text, title, author, page));
-      toast.success("Copied as Markdown");
+      toast.success(t("Copied as Markdown"));
     } catch {
-      toast.error("Clipboard blocked");
+      toast.error(t("Clipboard blocked"));
     }
   };
 
@@ -82,24 +84,24 @@ export default function Quotes() {
           <div className="relative flex-1 min-w-[240px] max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input value={q} onChange={(e) => setQ(e.target.value)}
-              placeholder="Search keywords, books, authors…"
+              placeholder={t("Search keywords, books, authors…")}
               className="pl-10 bg-input/60 border-border-strong/40 font-serif" />
           </div>
           <div className="flex flex-wrap gap-2">
             <button onClick={() => setFilter("all")}
               className={cn("px-3 py-1.5 rounded-sm mono text-[0.6rem] tracking-[0.25em] uppercase border",
                 filter === "all" ? "border-primary text-primary" : "border-border/40 text-muted-foreground")}>
-              All
+              {t("All")}
             </button>
             {RESONANCE.map(r => (
               <button key={r.v} onClick={() => setFilter(r.v)}
                 className={cn("px-3 py-1.5 rounded-sm mono text-[0.6rem] tracking-[0.25em] uppercase border",
                   filter === r.v ? "border-primary text-primary" : "border-border/40 text-muted-foreground")}>
-                {r.l}
+                {t(r.l)}
               </button>
             ))}
           </div>
-          <span className="ml-auto mono text-xs text-muted-foreground tracking-[0.2em]">{filtered.length} QUOTES</span>
+          <span className="ml-auto mono text-xs text-muted-foreground tracking-[0.2em]">{filtered.length} {t("QUOTES")}</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -119,7 +121,7 @@ export default function Quotes() {
                     variant="ghost"
                     onClick={() => copyMarkdown(qu.text, qu.book.title, qu.book.author, qu.page)}
                     className="text-muted-foreground hover:text-primary"
-                    title="Copy as Markdown"
+                    title={t("Copy as Markdown")}
                   >
                     <Copy className="h-3.5 w-3.5" />
                   </Button>
@@ -129,7 +131,7 @@ export default function Quotes() {
                     disabled={generatingId === qu.id}
                     onClick={() => downloadCard(qu.id, qu.text, qu.book.author, qu.book.title)}
                     className="text-muted-foreground hover:text-primary"
-                    title="Download share card"
+                    title={t("Download share card")}
                   >
                     {generatingId === qu.id
                       ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -141,7 +143,7 @@ export default function Quotes() {
             </article>
           ))}
           {filtered.length === 0 && (
-            <p className="font-display italic text-muted-foreground col-span-full">No quotes match.</p>
+            <p className="font-display italic text-muted-foreground col-span-full">{t("No quotes match.")}</p>
           )}
         </div>
       </div>
