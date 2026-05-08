@@ -296,16 +296,16 @@ export default function Shelf() {
 
         {books.length > 0 && grouped.every(s => s.books.length === 0) && (
           <div className="text-center py-24 luxury-panel rounded-sm">
-            <p className="font-display italic text-2xl text-muted-foreground">No volumes match this arrangement.</p>
-            <Button onClick={() => { setQ(""); setStatusFilter("all"); setTagFilter("all"); }} variant="ghost" className="mt-4 text-primary">Clear filters</Button>
+            <p className="font-display italic text-2xl text-muted-foreground">{t("No volumes match this arrangement.")}</p>
+            <Button onClick={() => { setQ(""); setStatusFilter("all"); setTagFilter("all"); }} variant="ghost" className="mt-4 text-primary">{t("Clear filters")}</Button>
           </div>
         )}
 
         {books.length === 0 && (
           <div className="text-center py-32">
-            <p className="font-display italic text-2xl text-muted-foreground">An empty shelf is a kind of patience.</p>
+            <p className="font-display italic text-2xl text-muted-foreground">{t("An empty shelf is a kind of patience.")}</p>
             <Button onClick={() => setDrawerOpen(true)} className="mt-6 bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-              <Plus className="h-4 w-4 mr-2" /> Add your first volume
+              <Plus className="h-4 w-4 mr-2" /> {t("Add your first volume")}
             </Button>
           </div>
         )}
