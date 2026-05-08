@@ -30,6 +30,7 @@ export default function Recommendations() {
   const navigate = useNavigate();
   const { recs, save, remove } = useSavedRecs();
   const { books } = useLibrary();
+  const { t } = useLang();
 
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(false);
