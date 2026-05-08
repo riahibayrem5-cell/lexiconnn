@@ -219,10 +219,10 @@ export default function Shelf() {
 
 
       <div className="px-4 sm:px-8 lg:px-14 pt-5 flex flex-wrap gap-2">
-        <FilterChip active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>All</FilterChip>
-        {STATUS_ORDER.map(s => <FilterChip key={s} active={statusFilter === s} onClick={() => setStatusFilter(s)}>{STATUS_LABEL[s]}</FilterChip>)}
+        <FilterChip active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>{t("All")}</FilterChip>
+        {STATUS_ORDER.map(s => <FilterChip key={s} active={statusFilter === s} onClick={() => setStatusFilter(s)}>{t(STATUS_LABEL[s])}</FilterChip>)}
         {tags.length > 0 && <span className="mx-1 h-7 w-px bg-border/60" />}
-        {tags.map(t => <FilterChip key={t} active={tagFilter === t} onClick={() => setTagFilter(tagFilter === t ? "all" : t)}>{t}</FilterChip>)}
+        {tags.map(tag => <FilterChip key={tag} active={tagFilter === tag} onClick={() => setTagFilter(tagFilter === tag ? "all" : tag)}>{tag}</FilterChip>)}
       </div>
 
       {books.length > 0 && (
