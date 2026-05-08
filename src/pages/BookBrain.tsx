@@ -901,6 +901,12 @@ export default function BookBrain() {
           updateBook(book.id, (b) => ({ ...b, coverUrl: url, coverSource: "ai-generated" }))
         }
       />
+      <EditionSourceDialog
+        open={editionPickerOpen}
+        onOpenChange={setEditionPickerOpen}
+        initialQuery={`${book.title} ${book.author}`.trim()}
+        onApply={applySourceEdition}
+      />
     </div>
   );
 }
