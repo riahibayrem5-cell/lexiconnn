@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
 import { useLibrary } from "@/lib/storage";
+import { useLang } from "@/lib/i18n";
 import { Book, Quote as QuoteIcon, Library, ClipboardCheck, Compass, Sparkles, Timer, CalendarDays, Settings as SettingsIcon, Plus } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -11,7 +12,7 @@ const NAV_ITEMS = [
   { to: "/oracle", label: "Oracle", icon: Sparkles },
   { to: "/ritual", label: "Reading Ritual", icon: Timer },
   { to: "/quotes", label: "Quotes Vault", icon: QuoteIcon },
-  
+
   { to: "/archive", label: "Archive", icon: CalendarDays },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ];
