@@ -339,6 +339,9 @@ export default function BookBrain() {
           <Button onClick={refreshMetadata} disabled={refreshingMeta} variant="outline" size="sm" className="border-primary/40 text-primary">
             {refreshingMeta ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5 mr-2" />} Improve details
           </Button>
+          <Button onClick={() => setEditionPickerOpen(true)} variant="outline" size="sm" className="border-primary/40 text-primary">
+            <Library className="h-3.5 w-3.5 mr-2" /> Choose edition
+          </Button>
           <Button
             onClick={generateAndSaveDossier}
             disabled={generatingDossier}
