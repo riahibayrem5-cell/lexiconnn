@@ -181,6 +181,7 @@ const AR: Record<string, string> = {
   "Abandoned": "هجرته",
   "Rereading": "أعيد قراءته",
   "Export": "صدّر",
+  "Currently Reading": "أقرأ حاليًا",
   "Import": "استورد",
 
   // History page
