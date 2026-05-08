@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { useLibrary } from "@/lib/storage";
 import { STATUS_LABEL } from "@/lib/seed";
 import { CalendarCheck, NotebookPen, Target } from "lucide-react";
+import { useLang } from "@/lib/i18n";
 
 export default function Review() {
   const navigate = useNavigate();
   const { books } = useLibrary();
+  const { t } = useLang();
   const review = useMemo(() => {
     return [...books]
       .map(book => ({
