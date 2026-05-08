@@ -214,6 +214,8 @@ export default function BookBrain() {
     }));
     toast.success(`Edition applied from ${r.source ?? "source"}`);
   };
+
+  const generateSpine = async () => {
     setGeneratingSpine(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-spine", {
