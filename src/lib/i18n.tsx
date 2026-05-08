@@ -91,6 +91,7 @@ const AR: Record<string, string> = {
 
   // Page headers — Shelf
   "The library,": "المكتبة،",
+  "Drop a book here, or change a book's status to": "أفلت كتابًا هنا، أو غيّر حالة كتاب إلى",
   "in spines": "بالأسلاك",
   "Your collection. Hover a spine for the marrow. Click to enter the dossier.": "مجموعتك. مرّر فوق الكتاب لترى لبّه. انقر لتدخل الملف.",
 
