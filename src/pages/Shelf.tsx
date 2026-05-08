@@ -177,17 +177,17 @@ export default function Shelf() {
         right={
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={random} className="text-muted-foreground hover:text-primary">
-              <Shuffle className="h-4 w-4 mr-2" /> Surprise me
+              <Shuffle className="h-4 w-4 mr-2" /> {t("Surprise me")}
             </Button>
             <Button onClick={() => setDrawerOpen(true)} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-              <Plus className="h-4 w-4 mr-2" /> Add Book
+              <Plus className="h-4 w-4 mr-2" /> {t("Add Book")}
             </Button>
           </div>
         }
       />
 
       <div className="px-4 sm:px-8 lg:px-14 pt-4">
-        <span className="stamp">{isGuest ? "Guest shelf · local" : "Synced shelf · private"}</span>
+        <span className="stamp">{isGuest ? t("Guest shelf · local") : t("Synced shelf · private")}</span>
       </div>
 
       <TodayBar />
