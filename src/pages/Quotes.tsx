@@ -84,24 +84,24 @@ export default function Quotes() {
           <div className="relative flex-1 min-w-[240px] max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input value={q} onChange={(e) => setQ(e.target.value)}
-              placeholder="Search keywords, books, authors…"
+              placeholder={t("Search keywords, books, authors…")}
               className="pl-10 bg-input/60 border-border-strong/40 font-serif" />
           </div>
           <div className="flex flex-wrap gap-2">
             <button onClick={() => setFilter("all")}
               className={cn("px-3 py-1.5 rounded-sm mono text-[0.6rem] tracking-[0.25em] uppercase border",
                 filter === "all" ? "border-primary text-primary" : "border-border/40 text-muted-foreground")}>
-              All
+              {t("All")}
             </button>
             {RESONANCE.map(r => (
               <button key={r.v} onClick={() => setFilter(r.v)}
                 className={cn("px-3 py-1.5 rounded-sm mono text-[0.6rem] tracking-[0.25em] uppercase border",
                   filter === r.v ? "border-primary text-primary" : "border-border/40 text-muted-foreground")}>
-                {r.l}
+                {t(r.l)}
               </button>
             ))}
           </div>
-          <span className="ml-auto mono text-xs text-muted-foreground tracking-[0.2em]">{filtered.length} QUOTES</span>
+          <span className="ml-auto mono text-xs text-muted-foreground tracking-[0.2em]">{filtered.length} {t("QUOTES")}</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
