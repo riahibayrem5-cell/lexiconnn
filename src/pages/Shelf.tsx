@@ -30,6 +30,7 @@ export default function Shelf() {
   const navigate = useNavigate();
   const { books, isGuest, updateBook, moveBookToStatus } = useLibrary();
   const { scaleMode, viewMode } = useShelfSettings();
+  const { t } = useLang();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [q, setQ] = useState("");
