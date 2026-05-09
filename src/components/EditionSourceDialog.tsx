@@ -132,11 +132,11 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply,
             <TabsContent key={v} value={v} className="flex-1 overflow-y-auto mt-4 pr-1">
               {loading ? (
                 <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Searching {SOURCE_LABELS[v]}…
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t("Searching", "Searching")} {SOURCE_LABELS[v]}…
                 </div>
               ) : ranked.length === 0 ? (
                 <p className="text-center py-12 text-sm italic font-serif text-muted-foreground">
-                  No editions found in {SOURCE_LABELS[v]}. Try refining the query.
+                  {t("No editions found in", "No editions found in")} {SOURCE_LABELS[v]}. {t("Try refining the query.", "Try refining the query.")}
                 </p>
               ) : (
                 <ul className="space-y-3">
@@ -163,14 +163,14 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply,
                             <p className="font-display text-sm leading-tight truncate">{r.title}</p>
                             {isBest && (
                               <Badge className="bg-primary text-primary-foreground text-[0.55rem] mono uppercase tracking-wider px-1.5 py-0">
-                                <Sparkles className="h-2.5 w-2.5 mr-0.5" /> Best
+                                <Sparkles className="h-2.5 w-2.5 mr-0.5" /> {t("Best")}
                               </Badge>
                             )}
                           </div>
                           <p className="text-xs text-muted-foreground italic font-serif truncate">{r.author}</p>
                           <p className="mt-1 text-[0.6rem] mono uppercase tracking-wider text-muted-foreground/80">
                             {[r.year, r.publisher, r.pages ? `${r.pages}pp` : null, r.isbn].filter(Boolean).join(" · ")}
-                            {score > 0 && <span className="ml-2 text-primary/70">match {score}</span>}
+                            {score > 0 && <span className="ml-2 text-primary/70">{t("match")} {score}</span>}
                           </p>
                         </div>
                         <Button
@@ -178,7 +178,7 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply,
                           onClick={(e) => { e.stopPropagation(); apply(r); }}
                           className="self-center bg-primary text-primary-foreground hover:bg-primary-glow"
                         >
-                          <Check className="h-3.5 w-3.5 mr-1" /> Apply
+                          <Check className="h-3.5 w-3.5 mr-1" /> {t("Apply")}
                         </Button>
                       </li>
                     );
