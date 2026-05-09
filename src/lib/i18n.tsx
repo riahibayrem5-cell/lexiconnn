@@ -466,7 +466,7 @@ const AR: Record<string, string> = {
   "Resume": "استأنف",
   "Begin": "ابدأ",
   "Pause": "أوقِف",
-  "Close": "أغلق",
+  // "Close" already defined above
   "Close session": "أغلق الجلسة",
   "Focus mode": "وضع التركيز",
   "Coach nudge": "همسة المدرّب",
