@@ -277,15 +277,15 @@ export default function Ritual() {
           <div className="mt-8 flex gap-3">
             {!running ? (
               <Button onClick={() => setRunning(true)} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-                <Play className="h-4 w-4 mr-2" /> {sec > 0 ? "Resume" : "Begin"}
+                <Play className="h-4 w-4 mr-2" /> {sec > 0 ? t("Resume") : t("Begin")}
               </Button>
             ) : (
               <Button onClick={() => setRunning(false)} variant="outline" className="border-primary/60 text-primary">
-                <Pause className="h-4 w-4 mr-2" /> Pause
+                <Pause className="h-4 w-4 mr-2" /> {t("Pause")}
               </Button>
             )}
             <Button onClick={stop} variant="outline" className="border-border-strong/60">
-              <Square className="h-4 w-4 mr-2" /> Close
+              <Square className="h-4 w-4 mr-2" /> {t("Close")}
             </Button>
           </div>
 
