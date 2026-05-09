@@ -294,7 +294,7 @@ export default function Ritual() {
             <Input
               value={quoteFlash}
               onChange={(e) => setQuoteFlash(e.target.value)}
-              placeholder="A line you must keep…"
+              placeholder={t("A line you must keep…")}
               className="bg-background/60 backdrop-blur border-border/40 font-serif italic"
             />
             <Button
@@ -302,7 +302,7 @@ export default function Ritual() {
                 if (!quoteFlash.trim() || !bookId) return;
                 addQuote(bookId, { text: quoteFlash, resonance: "beautiful-language" });
                 setQuoteFlash("");
-                toast.success("Quote saved");
+                toast.success(t("Quote saved"));
               }}
               variant="outline" className="border-primary/60 text-primary"
             >
