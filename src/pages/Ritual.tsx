@@ -376,12 +376,12 @@ export default function Ritual() {
               <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-5 items-end">
                 {selectedBook?.coverUrl && <img src={selectedBook.coverUrl} alt={`${selectedBook.title} cover`} className="w-28 aspect-[3/4] object-cover rounded-sm shadow-card" referrerPolicy="no-referrer" />}
                 <div>
-                <p className="eyebrow mb-2">Volume</p>
+                <p className="eyebrow mb-2">{t("Volume")}</p>
                 <select value={bookId} onChange={(e) => setBookId(e.target.value)}
                   className="w-full bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-serif">
                   {active.map(b => <option key={b.id} value={b.id}>{b.title} — {b.author}</option>)}
                 </select>
-                <p className="mt-3 font-serif italic text-muted-foreground">Tonight: {intention}</p>
+                <p className="mt-3 font-serif italic text-muted-foreground">{t("Tonight:")} {intention}</p>
                 </div>
               </div>
 
