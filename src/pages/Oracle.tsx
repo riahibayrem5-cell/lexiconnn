@@ -431,7 +431,7 @@ export default function Oracle() {
             {showSettings && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-border/40">
                 <div>
-                  <p className="eyebrow mb-2">Voice</p>
+                  <p className="eyebrow mb-2">{t("Voice")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {PERSONAS.map(p => (
                       <button key={p.v} onClick={() => setPersona(p.v)} title={p.d}
