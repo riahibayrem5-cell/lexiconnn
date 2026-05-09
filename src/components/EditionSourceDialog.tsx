@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Search, BookOpen, Globe, Library, Archive, Check, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 import {
   searchEditionsBySource,
   rankEditionsByMatch,
