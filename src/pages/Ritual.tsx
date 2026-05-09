@@ -248,7 +248,7 @@ export default function Ritual() {
                 {format(sec)}
               </div>
               <div className="mt-2 mono text-[0.6rem] tracking-[0.3em] uppercase text-muted-foreground">
-                {running ? "READING" : sec > 0 ? "PAUSED" : "READY"} · GOAL {planMin}M
+                {running ? t("READING") : sec > 0 ? t("PAUSED") : t("READY")} · {t("GOAL")} {planMin}{t("M")}
               </div>
               {selectedBook && (
                 <p className="mt-6 font-serif italic text-foreground/80 max-w-xs mx-auto">
