@@ -82,9 +82,9 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply,
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="ink-card max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
         <DialogHeader>
-          <DialogTitle className="font-display text-2xl">Choose an edition</DialogTitle>
+          <DialogTitle className="font-display text-2xl">{t("Choose an edition")}</DialogTitle>
           <DialogDescription className="font-serif italic">
-            Best match is pre-selected using ISBN, title and author scoring. Press Apply best, or pick another.
+            {t("Best match is pre-selected using ISBN, title and author scoring. Press Apply best, or pick another.")}
           </DialogDescription>
         </DialogHeader>
 
@@ -95,7 +95,7 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply,
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Title, author, or ISBN…"
+            placeholder={t("Title, author, or ISBN…")}
             className="flex-1"
           />
           <Button type="submit" disabled={loading} variant="outline">
@@ -110,7 +110,7 @@ export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply,
             }}
             className="bg-primary text-primary-foreground hover:bg-primary-glow"
           >
-            <Sparkles className="h-3.5 w-3.5 mr-1" /> Apply best
+            <Sparkles className="h-3.5 w-3.5 mr-1" /> {t("Apply best")}
           </Button>
         </form>
 
