@@ -388,7 +388,7 @@ export default function Oracle() {
                         }}
                         className="mt-1 mono text-[0.5rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow transition-colors"
                       >
-                        Confirm add
+                        {t("Confirm add")}
                       </button>
                     </div>
                   </div>
