@@ -324,7 +324,7 @@ export default function Oracle() {
       } else if (mode === "compare") {
         const a = books.find(b => b.id === bookA);
         const b = books.find(bb => bb.id === bookB);
-        if (!a || !b) { toast.error("Pick two books"); setLoading(false); return; }
+        if (!a || !b) { toast.error(t("Pick two books")); setLoading(false); return; }
         payload.input = {
           a: { title: a.title, author: a.author, rating: a.instances[a.instances.length - 1]?.rating, tags: a.tags, quotes: a.instances[a.instances.length - 1]?.quotes.map(q => q.text).slice(0, 3) ?? [] },
           b: { title: b.title, author: b.author, rating: b.instances[b.instances.length - 1]?.rating, tags: b.tags, quotes: b.instances[b.instances.length - 1]?.quotes.map(q => q.text).slice(0, 3) ?? [] },
