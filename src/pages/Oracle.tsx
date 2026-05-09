@@ -330,7 +330,6 @@ export default function Oracle() {
           b: { title: b.title, author: b.author, rating: b.instances[b.instances.length - 1]?.rating, tags: b.tags, quotes: b.instances[b.instances.length - 1]?.quotes.map(q => q.text).slice(0, 3) ?? [] },
         };
       }
-
       const { data, error } = await supabase.functions.invoke("oracle", { body: { ...payload, language: lang } });
       if (error) throw error;
       if (data?.error) toast.error(data.error);
