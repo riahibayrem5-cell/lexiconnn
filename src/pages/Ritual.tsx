@@ -328,11 +328,11 @@ export default function Ritual() {
   return (
     <div className="min-h-screen pb-24">
       <PageHeader
-        eyebrow="The Ritual"
+        eyebrow={t("The Ritual")}
         title=""
-        titleMain="An hour,"
-        titleEmphasis="at the desk"
-        subtitle="Sit. Begin the timer. The page is enough."
+        titleMain={t("An hour,")}
+        titleEmphasis={t("at the desk")}
+        subtitle={t("Sit. Begin the timer. The page is enough.")}
       />
 
       <div className="px-4 sm:px-8 lg:px-14 mt-8 grid grid-cols-12 gap-8">
