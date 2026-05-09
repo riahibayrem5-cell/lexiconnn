@@ -443,7 +443,7 @@ export default function Oracle() {
                   </div>
                 </div>
                 <div>
-                  <p className="eyebrow mb-2">Lens</p>
+                  <p className="eyebrow mb-2">{t("Lens")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {LENSES.map(l => (
                       <button key={l.v} onClick={() => setLens(l.v)}
