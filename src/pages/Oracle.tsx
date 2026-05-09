@@ -98,7 +98,7 @@ const PREFS_KEY = "lexicon-oracle-prefs";
 export default function Oracle() {
   const { books, addBook } = useLibrary();
   const { settings } = useAdminSettings();
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const [mode, setMode] = useState<Mode>("chat");
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState<string>("");
