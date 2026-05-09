@@ -676,7 +676,7 @@ export default function Oracle() {
                     <Button onClick={async () => {
                       const added = await addBook({ title: book.title, author: book.author, year: book.year, coverUrl: book.coverUrl, coverSource: book.coverUrl ? "openlibrary" : "none", pages: book.pages, language: "English", status: "want", tags: book.categories?.slice(0, 3).map(t => t.toLowerCase()) ?? [], aiTags: book.categories?.slice(0, 5).map(t => t.toLowerCase()) ?? [] });
                       if (added) toast.success(`Shelved ${added.title}`);
-                    }} variant="outline" className="mt-auto border-primary/50 text-primary hover:bg-primary/10">Confirm add</Button>
+                    }} variant="outline" className="mt-auto border-primary/50 text-primary hover:bg-primary/10">{t("Confirm add")}</Button>
                   </div>
                 </article>
               ))}
