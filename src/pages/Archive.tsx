@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useLibrary } from "@/lib/storage";
-import { getCurrentLang } from "@/lib/i18n";
+import { getCurrentLang, useLang } from "@/lib/i18n";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles } from "lucide-react";
