@@ -521,13 +521,13 @@ export default function Ritual() {
         {/* Stats */}
         <div className="col-span-12 lg:col-span-5 space-y-6">
           <div className="ink-card rounded-sm p-6">
-            <p className="eyebrow mb-4">Last 12 weeks</p>
+            <p className="eyebrow mb-4">{t("Last 12 weeks")}</p>
             <div className="grid grid-cols-12 gap-1">
               {heat.map((d, i) => {
                 const intensity = Math.min(1, d.count / 60);
                 return (
                   <div key={i}
-                    title={`${d.date.toDateString()} — ${d.count} min`}
+                    title={`${d.date.toDateString()} — ${d.count} ${t("min")}`}
                     className="aspect-square rounded-[2px] border border-border/30 transition-transform hover:scale-110"
                     style={{
                       backgroundColor: d.count
@@ -541,14 +541,14 @@ export default function Ritual() {
           </div>
 
           <div className="ink-card rounded-sm p-6 grid grid-cols-2 gap-4">
-            <Stat label="Minutes this week" value={totalThisWeek} />
-            <Stat label="Sessions all-time" value={books.reduce((s, b) => s + (b.instances ?? []).reduce((ss, i) => ss + (i.sessions?.length ?? 0), 0), 0)} />
-            <Stat label="Average session" value={(() => {
+            <Stat label={t("Minutes this week")} value={totalThisWeek} />
+            <Stat label={t("Sessions all-time")} value={books.reduce((s, b) => s + (b.instances ?? []).reduce((ss, i) => ss + (i.sessions?.length ?? 0), 0), 0)} />
+            <Stat label={t("Average session")} value={(() => {
               const all = books.flatMap(b => (b.instances ?? []).flatMap(i => i.sessions ?? []));
               if (!all.length) return 0;
               return Math.round(all.reduce((s, x) => s + x.durationMin, 0) / all.length);
             })()} unit="m" />
-            <Stat label="Active streak" value={(() => {
+            <Stat label={t("Active streak")} value={(() => {
               const set = new Set<string>();
               books.forEach(b => (b.instances ?? []).forEach(i => (i.sessions ?? []).forEach(s => set.add(new Date(s.date).toDateString()))));
               let streak = 0;
