@@ -94,7 +94,7 @@ export default function Ritual() {
   };
 
   const smartPick = async () => {
-    if (active.length === 0) { toast.info("No books are marked Reading."); return; }
+    if (active.length === 0) { toast.info(t("No books are marked Reading.")); return; }
     setPickLoading(true);
     try {
       const payload = {
@@ -113,19 +113,19 @@ export default function Ritual() {
       if (data?.error) { toast.error(data.error); return; }
       const txt = (data?.text || "").trim();
       const m = txt.match(/\{[\s\S]*\}/);
-      if (!m) { toast.error("Couldn't parse the pick."); return; }
+      if (!m) { toast.error(t("Couldn't parse the pick.")); return; }
       const parsed = JSON.parse(m[0]);
       const found = active.find(b => b.title.toLowerCase() === String(parsed.bookTitle || "").toLowerCase())
         ?? active.find(b => String(parsed.bookTitle || "").toLowerCase().includes(b.title.toLowerCase()));
       if (found) {
         setBookId(found.id);
         if (parsed.reason) setIntention(String(parsed.reason));
-        toast.success(`Tonight: ${found.title}`);
+        toast.success(`${t("Tonight")}: ${found.title}`);
       } else {
-        toast.info("Pick made, but couldn't match it to your shelf.");
+        toast.info(t("Pick made, but couldn't match it to your shelf."));
       }
     } catch (e) {
-      toast.error("Coach unavailable.");
+      toast.error(t("Coach unavailable."));
     } finally {
       setPickLoading(false);
     }
