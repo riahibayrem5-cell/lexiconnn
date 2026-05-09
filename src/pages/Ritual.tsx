@@ -426,16 +426,16 @@ export default function Ritual() {
 
               {nudge && (
                 <div key={nudge} className="rounded-sm border border-primary/30 bg-primary/5 p-4 animate-fade-in">
-                  <p className="eyebrow text-primary/70 mb-1">Coach nudge</p>
+                  <p className="eyebrow text-primary/70 mb-1">{t("Coach nudge")}</p>
                   <p className="font-serif italic text-foreground/90">{nudge}</p>
                 </div>
               )}
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <RitualMetric icon={BookOpen} label="pages" value={pagesRead || "—"} />
-                <RitualMetric icon={Target} label="pace/hr" value={pace || "—"} />
-                <RitualMetric icon={Flame} label="focus" value={running ? "live" : "held"} />
-                <RitualMetric icon={Sparkles} label="mood" value={pulse ? MOODS[pulse-1] : "—"} />
+                <RitualMetric icon={BookOpen} label={t("pages")} value={pagesRead || "—"} />
+                <RitualMetric icon={Target} label={t("pace/hr")} value={pace || "—"} />
+                <RitualMetric icon={Flame} label={t("focus")} value={running ? t("live") : t("held")} />
+                <RitualMetric icon={Sparkles} label={t("mood")} value={pulse ? MOODS[pulse-1] : "—"} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
