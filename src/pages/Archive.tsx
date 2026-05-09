@@ -69,11 +69,11 @@ export default function Archive() {
   return (
     <div className="min-h-screen pb-24">
       <PageHeader
-        eyebrow="The Archive"
+        eyebrow={t("The Archive")}
         title=""
-        titleMain="Year of"
+        titleMain={t("Year of")}
         titleEmphasis={String(year)}
-        subtitle="A retrospective. Your reading life with a body."
+        subtitle={t("A retrospective. Your reading life with a body.")}
         right={
           <select value={year} onChange={(e) => setYear(Number(e.target.value))}
             className="bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-display">
@@ -85,7 +85,7 @@ export default function Archive() {
       <div className="px-4 sm:px-8 lg:px-14 mt-10 space-y-12">
         {/* Spine parade */}
         <section>
-          <p className="eyebrow mb-4">Volumes finished</p>
+          <p className="eyebrow mb-4">{t("Volumes finished", "Volumes finished")}</p>
           <div className="shelf-row">
             <div className="flex items-end gap-1.5 min-h-[260px] pb-1 overflow-x-auto">
               {yearBooks.map((b, i) => (
@@ -101,7 +101,7 @@ export default function Archive() {
                   </div>
                 </div>
               ))}
-              {yearBooks.length === 0 && <p className="font-display italic text-muted-foreground">No volumes closed this year.</p>}
+              {yearBooks.length === 0 && <p className="font-display italic text-muted-foreground">{t("No volumes closed this year.", "No volumes closed this year.")}</p>}
             </div>
             <div className="shelf-board" />
           </div>
@@ -109,16 +109,16 @@ export default function Archive() {
 
         {/* Stats grid */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Stat label="Books" value={yearBooks.length} />
-          <Stat label="Pages" value={totalPages} />
-          <Stat label="Hours (est.)" value={hours} />
-          <Stat label="Dominant arc" value={dominantArc} />
+          <Stat label={t("Books")} value={yearBooks.length} />
+          <Stat label={t("Pages")} value={totalPages} />
+          <Stat label={t("Hours (est.)", "Hours (est.)")} value={hours} />
+          <Stat label={t("Dominant arc", "Dominant arc")} value={dominantArc} />
         </section>
 
         {/* Top + paragraph */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="ink-card rounded-sm p-6">
-            <p className="eyebrow mb-2">Highest rated</p>
+            <p className="eyebrow mb-2">{t("Highest rated", "Highest rated")}</p>
             {top ? (
               <>
                 <p className="font-display text-3xl text-foreground">{top.title}</p>
@@ -127,14 +127,14 @@ export default function Archive() {
             ) : <p className="italic text-muted-foreground">—</p>}
           </div>
           <div className="ink-card rounded-sm p-6">
-            <p className="eyebrow mb-2">Most-quoted author</p>
+            <p className="eyebrow mb-2">{t("Most-quoted author", "Most-quoted author")}</p>
             <p className="font-display text-3xl text-foreground">{mostQuoted}</p>
           </div>
         </section>
 
         {hardestHit && (
           <section className="ink-card rounded-sm p-8">
-            <p className="eyebrow mb-3">The line that hit hardest</p>
+            <p className="eyebrow mb-3">{t("The line that hit hardest", "The line that hit hardest")}</p>
             <blockquote className="font-display text-3xl italic leading-snug text-foreground">"{hardestHit.text}"</blockquote>
             <p className="mt-4 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/80">
               {hardestHit.book.title} · {hardestHit.book.author}
@@ -143,11 +143,11 @@ export default function Archive() {
         )}
 
         <section className="ink-card rounded-sm p-8 space-y-4">
-          <p className="eyebrow">Your reading identity, this year</p>
+          <p className="eyebrow">{t("Your reading identity, this year", "Your reading identity, this year")}</p>
           <Button onClick={generateParagraph} disabled={loading}
             className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
             {loading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
-            Generate
+            {t("Generate")}
           </Button>
           {paragraph && (
             <p className="font-serif text-lg leading-relaxed text-foreground italic whitespace-pre-wrap">{paragraph}</p>
