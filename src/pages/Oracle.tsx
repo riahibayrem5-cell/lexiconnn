@@ -346,7 +346,7 @@ export default function Oracle() {
         }
       }
     } catch (e: any) {
-      toast.error(e.message ?? "Oracle silent");
+      toast.error(e.message ?? t("Oracle silent"));
     } finally {
       setLoading(false);
     }
