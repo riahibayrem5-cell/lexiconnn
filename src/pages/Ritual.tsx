@@ -440,32 +440,32 @@ export default function Ritual() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="eyebrow mb-1">Page from</p>
+                  <p className="eyebrow mb-1">{t("Page from")}</p>
                   <Input value={pagesStart} onChange={(e) => setPagesStart(e.target.value)} className="bg-input/40 mono" />
                 </div>
                 <div>
-                  <p className="eyebrow mb-1">Page to</p>
+                  <p className="eyebrow mb-1">{t("Page to")}</p>
                   <Input value={pagesEnd} onChange={(e) => setPagesEnd(e.target.value)} className="bg-input/40 mono" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Session intention</p>
+                <p className="eyebrow">{t("Session intention")}</p>
                 <Input value={intention} onChange={(e) => setIntention(e.target.value)} className="bg-input/40 border-border-strong/30 font-serif italic" />
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Mid-session capture</p>
+                <p className="eyebrow">{t("Mid-session capture")}</p>
                 <div className="flex gap-2">
                   <Input value={quoteFlash} onChange={(e) => setQuoteFlash(e.target.value)}
-                    placeholder="A line you must keep…"
+                    placeholder={t("A line you must keep…")}
                     className="bg-input/40 border-border-strong/30 font-serif italic" />
                   <Button
                     onClick={() => {
                       if (!quoteFlash.trim() || !bookId) return;
                       addQuote(bookId, { text: quoteFlash, resonance: "beautiful-language" });
                       setQuoteFlash("");
-                      toast.success("Quote saved");
+                      toast.success(t("Quote saved"));
                     }}
                     variant="outline" className="border-primary/60 text-primary"
                   >
@@ -475,7 +475,7 @@ export default function Ritual() {
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Mood pulse</p>
+                <p className="eyebrow">{t("Mood pulse")}</p>
                 <div className="flex gap-2">
                   {[1,2,3,4,5].map(n => (
                     <button key={n} onClick={() => setPulse(n)}
@@ -488,9 +488,9 @@ export default function Ritual() {
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Closing thought (becomes a journal entry)</p>
+                <p className="eyebrow">{t("Closing thought (becomes a journal entry)")}</p>
                 <Textarea rows={3} value={endNote} onChange={(e) => setEndNote(e.target.value)}
-                  placeholder="What surprised you? What are you thinking about? Energy 1–5?"
+                  placeholder={t("What surprised you? What are you thinking about? Energy 1–5?")}
                   className="bg-input/40 border-border-strong/30 font-serif italic" />
               </div>
 
