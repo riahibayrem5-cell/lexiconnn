@@ -339,7 +339,7 @@ export default function Ritual() {
         {/* Timer */}
         <div className="col-span-12 lg:col-span-7 luxury-panel rounded-sm p-8 space-y-6">
           {active.length === 0 && (
-            <p className="italic text-muted-foreground">No book is currently being read. Set one to "Reading" first.</p>
+            <p className="italic text-muted-foreground">{t("No book is currently being read. Set one to \"Reading\" first.")}</p>
           )}
           {active.length > 0 && (
             <>
@@ -347,19 +347,19 @@ export default function Ritual() {
               <div className="rounded-sm border border-primary/20 bg-primary/5 p-4 space-y-3">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="eyebrow text-primary/70">Coach</p>
-                    <p className="font-serif italic text-sm text-foreground/80">Tell me how you feel and how long you have.</p>
+                    <p className="eyebrow text-primary/70">{t("Coach")}</p>
+                    <p className="font-serif italic text-sm text-foreground/80">{t("Tell me how you feel and how long you have.")}</p>
                   </div>
                   <Button onClick={smartPick} disabled={pickLoading} variant="outline" className="border-primary/60 text-primary">
                     {pickLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Wand2 className="h-4 w-4 mr-2" />}
-                    Pick for me
+                    {t("Pick for me")}
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_140px] gap-3">
                   <Input
                     value={moodPre}
                     onChange={(e) => setMoodPre(e.target.value)}
-                    placeholder="restless · curious · exhausted · in the mood for something heavy…"
+                    placeholder={t("restless · curious · exhausted · in the mood for something heavy…")}
                     className="bg-input/40 border-border-strong/30 font-serif italic"
                   />
                   <div className="flex items-center gap-2">
@@ -368,7 +368,7 @@ export default function Ritual() {
                       onChange={(e) => setPlanMin(Math.max(5, Math.min(180, Number(e.target.value) || 30)))}
                       className="bg-input/40 border-border-strong/30 mono"
                     />
-                    <span className="mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground">min</span>
+                    <span className="mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground">{t("min")}</span>
                   </div>
                 </div>
               </div>
