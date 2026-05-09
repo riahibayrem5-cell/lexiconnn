@@ -62,7 +62,7 @@ export default function Archive() {
       if (error) throw error;
       if (data?.error) toast.error(data.error);
       else setParagraph(data?.text ?? "");
-    } catch (e: any) { toast.error(e.message ?? "Oracle silent"); }
+    } catch (e: any) { toast.error(e.message ?? t("Oracle silent")); }
     finally { setLoading(false); }
   };
 
