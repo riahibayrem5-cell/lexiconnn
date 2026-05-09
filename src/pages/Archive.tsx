@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export default function Archive() {
+  const { t } = useLang();
   const { books } = useLibrary();
   const [year, setYear] = useState(new Date().getFullYear());
   const [paragraph, setParagraph] = useState("");
