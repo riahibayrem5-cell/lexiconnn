@@ -423,7 +423,7 @@ export default function Oracle() {
               onClick={() => setShowSettings(s => !s)}
               className="flex items-center gap-2 text-xs mono uppercase tracking-[0.2em] text-primary hover:text-primary-glow"
             >
-              <Settings2 className="h-3.5 w-3.5" /> Voice · Lens · Model · Depth
+              <Settings2 className="h-3.5 w-3.5" /> {t("Voice · Lens · Model · Depth")}
               <span className="ml-auto text-muted-foreground normal-case tracking-normal font-serif italic">
                 {PERSONAS.find(p => p.v === persona)?.l} · {LENSES.find(l => l.v === lens)?.l} · {MODELS.find(m => m.v === model)?.l} · {REASONING.find(r => r.v === reasoning)?.l}
               </span>
