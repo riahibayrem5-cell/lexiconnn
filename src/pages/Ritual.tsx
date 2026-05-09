@@ -19,6 +19,7 @@ function format(sec: number) {
 const MOODS = ["heavy", "wary", "even", "lifted", "elated"] as const;
 
 export default function Ritual() {
+  const { t } = useLang();
   const { books, addSession, addQuote, addJournal } = useLibrary();
   const active = useMemo(
     () => books.filter(b => b.status === "reading" || b.status === "rereading"),
