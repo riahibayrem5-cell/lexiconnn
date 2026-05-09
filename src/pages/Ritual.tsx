@@ -157,7 +157,7 @@ export default function Ritual() {
     if (!bookId) { setRunning(false); setSec(0); return; }
     if (sec < 5) {
       setRunning(false);
-      toast.info("Session too short to log.");
+      toast.info(t("Session too short to log."));
       return;
     }
     const durationMin = Math.max(1, Math.round(sec / 60));
@@ -170,7 +170,7 @@ export default function Ritual() {
       note: [intention && `Intention: ${intention}`, endNote].filter(Boolean).join("\n") || undefined,
     });
     if (endNote) addJournal(bookId, endNote);
-    toast.success(`Session logged — ${durationMin} min`);
+    toast.success(`${t("Session logged")} — ${durationMin} ${t("min")}`);
     setRunning(false);
     await fetchReflection(durationMin);
   };
