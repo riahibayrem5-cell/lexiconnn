@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLibrary } from "@/lib/storage";
-import { getCurrentLang } from "@/lib/i18n";
+import { getCurrentLang, useLang } from "@/lib/i18n";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ function format(sec: number) {
 const MOODS = ["heavy", "wary", "even", "lifted", "elated"] as const;
 
 export default function Ritual() {
+  const { t } = useLang();
   const { books, addSession, addQuote, addJournal } = useLibrary();
   const active = useMemo(
     () => books.filter(b => b.status === "reading" || b.status === "rereading"),
@@ -93,7 +94,7 @@ export default function Ritual() {
   };
 
   const smartPick = async () => {
-    if (active.length === 0) { toast.info("No books are marked Reading."); return; }
+    if (active.length === 0) { toast.info(t("No books are marked Reading.")); return; }
     setPickLoading(true);
     try {
       const payload = {
@@ -112,19 +113,19 @@ export default function Ritual() {
       if (data?.error) { toast.error(data.error); return; }
       const txt = (data?.text || "").trim();
       const m = txt.match(/\{[\s\S]*\}/);
-      if (!m) { toast.error("Couldn't parse the pick."); return; }
+      if (!m) { toast.error(t("Couldn't parse the pick.")); return; }
       const parsed = JSON.parse(m[0]);
       const found = active.find(b => b.title.toLowerCase() === String(parsed.bookTitle || "").toLowerCase())
         ?? active.find(b => String(parsed.bookTitle || "").toLowerCase().includes(b.title.toLowerCase()));
       if (found) {
         setBookId(found.id);
         if (parsed.reason) setIntention(String(parsed.reason));
-        toast.success(`Tonight: ${found.title}`);
+        toast.success(`${t("Tonight")}: ${found.title}`);
       } else {
-        toast.info("Pick made, but couldn't match it to your shelf.");
+        toast.info(t("Pick made, but couldn't match it to your shelf."));
       }
     } catch (e) {
-      toast.error("Coach unavailable.");
+      toast.error(t("Coach unavailable."));
     } finally {
       setPickLoading(false);
     }
@@ -156,7 +157,7 @@ export default function Ritual() {
     if (!bookId) { setRunning(false); setSec(0); return; }
     if (sec < 5) {
       setRunning(false);
-      toast.info("Session too short to log.");
+      toast.info(t("Session too short to log."));
       return;
     }
     const durationMin = Math.max(1, Math.round(sec / 60));
@@ -169,7 +170,7 @@ export default function Ritual() {
       note: [intention && `Intention: ${intention}`, endNote].filter(Boolean).join("\n") || undefined,
     });
     if (endNote) addJournal(bookId, endNote);
-    toast.success(`Session logged — ${durationMin} min`);
+    toast.success(`${t("Session logged")} — ${durationMin} ${t("min")}`);
     setRunning(false);
     await fetchReflection(durationMin);
   };
@@ -214,7 +215,7 @@ export default function Ritual() {
         <button
           onClick={() => setFocus(false)}
           className="absolute top-5 right-5 z-10 p-2 rounded-sm border border-border/40 text-muted-foreground hover:text-primary hover:border-primary/50"
-          aria-label="Exit focus mode"
+          aria-label={t("Exit focus mode")}
         >
           <Minimize2 className="h-4 w-4" />
         </button>
@@ -247,7 +248,7 @@ export default function Ritual() {
                 {format(sec)}
               </div>
               <div className="mt-2 mono text-[0.6rem] tracking-[0.3em] uppercase text-muted-foreground">
-                {running ? "READING" : sec > 0 ? "PAUSED" : "READY"} · GOAL {planMin}M
+                {running ? t("READING") : sec > 0 ? t("PAUSED") : t("READY")} · {t("GOAL")} {planMin}{t("M")}
               </div>
               {selectedBook && (
                 <p className="mt-6 font-serif italic text-foreground/80 max-w-xs mx-auto">
@@ -267,7 +268,7 @@ export default function Ritual() {
           {/* Nudge */}
           {nudge && (
             <div key={nudge} className="mt-5 max-w-md text-center font-serif italic text-primary/90 animate-fade-in">
-              <p className="eyebrow text-primary/60 mb-1 not-italic">Coach</p>
+              <p className="eyebrow text-primary/60 mb-1 not-italic">{t("Coach")}</p>
               <p>{nudge}</p>
             </div>
           )}
@@ -276,15 +277,15 @@ export default function Ritual() {
           <div className="mt-8 flex gap-3">
             {!running ? (
               <Button onClick={() => setRunning(true)} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-                <Play className="h-4 w-4 mr-2" /> {sec > 0 ? "Resume" : "Begin"}
+                <Play className="h-4 w-4 mr-2" /> {sec > 0 ? t("Resume") : t("Begin")}
               </Button>
             ) : (
               <Button onClick={() => setRunning(false)} variant="outline" className="border-primary/60 text-primary">
-                <Pause className="h-4 w-4 mr-2" /> Pause
+                <Pause className="h-4 w-4 mr-2" /> {t("Pause")}
               </Button>
             )}
             <Button onClick={stop} variant="outline" className="border-border-strong/60">
-              <Square className="h-4 w-4 mr-2" /> Close
+              <Square className="h-4 w-4 mr-2" /> {t("Close")}
             </Button>
           </div>
 
@@ -293,7 +294,7 @@ export default function Ritual() {
             <Input
               value={quoteFlash}
               onChange={(e) => setQuoteFlash(e.target.value)}
-              placeholder="A line you must keep…"
+              placeholder={t("A line you must keep…")}
               className="bg-background/60 backdrop-blur border-border/40 font-serif italic"
             />
             <Button
@@ -301,7 +302,7 @@ export default function Ritual() {
                 if (!quoteFlash.trim() || !bookId) return;
                 addQuote(bookId, { text: quoteFlash, resonance: "beautiful-language" });
                 setQuoteFlash("");
-                toast.success("Quote saved");
+                toast.success(t("Quote saved"));
               }}
               variant="outline" className="border-primary/60 text-primary"
             >
@@ -327,18 +328,18 @@ export default function Ritual() {
   return (
     <div className="min-h-screen pb-24">
       <PageHeader
-        eyebrow="The Ritual"
+        eyebrow={t("The Ritual")}
         title=""
-        titleMain="An hour,"
-        titleEmphasis="at the desk"
-        subtitle="Sit. Begin the timer. The page is enough."
+        titleMain={t("An hour,")}
+        titleEmphasis={t("at the desk")}
+        subtitle={t("Sit. Begin the timer. The page is enough.")}
       />
 
       <div className="px-4 sm:px-8 lg:px-14 mt-8 grid grid-cols-12 gap-8">
         {/* Timer */}
         <div className="col-span-12 lg:col-span-7 luxury-panel rounded-sm p-8 space-y-6">
           {active.length === 0 && (
-            <p className="italic text-muted-foreground">No book is currently being read. Set one to "Reading" first.</p>
+            <p className="italic text-muted-foreground">{t("No book is currently being read. Set one to \"Reading\" first.")}</p>
           )}
           {active.length > 0 && (
             <>
@@ -346,19 +347,19 @@ export default function Ritual() {
               <div className="rounded-sm border border-primary/20 bg-primary/5 p-4 space-y-3">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="eyebrow text-primary/70">Coach</p>
-                    <p className="font-serif italic text-sm text-foreground/80">Tell me how you feel and how long you have.</p>
+                    <p className="eyebrow text-primary/70">{t("Coach")}</p>
+                    <p className="font-serif italic text-sm text-foreground/80">{t("Tell me how you feel and how long you have.")}</p>
                   </div>
                   <Button onClick={smartPick} disabled={pickLoading} variant="outline" className="border-primary/60 text-primary">
                     {pickLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Wand2 className="h-4 w-4 mr-2" />}
-                    Pick for me
+                    {t("Pick for me")}
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_140px] gap-3">
                   <Input
                     value={moodPre}
                     onChange={(e) => setMoodPre(e.target.value)}
-                    placeholder="restless · curious · exhausted · in the mood for something heavy…"
+                    placeholder={t("restless · curious · exhausted · in the mood for something heavy…")}
                     className="bg-input/40 border-border-strong/30 font-serif italic"
                   />
                   <div className="flex items-center gap-2">
@@ -367,7 +368,7 @@ export default function Ritual() {
                       onChange={(e) => setPlanMin(Math.max(5, Math.min(180, Number(e.target.value) || 30)))}
                       className="bg-input/40 border-border-strong/30 mono"
                     />
-                    <span className="mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground">min</span>
+                    <span className="mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground">{t("min")}</span>
                   </div>
                 </div>
               </div>
@@ -375,12 +376,12 @@ export default function Ritual() {
               <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-5 items-end">
                 {selectedBook?.coverUrl && <img src={selectedBook.coverUrl} alt={`${selectedBook.title} cover`} className="w-28 aspect-[3/4] object-cover rounded-sm shadow-card" referrerPolicy="no-referrer" />}
                 <div>
-                <p className="eyebrow mb-2">Volume</p>
+                <p className="eyebrow mb-2">{t("Volume")}</p>
                 <select value={bookId} onChange={(e) => setBookId(e.target.value)}
                   className="w-full bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-serif">
                   {active.map(b => <option key={b.id} value={b.id}>{b.title} — {b.author}</option>)}
                 </select>
-                <p className="mt-3 font-serif italic text-muted-foreground">Tonight: {intention}</p>
+                <p className="mt-3 font-serif italic text-muted-foreground">{t("Tonight:")} {intention}</p>
                 </div>
               </div>
 
@@ -399,7 +400,7 @@ export default function Ritual() {
                   <div className="px-12 py-4">
                     <div className="font-display text-7xl text-primary tabular-nums tracking-wider">{format(sec)}</div>
                     <div className="mt-3 mono text-[0.6rem] tracking-[0.3em] uppercase text-muted-foreground">
-                      {running ? "READING" : sec > 0 ? "PAUSED" : "READY"} · GOAL {planMin}M
+                      {running ? t("READING") : sec > 0 ? t("PAUSED") : t("READY")} · {t("GOAL")} {planMin}{t("M")}
                     </div>
                   </div>
                 </div>
@@ -408,63 +409,63 @@ export default function Ritual() {
               <div className="flex justify-center gap-3 flex-wrap">
                 {!running ? (
                   <Button onClick={() => setRunning(true)} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-                    <Play className="h-4 w-4 mr-2" /> {sec > 0 ? "Resume" : "Begin"}
+                    <Play className="h-4 w-4 mr-2" /> {sec > 0 ? t("Resume") : t("Begin")}
                   </Button>
                 ) : (
                   <Button onClick={() => setRunning(false)} variant="outline" className="border-primary/60 text-primary">
-                    <Pause className="h-4 w-4 mr-2" /> Pause
+                    <Pause className="h-4 w-4 mr-2" /> {t("Pause")}
                   </Button>
                 )}
                 <Button onClick={stop} variant="outline" className="border-border-strong/60">
-                  <Square className="h-4 w-4 mr-2" /> Close session
+                  <Square className="h-4 w-4 mr-2" /> {t("Close session")}
                 </Button>
                 <Button onClick={() => setFocus(true)} variant="outline" className="border-border-strong/60">
-                  <Maximize2 className="h-4 w-4 mr-2" /> Focus mode
+                  <Maximize2 className="h-4 w-4 mr-2" /> {t("Focus mode")}
                 </Button>
               </div>
 
               {nudge && (
                 <div key={nudge} className="rounded-sm border border-primary/30 bg-primary/5 p-4 animate-fade-in">
-                  <p className="eyebrow text-primary/70 mb-1">Coach nudge</p>
+                  <p className="eyebrow text-primary/70 mb-1">{t("Coach nudge")}</p>
                   <p className="font-serif italic text-foreground/90">{nudge}</p>
                 </div>
               )}
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <RitualMetric icon={BookOpen} label="pages" value={pagesRead || "—"} />
-                <RitualMetric icon={Target} label="pace/hr" value={pace || "—"} />
-                <RitualMetric icon={Flame} label="focus" value={running ? "live" : "held"} />
-                <RitualMetric icon={Sparkles} label="mood" value={pulse ? MOODS[pulse-1] : "—"} />
+                <RitualMetric icon={BookOpen} label={t("pages")} value={pagesRead || "—"} />
+                <RitualMetric icon={Target} label={t("pace/hr")} value={pace || "—"} />
+                <RitualMetric icon={Flame} label={t("focus")} value={running ? t("live") : t("held")} />
+                <RitualMetric icon={Sparkles} label={t("mood")} value={pulse ? MOODS[pulse-1] : "—"} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="eyebrow mb-1">Page from</p>
+                  <p className="eyebrow mb-1">{t("Page from")}</p>
                   <Input value={pagesStart} onChange={(e) => setPagesStart(e.target.value)} className="bg-input/40 mono" />
                 </div>
                 <div>
-                  <p className="eyebrow mb-1">Page to</p>
+                  <p className="eyebrow mb-1">{t("Page to")}</p>
                   <Input value={pagesEnd} onChange={(e) => setPagesEnd(e.target.value)} className="bg-input/40 mono" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Session intention</p>
+                <p className="eyebrow">{t("Session intention")}</p>
                 <Input value={intention} onChange={(e) => setIntention(e.target.value)} className="bg-input/40 border-border-strong/30 font-serif italic" />
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Mid-session capture</p>
+                <p className="eyebrow">{t("Mid-session capture")}</p>
                 <div className="flex gap-2">
                   <Input value={quoteFlash} onChange={(e) => setQuoteFlash(e.target.value)}
-                    placeholder="A line you must keep…"
+                    placeholder={t("A line you must keep…")}
                     className="bg-input/40 border-border-strong/30 font-serif italic" />
                   <Button
                     onClick={() => {
                       if (!quoteFlash.trim() || !bookId) return;
                       addQuote(bookId, { text: quoteFlash, resonance: "beautiful-language" });
                       setQuoteFlash("");
-                      toast.success("Quote saved");
+                      toast.success(t("Quote saved"));
                     }}
                     variant="outline" className="border-primary/60 text-primary"
                   >
@@ -474,7 +475,7 @@ export default function Ritual() {
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Mood pulse</p>
+                <p className="eyebrow">{t("Mood pulse")}</p>
                 <div className="flex gap-2">
                   {[1,2,3,4,5].map(n => (
                     <button key={n} onClick={() => setPulse(n)}
@@ -487,28 +488,28 @@ export default function Ritual() {
               </div>
 
               <div className="space-y-2">
-                <p className="eyebrow">Closing thought (becomes a journal entry)</p>
+                <p className="eyebrow">{t("Closing thought (becomes a journal entry)")}</p>
                 <Textarea rows={3} value={endNote} onChange={(e) => setEndNote(e.target.value)}
-                  placeholder="What surprised you? What are you thinking about? Energy 1–5?"
+                  placeholder={t("What surprised you? What are you thinking about? Energy 1–5?")}
                   className="bg-input/40 border-border-strong/30 font-serif italic" />
               </div>
 
               {(reflectLoading || reflection) && (
                 <div className="rounded-sm border border-primary/30 bg-primary/5 p-5 animate-fade-in space-y-3">
                   <div className="flex items-center justify-between">
-                    <p className="eyebrow text-primary/70">Coach reflection</p>
+                    <p className="eyebrow text-primary/70">{t("Coach reflection")}</p>
                     {reflection && (
-                      <Button size="sm" variant="ghost" className="text-primary" onClick={() => { addJournal(bookId, reflection); toast.success("Saved to journal"); }}>
-                        Save to journal
+                      <Button size="sm" variant="ghost" className="text-primary" onClick={() => { addJournal(bookId, reflection); toast.success(t("Saved to journal")); }}>
+                        {t("Save to journal")}
                       </Button>
                     )}
                   </div>
                   {reflectLoading
-                    ? <p className="font-serif italic text-muted-foreground flex items-center gap-2"><Loader2 className="h-3 w-3 animate-spin" /> Reading your session…</p>
+                    ? <p className="font-serif italic text-muted-foreground flex items-center gap-2"><Loader2 className="h-3 w-3 animate-spin" /> {t("Reading your session…")}</p>
                     : <p className="font-serif italic text-foreground/90 leading-relaxed">{reflection}</p>}
                   {reflection && (
                     <Button size="sm" variant="outline" className="border-border-strong/40" onClick={resetSession}>
-                      Begin a new session
+                      {t("Begin a new session")}
                     </Button>
                   )}
                 </div>
@@ -520,13 +521,13 @@ export default function Ritual() {
         {/* Stats */}
         <div className="col-span-12 lg:col-span-5 space-y-6">
           <div className="ink-card rounded-sm p-6">
-            <p className="eyebrow mb-4">Last 12 weeks</p>
+            <p className="eyebrow mb-4">{t("Last 12 weeks")}</p>
             <div className="grid grid-cols-12 gap-1">
               {heat.map((d, i) => {
                 const intensity = Math.min(1, d.count / 60);
                 return (
                   <div key={i}
-                    title={`${d.date.toDateString()} — ${d.count} min`}
+                    title={`${d.date.toDateString()} — ${d.count} ${t("min")}`}
                     className="aspect-square rounded-[2px] border border-border/30 transition-transform hover:scale-110"
                     style={{
                       backgroundColor: d.count
@@ -540,14 +541,14 @@ export default function Ritual() {
           </div>
 
           <div className="ink-card rounded-sm p-6 grid grid-cols-2 gap-4">
-            <Stat label="Minutes this week" value={totalThisWeek} />
-            <Stat label="Sessions all-time" value={books.reduce((s, b) => s + (b.instances ?? []).reduce((ss, i) => ss + (i.sessions?.length ?? 0), 0), 0)} />
-            <Stat label="Average session" value={(() => {
+            <Stat label={t("Minutes this week")} value={totalThisWeek} />
+            <Stat label={t("Sessions all-time")} value={books.reduce((s, b) => s + (b.instances ?? []).reduce((ss, i) => ss + (i.sessions?.length ?? 0), 0), 0)} />
+            <Stat label={t("Average session")} value={(() => {
               const all = books.flatMap(b => (b.instances ?? []).flatMap(i => i.sessions ?? []));
               if (!all.length) return 0;
               return Math.round(all.reduce((s, x) => s + x.durationMin, 0) / all.length);
             })()} unit="m" />
-            <Stat label="Active streak" value={(() => {
+            <Stat label={t("Active streak")} value={(() => {
               const set = new Set<string>();
               books.forEach(b => (b.instances ?? []).forEach(i => (i.sessions ?? []).forEach(s => set.add(new Date(s.date).toDateString()))));
               let streak = 0;

@@ -98,7 +98,7 @@ const PREFS_KEY = "lexicon-oracle-prefs";
 export default function Oracle() {
   const { books, addBook } = useLibrary();
   const { settings } = useAdminSettings();
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const [mode, setMode] = useState<Mode>("chat");
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState<string>("");
@@ -236,9 +236,9 @@ export default function Oracle() {
         }),
       });
 
-      if (resp.status === 429) { toast.error("Rate limit reached. Try again in a moment."); setStreaming(false); return; }
-      if (resp.status === 402) { toast.error("AI credits exhausted. Add credits in Settings → Workspace → Usage."); setStreaming(false); return; }
-      if (!resp.ok || !resp.body) { toast.error("The Oracle is silent."); setStreaming(false); return; }
+      if (resp.status === 429) { toast.error(t("Rate limit reached. Try again in a moment.")); setStreaming(false); return; }
+      if (resp.status === 402) { toast.error(t("AI credits exhausted. Add credits in Settings → Workspace → Usage.")); setStreaming(false); return; }
+      if (!resp.ok || !resp.body) { toast.error(t("The Oracle is silent.")); setStreaming(false); return; }
 
       const reader = resp.body.getReader();
       const decoder = new TextDecoder();
@@ -324,13 +324,12 @@ export default function Oracle() {
       } else if (mode === "compare") {
         const a = books.find(b => b.id === bookA);
         const b = books.find(bb => bb.id === bookB);
-        if (!a || !b) { toast.error("Pick two books"); setLoading(false); return; }
+        if (!a || !b) { toast.error(t("Pick two books")); setLoading(false); return; }
         payload.input = {
           a: { title: a.title, author: a.author, rating: a.instances[a.instances.length - 1]?.rating, tags: a.tags, quotes: a.instances[a.instances.length - 1]?.quotes.map(q => q.text).slice(0, 3) ?? [] },
           b: { title: b.title, author: b.author, rating: b.instances[b.instances.length - 1]?.rating, tags: b.tags, quotes: b.instances[b.instances.length - 1]?.quotes.map(q => q.text).slice(0, 3) ?? [] },
         };
       }
-
       const { data, error } = await supabase.functions.invoke("oracle", { body: { ...payload, language: lang } });
       if (error) throw error;
       if (data?.error) toast.error(data.error);
@@ -347,7 +346,7 @@ export default function Oracle() {
         }
       }
     } catch (e: any) {
-      toast.error(e.message ?? "Oracle silent");
+      toast.error(e.message ?? t("Oracle silent"));
     } finally {
       setLoading(false);
     }
@@ -356,20 +355,20 @@ export default function Oracle() {
   return (
     <div className="min-h-screen pb-24">
       <PageHeader
-        eyebrow="The Concierge"
+        eyebrow={t("The Concierge")}
         title=""
-        titleMain="Ask,"
-        titleEmphasis="earnestly"
-        subtitle="An AI fluent in your library. Tune voice, lens, model and depth — then converse."
+        titleMain={t("Ask,")}
+        titleEmphasis={t("earnestly")}
+        subtitle={t("An AI fluent in your library. Tune voice, lens, model and depth — then converse.")}
       />
 
       <div className="px-4 sm:px-8 lg:px-14 mt-8 grid grid-cols-12 gap-8">
         <aside className="col-span-12 lg:col-span-3 space-y-2">
           <div className="luxury-panel rounded-sm p-4 space-y-3 mb-4">
-            <p className="eyebrow">Librarian agent</p>
+            <p className="eyebrow">{t("Librarian agent")}</p>
             <div className="flex gap-2">
               <Input value={agentInput} onChange={(e) => setAgentInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && runAgent()}
-                placeholder="Search or add a book…" className="bg-input/50 font-serif" />
+                placeholder={t("Search or add a book…")} className="bg-input/50 font-serif" />
               <Button onClick={runAgent} disabled={agentLoading} variant="outline" className="border-primary/60 text-primary">
                 {agentLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
               </Button>
@@ -389,7 +388,7 @@ export default function Oracle() {
                         }}
                         className="mt-1 mono text-[0.5rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow transition-colors"
                       >
-                        Confirm add
+                        {t("Confirm add")}
                       </button>
                     </div>
                   </div>
@@ -424,7 +423,7 @@ export default function Oracle() {
               onClick={() => setShowSettings(s => !s)}
               className="flex items-center gap-2 text-xs mono uppercase tracking-[0.2em] text-primary hover:text-primary-glow"
             >
-              <Settings2 className="h-3.5 w-3.5" /> Voice · Lens · Model · Depth
+              <Settings2 className="h-3.5 w-3.5" /> {t("Voice · Lens · Model · Depth")}
               <span className="ml-auto text-muted-foreground normal-case tracking-normal font-serif italic">
                 {PERSONAS.find(p => p.v === persona)?.l} · {LENSES.find(l => l.v === lens)?.l} · {MODELS.find(m => m.v === model)?.l} · {REASONING.find(r => r.v === reasoning)?.l}
               </span>
@@ -432,7 +431,7 @@ export default function Oracle() {
             {showSettings && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-border/40">
                 <div>
-                  <p className="eyebrow mb-2">Voice</p>
+                  <p className="eyebrow mb-2">{t("Voice")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {PERSONAS.map(p => (
                       <button key={p.v} onClick={() => setPersona(p.v)} title={p.d}
@@ -444,7 +443,7 @@ export default function Oracle() {
                   </div>
                 </div>
                 <div>
-                  <p className="eyebrow mb-2">Lens</p>
+                  <p className="eyebrow mb-2">{t("Lens")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {LENSES.map(l => (
                       <button key={l.v} onClick={() => setLens(l.v)}
@@ -677,7 +676,7 @@ export default function Oracle() {
                     <Button onClick={async () => {
                       const added = await addBook({ title: book.title, author: book.author, year: book.year, coverUrl: book.coverUrl, coverSource: book.coverUrl ? "openlibrary" : "none", pages: book.pages, language: "English", status: "want", tags: book.categories?.slice(0, 3).map(t => t.toLowerCase()) ?? [], aiTags: book.categories?.slice(0, 5).map(t => t.toLowerCase()) ?? [] });
                       if (added) toast.success(`Shelved ${added.title}`);
-                    }} variant="outline" className="mt-auto border-primary/50 text-primary hover:bg-primary/10">Confirm add</Button>
+                    }} variant="outline" className="mt-auto border-primary/50 text-primary hover:bg-primary/10">{t("Confirm add")}</Button>
                   </div>
                 </article>
               ))}
