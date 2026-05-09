@@ -236,9 +236,9 @@ export default function Oracle() {
         }),
       });
 
-      if (resp.status === 429) { toast.error("Rate limit reached. Try again in a moment."); setStreaming(false); return; }
-      if (resp.status === 402) { toast.error("AI credits exhausted. Add credits in Settings → Workspace → Usage."); setStreaming(false); return; }
-      if (!resp.ok || !resp.body) { toast.error("The Oracle is silent."); setStreaming(false); return; }
+      if (resp.status === 429) { toast.error(t("Rate limit reached. Try again in a moment.")); setStreaming(false); return; }
+      if (resp.status === 402) { toast.error(t("AI credits exhausted. Add credits in Settings → Workspace → Usage.")); setStreaming(false); return; }
+      if (!resp.ok || !resp.body) { toast.error(t("The Oracle is silent.")); setStreaming(false); return; }
 
       const reader = resp.body.getReader();
       const decoder = new TextDecoder();
