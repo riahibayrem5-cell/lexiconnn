@@ -268,7 +268,7 @@ export default function Ritual() {
           {/* Nudge */}
           {nudge && (
             <div key={nudge} className="mt-5 max-w-md text-center font-serif italic text-primary/90 animate-fade-in">
-              <p className="eyebrow text-primary/60 mb-1 not-italic">Coach</p>
+              <p className="eyebrow text-primary/60 mb-1 not-italic">{t("Coach")}</p>
               <p>{nudge}</p>
             </div>
           )}
