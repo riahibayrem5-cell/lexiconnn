@@ -497,19 +497,19 @@ export default function Ritual() {
               {(reflectLoading || reflection) && (
                 <div className="rounded-sm border border-primary/30 bg-primary/5 p-5 animate-fade-in space-y-3">
                   <div className="flex items-center justify-between">
-                    <p className="eyebrow text-primary/70">Coach reflection</p>
+                    <p className="eyebrow text-primary/70">{t("Coach reflection")}</p>
                     {reflection && (
-                      <Button size="sm" variant="ghost" className="text-primary" onClick={() => { addJournal(bookId, reflection); toast.success("Saved to journal"); }}>
-                        Save to journal
+                      <Button size="sm" variant="ghost" className="text-primary" onClick={() => { addJournal(bookId, reflection); toast.success(t("Saved to journal")); }}>
+                        {t("Save to journal")}
                       </Button>
                     )}
                   </div>
                   {reflectLoading
-                    ? <p className="font-serif italic text-muted-foreground flex items-center gap-2"><Loader2 className="h-3 w-3 animate-spin" /> Reading your session…</p>
+                    ? <p className="font-serif italic text-muted-foreground flex items-center gap-2"><Loader2 className="h-3 w-3 animate-spin" /> {t("Reading your session…")}</p>
                     : <p className="font-serif italic text-foreground/90 leading-relaxed">{reflection}</p>}
                   {reflection && (
                     <Button size="sm" variant="outline" className="border-border-strong/40" onClick={resetSession}>
-                      Begin a new session
+                      {t("Begin a new session")}
                     </Button>
                   )}
                 </div>
