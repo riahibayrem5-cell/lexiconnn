@@ -34,6 +34,7 @@ interface Props {
 }
 
 export function EditionSourceDialog({ open, onOpenChange, initialQuery, onApply, target }: Props) {
+  const { t } = useLang();
   const [query, setQuery] = useState(initialQuery);
   const [source, setSource] = useState<EditionSource>("google");
   const [results, setResults] = useState<OLResult[]>([]);
