@@ -215,7 +215,7 @@ export default function Ritual() {
         <button
           onClick={() => setFocus(false)}
           className="absolute top-5 right-5 z-10 p-2 rounded-sm border border-border/40 text-muted-foreground hover:text-primary hover:border-primary/50"
-          aria-label="Exit focus mode"
+          aria-label={t("Exit focus mode")}
         >
           <Minimize2 className="h-4 w-4" />
         </button>
