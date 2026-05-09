@@ -400,7 +400,7 @@ export default function Ritual() {
                   <div className="px-12 py-4">
                     <div className="font-display text-7xl text-primary tabular-nums tracking-wider">{format(sec)}</div>
                     <div className="mt-3 mono text-[0.6rem] tracking-[0.3em] uppercase text-muted-foreground">
-                      {running ? "READING" : sec > 0 ? "PAUSED" : "READY"} · GOAL {planMin}M
+                      {running ? t("READING") : sec > 0 ? t("PAUSED") : t("READY")} · {t("GOAL")} {planMin}{t("M")}
                     </div>
                   </div>
                 </div>
