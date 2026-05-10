@@ -470,18 +470,18 @@ export default function BookBrain() {
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Sessions</p>
+            <p className="eyebrow">{t("Sessions")}</p>
             <div className="space-y-2">
               {(inst?.sessions ?? []).slice(-5).reverse().map(s => (
                 <div key={s.id} className="flex items-center gap-3 text-xs mono text-muted-foreground">
                   <span className="text-primary">●</span>
                   <span>{new Date(s.date).toLocaleDateString()}</span>
                   <span>·</span>
-                  <span>{s.durationMin}m</span>
+                  <span>{s.durationMin}{t("M")}</span>
                 </div>
               ))}
               {(!inst || (inst.sessions ?? []).length === 0) && (
-                <p className="text-xs italic text-muted-foreground">No sessions logged yet.</p>
+                <p className="text-xs italic text-muted-foreground">{t("No sessions logged yet.")}</p>
               )}
             </div>
           </div>
