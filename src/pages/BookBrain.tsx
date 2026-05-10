@@ -704,14 +704,14 @@ export default function BookBrain() {
                       "{q.text}"
                     </blockquote>
                     <figcaption className="mt-2 ml-5 mono text-[0.65rem] tracking-[0.25em] uppercase text-muted-foreground flex items-center gap-3 flex-wrap">
-                      {q.page && <span>Pg {q.page}</span>}
-                      {q.resonance && <span className="text-primary">· {RESONANCE.find(r => r.v === q.resonance)?.l}</span>}
+                      {q.page && <span>{t("Page")} {q.page}</span>}
+                      {q.resonance && <span className="text-primary">· {t(RESONANCE.find(r => r.v === q.resonance)?.l ?? "", RESONANCE.find(r => r.v === q.resonance)?.l)}</span>}
                     </figcaption>
                     {q.note && <p className="ml-5 mt-2 italic font-serif text-muted-foreground">— {q.note}</p>}
                   </figure>
                 ))}
                 {(!inst || (inst.quotes ?? []).length === 0) && (
-                  <p className="font-display italic text-muted-foreground">The vault is empty.</p>
+                  <p className="font-display italic text-muted-foreground">{t("The vault is empty.")}</p>
                 )}
               </div>
             </TabsContent>
