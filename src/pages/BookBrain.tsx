@@ -452,10 +452,10 @@ export default function BookBrain() {
 
           <div className="ink-card rounded-sm p-5 space-y-3">
             <div className="flex items-baseline justify-between gap-2">
-              <p className="eyebrow">Spine artwork</p>
+              <p className="eyebrow">{t("Spine artwork")}</p>
               <Button onClick={generateSpine} disabled={generatingSpine} variant="ghost" size="sm" className="h-7 text-[0.6rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow">
                 {generatingSpine ? <Loader2 className="h-3 w-3 mr-1.5 animate-spin" /> : <Wand2 className="h-3 w-3 mr-1.5" />}
-                {book.spineUrl ? "Regenerate" : "Generate"}
+                {book.spineUrl ? t("Regenerate") : t("Generate")}
               </Button>
             </div>
             <div className="flex items-end justify-center gap-2 min-h-[120px] py-2">
@@ -463,7 +463,7 @@ export default function BookBrain() {
                 <img src={book.spineUrl} alt="Generated spine" className="h-28 w-auto object-contain rounded-[2px] ring-1 ring-border/50 shadow-card" />
               ) : (
                 <p className="font-serif italic text-xs text-muted-foreground text-center px-2">
-                  No custom spine yet. Generate one to see this book's unique spine on the shelf.
+                  {t("No custom spine yet. Generate one to see this book's unique spine on the shelf.")}
                 </p>
               )}
             </div>
