@@ -576,6 +576,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                 <Button onClick={() => onOpenChange(false)} variant="ghost" className="text-muted-foreground">
                   {t("Cancel")}
                 </Button>
+              </div>
             </div>
           )}
         </div>
