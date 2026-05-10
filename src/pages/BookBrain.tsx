@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLibrary } from "@/lib/storage";
-import { getCurrentLang } from "@/lib/i18n";
+import { getCurrentLang, useLang } from "@/lib/i18n";
 import { RatingDial } from "@/components/RatingDial";
 import { EmotionalArc } from "@/components/EmotionalArc";
 import { Button } from "@/components/ui/button";
