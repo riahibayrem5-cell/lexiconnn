@@ -623,30 +623,30 @@ export default function BookBrain() {
               <div className="ink-card p-5 rounded-sm space-y-3">
                 <Textarea
                   rows={3}
-                  placeholder="Paste the quote…"
+                  placeholder={t("Paste the quote…")}
                   value={quoteText}
                   onChange={(e) => setQuoteText(e.target.value)}
                   className="bg-input/40 border-border-strong/30 font-serif italic"
                 />
                 <div className="grid grid-cols-2 gap-3">
-                  <Input value={quotePage} onChange={(e) => setQuotePage(e.target.value)} placeholder="Page" className="bg-input/40 border-border-strong/30 mono text-sm" />
+                  <Input value={quotePage} onChange={(e) => setQuotePage(e.target.value)} placeholder={t("Page")} className="bg-input/40 border-border-strong/30 mono text-sm" />
                   <select value={quoteRes} onChange={(e) => setQuoteRes(e.target.value as ResonanceTag)}
                     className="bg-input/40 border border-border-strong/30 rounded-sm px-3 py-2 text-sm font-serif">
-                    {RESONANCE.map(r => <option key={r.v} value={r.v}>{r.l}</option>)}
+                    {RESONANCE.map(r => <option key={r.v} value={r.v}>{t(r.l, r.l)}</option>)}
                   </select>
                 </div>
-                <Input value={quoteNote} onChange={(e) => setQuoteNote(e.target.value)} placeholder="A personal note (optional)…"
+                <Input value={quoteNote} onChange={(e) => setQuoteNote(e.target.value)} placeholder={t("A personal note (optional)…")}
                   className="bg-input/40 border-border-strong/30 font-serif italic" />
                 <Button
                   onClick={() => {
                     if (!quoteText.trim()) return;
                     addQuote(book.id, { text: quoteText, page: quotePage, resonance: quoteRes, note: quoteNote });
                     setQuoteText(""); setQuotePage(""); setQuoteNote("");
-                    toast.success("Quote saved");
+                    toast.success(t("Quote saved"));
                   }}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                 >
-                  Save Quote
+                  {t("Save Quote")}
                 </Button>
               </div>
 
@@ -654,9 +654,9 @@ export default function BookBrain() {
               <div className="ink-card p-5 rounded-sm space-y-4">
                 <div className="flex items-baseline justify-between flex-wrap gap-2">
                   <div>
-                    <p className="eyebrow">Quote oracle</p>
+                    <p className="eyebrow">{t("Quote oracle")}</p>
                     <p className="font-serif italic text-muted-foreground text-sm mt-1">
-                      Pull the most-cited verbatim lines from <span className="text-foreground not-italic">{book.title}</span>.
+                      {t("Pull the most-cited verbatim lines from")} <span className="text-foreground not-italic">{book.title}</span>.
                     </p>
                   </div>
                   <Button
@@ -667,8 +667,8 @@ export default function BookBrain() {
                     className="border-primary/50 text-primary hover:bg-primary/10 font-display tracking-wider"
                   >
                     {loadingSuggested
-                      ? <><Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> Summoning</>
-                      : <><Wand2 className="h-3.5 w-3.5 mr-2" /> {suggested.length ? "Refresh" : "Find quotes"}</>}
+                      ? <><Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> {t("Summoning")}</>
+                      : <><Wand2 className="h-3.5 w-3.5 mr-2" /> {suggested.length ? t("Refresh") : t("Find quotes")}</>}
                   </Button>
                 </div>
 
