@@ -505,6 +505,21 @@ const AR: Record<string, string> = {
   "Coach unavailable.": "المدرّب غير متاح.",
   "Exit focus mode": "اخرج من وضع التركيز",
   "restless · curious · exhausted · in the mood for something heavy…": "قلِق · فضولي · منهَك · في مزاج شيء ثقيل…",
+
+  // Librarian agent extras
+  "Do": "نفّذ",
+  "Ask": "اسأل",
+  "You": "أنت",
+  "Librarian": "أمين المكتبة",
+  "On:": "على:",
+  "Commands or questions about your library.": "أوامر أو أسئلة عن مكتبتك.",
+  "Ask the shelf… (chain: add X, mark reading, tag Y)": "اسأل الرف… (سلسلة: أضف س، علّم بالقراءة، وسم ص)",
+  "Ask anything about your library…": "اسأل أيّ شيء عن مكتبتك…",
+  "I didn't understand that.": "لم أفهم ذلك.",
+  "You haven't opened {title} in {days} days.": "لم تفتح {title} منذ {days} يومًا.",
+
+  // AddBookDrawer extras
+  "spine ready": "الكعب جاهز",
 };
 
 export function LangProvider({ children }: { children: ReactNode }) {
