@@ -430,7 +430,7 @@ export default function BookBrain() {
               className="h-7 text-[0.6rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow"
             >
               <Wand2 className="h-3 w-3 mr-1.5" />
-              {book.coverSource === "ai-generated" ? "Regenerate AI cover" : "Generate AI cover"}
+              {book.coverSource === "ai-generated" ? t("Regenerate AI cover") : t("Generate AI cover")}
             </Button>
           </div>
 
