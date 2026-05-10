@@ -495,20 +495,20 @@ export default function BookBrain() {
             {inst?.firstUnderlined && (
               <blockquote className="mt-5 pl-4 border-l-2 border-primary/60 italic font-serif text-muted-foreground">
                 "{inst.firstUnderlined}"
-                <span className="block mt-1 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 not-italic">First sentence I underlined</span>
+                <span className="block mt-1 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 not-italic">{t("First sentence I underlined")}</span>
               </blockquote>
             )}
             <div className="mt-4 flex items-center gap-3 text-xs mono text-muted-foreground tracking-[0.18em] uppercase">
               <FormatIcon className="h-3.5 w-3.5 text-primary" />
               <span>{book.format}</span>
               {book.language && <><span>·</span><span>{book.language}</span></>}
-              {book.pages && <><span>·</span><span>{book.pages} pp</span></>}
+              {book.pages && <><span>·</span><span>{book.pages} {t("pp")}</span></>}
             </div>
             <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <DossierStat label="Pages" value={book.pages ? String(book.pages) : "—"} />
-              <DossierStat label="Quotes" value={String(inst?.quotes?.length ?? 0)} />
-              <DossierStat label="Sessions" value={String(inst?.sessions?.length ?? 0)} />
-              <DossierStat label="Source" value={book.coverSource === "none" || !book.coverSource ? "spine" : book.coverSource} />
+              <DossierStat label={t("Pages")} value={book.pages ? String(book.pages) : "—"} />
+              <DossierStat label={t("Quotes")} value={String(inst?.quotes?.length ?? 0)} />
+              <DossierStat label={t("Sessions")} value={String(inst?.sessions?.length ?? 0)} />
+              <DossierStat label={t("Source")} value={book.coverSource === "none" || !book.coverSource ? t("spine") : book.coverSource} />
             </div>
           </header>
 
