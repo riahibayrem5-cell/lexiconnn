@@ -295,8 +295,8 @@ export default function BookBrain() {
     });
     toast.success(
       candidateConnections.length
-        ? `Edition applied · ${candidateConnections.length} connection${candidateConnections.length > 1 ? "s" : ""} drawn`
-        : "Edition applied to this book"
+        ? `${t("Apply edition")} · ${candidateConnections.length} ${t("Connections").toLowerCase()}`
+        : t("Edition applied to this book")
     );
     setPending(null);
   };
