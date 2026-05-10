@@ -371,25 +371,25 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                       disabled={acquiring}
                       className="inline-flex items-center gap-1.5 text-[0.65rem] mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
                     >
-                      <Upload className="h-3 w-3" /> Upload
+                      <Upload className="h-3 w-3" /> {t("Upload")}
                     </button>
                     <button
                       onClick={retryRealCover}
                       disabled={acquiring}
                       className="inline-flex items-center gap-1.5 text-[0.65rem] mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
                     >
-                      <Search className="h-3 w-3" /> Retry search
+                      <Search className="h-3 w-3" /> {t("Retry search")}
                     </button>
                     {coverSource === "none" && !acquiring && (
                       <button
                         onClick={() => setAiCoverOpen(true)}
                         className="inline-flex items-center gap-1.5 text-[0.65rem] mono uppercase tracking-[0.2em] text-primary hover:text-primary-glow transition-colors"
                       >
-                        <Sparkles className="h-3 w-3" /> AI cover
+                        <Sparkles className="h-3 w-3" /> {t("AI cover")}
                       </button>
                     )}
                     <button onClick={() => setPicked(null)} className="text-[0.65rem] mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors">
-                      ← Search again
+                      ← {t("Search again")}
                     </button>
                   </div>
                   <input
