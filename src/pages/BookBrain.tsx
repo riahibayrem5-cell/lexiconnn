@@ -109,8 +109,8 @@ export default function BookBrain() {
   if (!book) {
     return (
       <div className="px-14 py-20">
-        <p className="font-display text-2xl italic text-muted-foreground">This book has slipped from the shelf.</p>
-        <Button onClick={() => navigate("/")} variant="ghost" className="mt-4"><ArrowLeft className="h-4 w-4 mr-2" /> Back to shelf</Button>
+        <p className="font-display text-2xl italic text-muted-foreground">{t("This book has slipped from the shelf.")}</p>
+        <Button onClick={() => navigate("/")} variant="ghost" className="mt-4"><ArrowLeft className="h-4 w-4 mr-2" /> {t("Back to shelf")}</Button>
       </div>
     );
   }
