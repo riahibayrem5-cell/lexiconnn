@@ -384,23 +384,23 @@ export default function BookBrain() {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <Globe className="h-3.5 w-3.5 text-primary" />
-                <span className="mono text-[0.55rem] tracking-[0.25em] uppercase text-primary">Apply edition · {pending.edition.languageLabel}</span>
+                <span className="mono text-[0.55rem] tracking-[0.25em] uppercase text-primary">{t("Apply edition")} · {pending.edition.languageLabel}</span>
               </div>
               <p className="font-display text-base text-foreground mt-1" dir={pending.edition.language === "ar" ? "rtl" : "ltr"}>
                 {pending.edition.title}
               </p>
               <p className="font-serif italic text-xs text-muted-foreground">
-                Prefills language, ISBN, cover, page count, and seeds a first-underlined prompt. Optionally draws connections to other books from the same saved search.
+                {t("Prefills language, ISBN, cover, page count, and seeds a first-underlined prompt. Optionally draws connections to other books from the same saved search.")}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Button size="sm" onClick={() => applyPendingEdition({ connect: true })} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-                  Apply + suggest connections
+                  {t("Apply + suggest connections")}
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => applyPendingEdition({ connect: false })} className="border-primary/40 text-primary">
-                  Apply edition only
+                  {t("Apply edition only")}
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setPending(null)} className="text-muted-foreground">
-                  <X className="h-3.5 w-3.5 mr-1" /> Dismiss
+                  <X className="h-3.5 w-3.5 mr-1" /> {t("Dismiss")}
                 </Button>
               </div>
             </div>
