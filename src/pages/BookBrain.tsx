@@ -573,9 +573,9 @@ export default function BookBrain() {
                     at: s.date, kind: "session",
                     node: (
                       <>
-                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">Reading session · {s.durationMin} min</p>
+                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">{t("Reading session")} · {s.durationMin} {t("min")}</p>
                         {(s.pagesStart || s.pagesEnd) && (
-                          <p className="font-serif text-foreground mt-1">Pages {s.pagesStart ?? "—"} → {s.pagesEnd ?? "—"}</p>
+                          <p className="font-serif text-foreground mt-1">{t("Pages")} {s.pagesStart ?? "—"} → {s.pagesEnd ?? "—"}</p>
                         )}
                         {s.note && <p className="font-serif italic text-muted-foreground mt-1 whitespace-pre-wrap">{s.note}</p>}
                       </>
@@ -585,7 +585,7 @@ export default function BookBrain() {
                     at: j.date, kind: "journal",
                     node: (
                       <>
-                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">Journal entry</p>
+                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">{t("Journal entry")}</p>
                         <p className="font-serif text-foreground mt-1 whitespace-pre-wrap">{j.body}</p>
                       </>
                     )
@@ -594,14 +594,14 @@ export default function BookBrain() {
                     at: q.savedAt, kind: "quote",
                     node: (
                       <>
-                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">Quote saved{q.page ? ` · pg ${q.page}` : ""}</p>
+                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">{t("Quote saved")}{q.page ? ` · ${t("Page").toLowerCase()} ${q.page}` : ""}</p>
                         <blockquote className="font-display italic text-lg text-foreground mt-1">"{q.text}"</blockquote>
                       </>
                     )
                   }));
                 });
                 events.sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
-                if (!events.length) return <p className="font-display italic text-muted-foreground">No events yet. Start a ritual or save a quote.</p>;
+                if (!events.length) return <p className="font-display italic text-muted-foreground">{t("No events yet. Start a ritual or save a quote.")}</p>;
                 return (
                   <ol className="relative border-l border-border/60 ml-3 space-y-5">
                     {events.map((e, i) => (
