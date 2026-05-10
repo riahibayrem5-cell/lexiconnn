@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLibrary } from "@/lib/storage";
-import { getCurrentLang } from "@/lib/i18n";
+import { getCurrentLang, useLang } from "@/lib/i18n";
 import { RatingDial } from "@/components/RatingDial";
 import { EmotionalArc } from "@/components/EmotionalArc";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,7 @@ const FORMAT_ICON = {
 export default function BookBrain() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t, dir } = useLang();
   const { books, setRating, addJournal, addQuote, setArc, setStatus, addConnection, updateBook, removeBook } = useLibrary();
   const book = books.find(b => b.id === id);
 
@@ -108,8 +109,8 @@ export default function BookBrain() {
   if (!book) {
     return (
       <div className="px-14 py-20">
-        <p className="font-display text-2xl italic text-muted-foreground">This book has slipped from the shelf.</p>
-        <Button onClick={() => navigate("/")} variant="ghost" className="mt-4"><ArrowLeft className="h-4 w-4 mr-2" /> Back to shelf</Button>
+        <p className="font-display text-2xl italic text-muted-foreground">{t("This book has slipped from the shelf.")}</p>
+        <Button onClick={() => navigate("/")} variant="ghost" className="mt-4"><ArrowLeft className="h-4 w-4 mr-2" /> {t("Back to shelf")}</Button>
       </div>
     );
   }
@@ -145,7 +146,7 @@ export default function BookBrain() {
         setDissection(data?.text ?? "");
       }
     } catch (e: any) {
-      toast.error(e.message ?? "AI unavailable");
+      toast.error(e.message ?? t("AI unavailable"));
     } finally {
       setLoadingDissection(false);
     }
@@ -162,10 +163,10 @@ export default function BookBrain() {
         toast.error(data.error);
       } else {
         setSuggested(data?.quotes ?? []);
-        if ((data?.quotes ?? []).length === 0) toast.info("No quotes returned — try again.");
+        if ((data?.quotes ?? []).length === 0) toast.info(t("No quotes returned — try again."));
       }
     } catch (e: any) {
-      toast.error(e.message ?? "AI unavailable");
+      toast.error(e.message ?? t("AI unavailable"));
     } finally {
       setLoadingSuggested(false);
     }
@@ -190,9 +191,9 @@ export default function BookBrain() {
         coverSource: cover?.source ?? meta?.source ?? b.coverSource,
         tags: Array.from(new Set([...b.tags, ...((meta?.categories ?? []).slice(0, 3).map(t => t.toLowerCase())), ...((ai?.tags ?? []).slice(0, 5))])),
       }));
-      toast.success("Book details refreshed");
+      toast.success(t("Book details refreshed"));
     } catch (e: any) {
-      toast.error(e.message ?? "Metadata refresh failed");
+      toast.error(e.message ?? t("Metadata refresh failed"));
     } finally {
       setRefreshingMeta(false);
     }
@@ -212,7 +213,7 @@ export default function BookBrain() {
       isFiction: r.isFiction ?? b.isFiction,
       tags: Array.from(new Set([...b.tags, ...((r.categories ?? []).slice(0, 3).map(t => t.toLowerCase()))])),
     }));
-    toast.success(`Edition applied from ${r.source ?? "source"}`);
+    toast.success(`${t("Apply edition")} · ${r.source ?? "source"}`);
   };
 
   const generateSpine = async () => {
@@ -230,12 +231,12 @@ export default function BookBrain() {
       if (error) throw error;
       if (data?.url) {
         updateBook(book.id, b => ({ ...b, spineUrl: data.url, spineGeneratedAt: new Date().toISOString() }));
-        toast.success("Spine artwork generated");
+        toast.success(t("Spine artwork generated"));
       } else {
-        toast.error("Spine generation returned no image");
+        toast.error(t("Spine generation returned no image"));
       }
     } catch (e: any) {
-      toast.error(e.message ?? "Spine generation failed");
+      toast.error(e.message ?? t("Spine generation failed"));
     } finally {
       setGeneratingSpine(false);
     }
@@ -294,8 +295,8 @@ export default function BookBrain() {
     });
     toast.success(
       candidateConnections.length
-        ? `Edition applied · ${candidateConnections.length} connection${candidateConnections.length > 1 ? "s" : ""} drawn`
-        : "Edition applied to this book"
+        ? `${t("Apply edition")} · ${candidateConnections.length} ${t("Connections").toLowerCase()}`
+        : t("Edition applied to this book")
     );
     setPending(null);
   };
@@ -318,11 +319,11 @@ export default function BookBrain() {
         dossier, generatedAt,
       });
       setHasDossier(true);
-      toast.success("Dossier saved to your Memory Vault", {
-        action: { label: "Open", onClick: () => navigate(`/history?open=${book.id}`) },
+      toast.success(t("Dossier saved to your Memory Vault"), {
+        action: { label: t("Open"), onClick: () => navigate(`/history?open=${book.id}`) },
       });
     } catch (e: any) {
-      toast.error(e?.message ?? "Could not generate dossier");
+      toast.error(e?.message ?? t("Could not generate dossier"));
     } finally {
       setGeneratingDossier(false);
     }
@@ -333,14 +334,14 @@ export default function BookBrain() {
       {/* Top bar */}
       <div className="px-4 sm:px-8 lg:px-14 pt-8 flex items-center justify-between">
         <Button onClick={() => navigate("/")} variant="ghost" size="sm" className="text-muted-foreground hover:text-primary -ml-3">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to shelf
+          <ArrowLeft className="h-4 w-4 mr-2" /> {t("Back to shelf")}
         </Button>
         <div className="flex items-center gap-2">
           <Button onClick={refreshMetadata} disabled={refreshingMeta} variant="outline" size="sm" className="border-primary/40 text-primary">
-            {refreshingMeta ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5 mr-2" />} Improve details
+            {refreshingMeta ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5 mr-2" />} {t("Improve details")}
           </Button>
           <Button onClick={() => setEditionPickerOpen(true)} variant="outline" size="sm" className="border-primary/40 text-primary">
-            <Library className="h-3.5 w-3.5 mr-2" /> Choose edition
+            <Library className="h-3.5 w-3.5 mr-2" /> {t("Choose edition")}
           </Button>
           <Button
             onClick={generateAndSaveDossier}
@@ -348,29 +349,29 @@ export default function BookBrain() {
             variant="outline"
             size="sm"
             className="border-primary/40 text-primary"
-            title={hasDossier ? "Open in the Memory Vault" : "Generate a full dossier and save it to the Memory Vault"}
+            title={hasDossier ? t("Open dossier") : t("Generate dossier")}
           >
             {generatingDossier
               ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" />
               : <ScrollText className="h-3.5 w-3.5 mr-2" />}
-            {hasDossier ? "Open dossier" : generatingDossier ? "Composing…" : "Generate dossier"}
+            {hasDossier ? t("Open dossier") : generatingDossier ? t("Composing…") : t("Generate dossier")}
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" size="sm" className="border-destructive/50 text-destructive hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 mr-2" /> Delete</Button>
+              <Button variant="outline" size="sm" className="border-destructive/50 text-destructive hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 mr-2" /> {t("Delete")}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="ink-card rounded-sm">
               <AlertDialogHeader>
-                <AlertDialogTitle className="font-display text-2xl">Remove this volume?</AlertDialogTitle>
-                <AlertDialogDescription>This deletes “{book.title}” and its notes from this shelf. This cannot be undone.</AlertDialogDescription>
+                <AlertDialogTitle className="font-display text-2xl">{t("Remove this volume?")}</AlertDialogTitle>
+                <AlertDialogDescription>{t("This deletes the book and its notes from this shelf. This cannot be undone.")}</AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={() => { removeBook(book.id); toast.success("Book deleted"); navigate("/"); }}>Delete book</AlertDialogAction>
+                <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
+                <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={() => { removeBook(book.id); toast.success(t("Book deleted")); navigate("/"); }}>{t("Delete book")}</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <span className="stamp">Dossier · {book.id.slice(0, 6).toUpperCase()}</span>
+          <span className="stamp">{t("Dossier")} · {book.id.slice(0, 6).toUpperCase()}</span>
         </div>
       </div>
 
@@ -383,23 +384,23 @@ export default function BookBrain() {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <Globe className="h-3.5 w-3.5 text-primary" />
-                <span className="mono text-[0.55rem] tracking-[0.25em] uppercase text-primary">Apply edition · {pending.edition.languageLabel}</span>
+                <span className="mono text-[0.55rem] tracking-[0.25em] uppercase text-primary">{t("Apply edition")} · {pending.edition.languageLabel}</span>
               </div>
               <p className="font-display text-base text-foreground mt-1" dir={pending.edition.language === "ar" ? "rtl" : "ltr"}>
                 {pending.edition.title}
               </p>
               <p className="font-serif italic text-xs text-muted-foreground">
-                Prefills language, ISBN, cover, page count, and seeds a first-underlined prompt. Optionally draws connections to other books from the same saved search.
+                {t("Prefills language, ISBN, cover, page count, and seeds a first-underlined prompt. Optionally draws connections to other books from the same saved search.")}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Button size="sm" onClick={() => applyPendingEdition({ connect: true })} className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
-                  Apply + suggest connections
+                  {t("Apply + suggest connections")}
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => applyPendingEdition({ connect: false })} className="border-primary/40 text-primary">
-                  Apply edition only
+                  {t("Apply edition only")}
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setPending(null)} className="text-muted-foreground">
-                  <X className="h-3.5 w-3.5 mr-1" /> Dismiss
+                  <X className="h-3.5 w-3.5 mr-1" /> {t("Dismiss")}
                 </Button>
               </div>
             </div>
@@ -429,32 +430,32 @@ export default function BookBrain() {
               className="h-7 text-[0.6rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow"
             >
               <Wand2 className="h-3 w-3 mr-1.5" />
-              {book.coverSource === "ai-generated" ? "Regenerate AI cover" : "Generate AI cover"}
+              {book.coverSource === "ai-generated" ? t("Regenerate AI cover") : t("Generate AI cover")}
             </Button>
           </div>
 
           <div className="text-center space-y-2">
-            <span className="eyebrow">{STATUS_LABEL[book.status]}</span>
+            <span className="eyebrow">{t(STATUS_LABEL[book.status], STATUS_LABEL[book.status])}</span>
             <select
               value={book.status}
-              onChange={(e) => { setStatus(book.id, e.target.value as BookStatus); toast.success("Status updated"); }}
+              onChange={(e) => { setStatus(book.id, e.target.value as BookStatus); toast.success(t("Status updated")); }}
               className="block mx-auto bg-input border border-border-strong/40 rounded-sm px-3 py-1.5 text-xs font-mono uppercase tracking-wider focus:outline-none focus:border-primary"
             >
-              {STATUSES.map(s => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
+              {STATUSES.map(s => <option key={s} value={s}>{t(STATUS_LABEL[s], STATUS_LABEL[s])}</option>)}
             </select>
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Rating</p>
+            <p className="eyebrow">{t("Rating")}</p>
             <RatingDial value={inst?.rating} onChange={(v) => setRating(book.id, v)} size={170} />
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
             <div className="flex items-baseline justify-between gap-2">
-              <p className="eyebrow">Spine artwork</p>
+              <p className="eyebrow">{t("Spine artwork")}</p>
               <Button onClick={generateSpine} disabled={generatingSpine} variant="ghost" size="sm" className="h-7 text-[0.6rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow">
                 {generatingSpine ? <Loader2 className="h-3 w-3 mr-1.5 animate-spin" /> : <Wand2 className="h-3 w-3 mr-1.5" />}
-                {book.spineUrl ? "Regenerate" : "Generate"}
+                {book.spineUrl ? t("Regenerate") : t("Generate")}
               </Button>
             </div>
             <div className="flex items-end justify-center gap-2 min-h-[120px] py-2">
@@ -462,25 +463,25 @@ export default function BookBrain() {
                 <img src={book.spineUrl} alt="Generated spine" className="h-28 w-auto object-contain rounded-[2px] ring-1 ring-border/50 shadow-card" />
               ) : (
                 <p className="font-serif italic text-xs text-muted-foreground text-center px-2">
-                  No custom spine yet. Generate one to see this book's unique spine on the shelf.
+                  {t("No custom spine yet. Generate one to see this book's unique spine on the shelf.")}
                 </p>
               )}
             </div>
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Sessions</p>
+            <p className="eyebrow">{t("Sessions")}</p>
             <div className="space-y-2">
               {(inst?.sessions ?? []).slice(-5).reverse().map(s => (
                 <div key={s.id} className="flex items-center gap-3 text-xs mono text-muted-foreground">
                   <span className="text-primary">●</span>
                   <span>{new Date(s.date).toLocaleDateString()}</span>
                   <span>·</span>
-                  <span>{s.durationMin}m</span>
+                  <span>{s.durationMin}{t("M")}</span>
                 </div>
               ))}
               {(!inst || (inst.sessions ?? []).length === 0) && (
-                <p className="text-xs italic text-muted-foreground">No sessions logged yet.</p>
+                <p className="text-xs italic text-muted-foreground">{t("No sessions logged yet.")}</p>
               )}
             </div>
           </div>
@@ -494,38 +495,38 @@ export default function BookBrain() {
             {inst?.firstUnderlined && (
               <blockquote className="mt-5 pl-4 border-l-2 border-primary/60 italic font-serif text-muted-foreground">
                 "{inst.firstUnderlined}"
-                <span className="block mt-1 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 not-italic">First sentence I underlined</span>
+                <span className="block mt-1 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 not-italic">{t("First sentence I underlined")}</span>
               </blockquote>
             )}
             <div className="mt-4 flex items-center gap-3 text-xs mono text-muted-foreground tracking-[0.18em] uppercase">
               <FormatIcon className="h-3.5 w-3.5 text-primary" />
               <span>{book.format}</span>
               {book.language && <><span>·</span><span>{book.language}</span></>}
-              {book.pages && <><span>·</span><span>{book.pages} pp</span></>}
+              {book.pages && <><span>·</span><span>{book.pages} {t("pp")}</span></>}
             </div>
             <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <DossierStat label="Pages" value={book.pages ? String(book.pages) : "—"} />
-              <DossierStat label="Quotes" value={String(inst?.quotes?.length ?? 0)} />
-              <DossierStat label="Sessions" value={String(inst?.sessions?.length ?? 0)} />
-              <DossierStat label="Source" value={book.coverSource === "none" || !book.coverSource ? "spine" : book.coverSource} />
+              <DossierStat label={t("Pages")} value={book.pages ? String(book.pages) : "—"} />
+              <DossierStat label={t("Quotes")} value={String(inst?.quotes?.length ?? 0)} />
+              <DossierStat label={t("Sessions")} value={String(inst?.sessions?.length ?? 0)} />
+              <DossierStat label={t("Source")} value={book.coverSource === "none" || !book.coverSource ? t("spine") : book.coverSource} />
             </div>
           </header>
 
           <Tabs defaultValue="journal" className="w-full">
             <TabsList className="bg-transparent border-b border-border/60 rounded-none p-0 h-auto w-full justify-start gap-6">
               {[
-                { v: "journal", l: "Journal", i: NotebookPen },
-                { v: "timeline", l: "Timeline", i: Sparkles },
-                { v: "quotes", l: "Quotes", i: QuoteIcon },
-                { v: "arc", l: "Emotional Arc", i: Sparkles },
-                { v: "connections", l: "Connections", i: NetworkIcon },
-                { v: "ai", l: "AI Dissection", i: Sparkles },
-              ].map(t => (
+                { v: "journal", l: t("Journal"), i: NotebookPen },
+                { v: "timeline", l: t("Timeline"), i: Sparkles },
+                { v: "quotes", l: t("Quotes"), i: QuoteIcon },
+                { v: "arc", l: t("Emotional Arc"), i: Sparkles },
+                { v: "connections", l: t("Connections"), i: NetworkIcon },
+                { v: "ai", l: t("AI Dissection"), i: Sparkles },
+              ].map(tab => (
                 <TabsTrigger
-                  key={t.v} value={t.v}
+                  key={tab.v} value={tab.v}
                   className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent text-muted-foreground font-display tracking-wider px-0 pb-3 hover:text-foreground"
                 >
-                  <t.i className="h-3.5 w-3.5 mr-2" /> {t.l}
+                  <tab.i className="h-3.5 w-3.5 mr-2" /> {tab.l}
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -535,17 +536,17 @@ export default function BookBrain() {
               <div className="space-y-3">
                 <Textarea
                   rows={5}
-                  placeholder="What did the page do to you today?"
+                  placeholder={t("What did the page do to you today?")}
                   value={journalDraft}
                   onChange={(e) => setJournalDraft(e.target.value)}
                   className="bg-input/40 border-border-strong/30 font-serif text-base italic placeholder:italic placeholder:text-muted-foreground/60 leading-relaxed"
                 />
                 <Button
-                  onClick={() => { addJournal(book.id, journalDraft); setJournalDraft(""); toast.success("Entry saved"); }}
+                  onClick={() => { addJournal(book.id, journalDraft); setJournalDraft(""); toast.success(t("Entry saved")); }}
                   disabled={!journalDraft.trim()}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                 >
-                  Inscribe
+                  {t("Inscribe")}
                 </Button>
               </div>
               <div className="space-y-4 mt-8">
@@ -558,7 +559,7 @@ export default function BookBrain() {
                   </article>
                 ))}
                 {(!inst || (inst.journal ?? []).length === 0) && (
-                  <p className="font-display italic text-muted-foreground">No marginalia yet.</p>
+                  <p className="font-display italic text-muted-foreground">{t("No marginalia yet.")}</p>
                 )}
               </div>
             </TabsContent>
@@ -572,9 +573,9 @@ export default function BookBrain() {
                     at: s.date, kind: "session",
                     node: (
                       <>
-                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">Reading session · {s.durationMin} min</p>
+                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">{t("Reading session")} · {s.durationMin} {t("min")}</p>
                         {(s.pagesStart || s.pagesEnd) && (
-                          <p className="font-serif text-foreground mt-1">Pages {s.pagesStart ?? "—"} → {s.pagesEnd ?? "—"}</p>
+                          <p className="font-serif text-foreground mt-1">{t("Pages")} {s.pagesStart ?? "—"} → {s.pagesEnd ?? "—"}</p>
                         )}
                         {s.note && <p className="font-serif italic text-muted-foreground mt-1 whitespace-pre-wrap">{s.note}</p>}
                       </>
@@ -584,7 +585,7 @@ export default function BookBrain() {
                     at: j.date, kind: "journal",
                     node: (
                       <>
-                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">Journal entry</p>
+                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">{t("Journal entry")}</p>
                         <p className="font-serif text-foreground mt-1 whitespace-pre-wrap">{j.body}</p>
                       </>
                     )
@@ -593,14 +594,14 @@ export default function BookBrain() {
                     at: q.savedAt, kind: "quote",
                     node: (
                       <>
-                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">Quote saved{q.page ? ` · pg ${q.page}` : ""}</p>
+                        <p className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary/80">{t("Quote saved")}{q.page ? ` · ${t("Page").toLowerCase()} ${q.page}` : ""}</p>
                         <blockquote className="font-display italic text-lg text-foreground mt-1">"{q.text}"</blockquote>
                       </>
                     )
                   }));
                 });
                 events.sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
-                if (!events.length) return <p className="font-display italic text-muted-foreground">No events yet. Start a ritual or save a quote.</p>;
+                if (!events.length) return <p className="font-display italic text-muted-foreground">{t("No events yet. Start a ritual or save a quote.")}</p>;
                 return (
                   <ol className="relative border-l border-border/60 ml-3 space-y-5">
                     {events.map((e, i) => (
@@ -622,30 +623,30 @@ export default function BookBrain() {
               <div className="ink-card p-5 rounded-sm space-y-3">
                 <Textarea
                   rows={3}
-                  placeholder="Paste the quote…"
+                  placeholder={t("Paste the quote…")}
                   value={quoteText}
                   onChange={(e) => setQuoteText(e.target.value)}
                   className="bg-input/40 border-border-strong/30 font-serif italic"
                 />
                 <div className="grid grid-cols-2 gap-3">
-                  <Input value={quotePage} onChange={(e) => setQuotePage(e.target.value)} placeholder="Page" className="bg-input/40 border-border-strong/30 mono text-sm" />
+                  <Input value={quotePage} onChange={(e) => setQuotePage(e.target.value)} placeholder={t("Page")} className="bg-input/40 border-border-strong/30 mono text-sm" />
                   <select value={quoteRes} onChange={(e) => setQuoteRes(e.target.value as ResonanceTag)}
                     className="bg-input/40 border border-border-strong/30 rounded-sm px-3 py-2 text-sm font-serif">
-                    {RESONANCE.map(r => <option key={r.v} value={r.v}>{r.l}</option>)}
+                    {RESONANCE.map(r => <option key={r.v} value={r.v}>{t(r.l, r.l)}</option>)}
                   </select>
                 </div>
-                <Input value={quoteNote} onChange={(e) => setQuoteNote(e.target.value)} placeholder="A personal note (optional)…"
+                <Input value={quoteNote} onChange={(e) => setQuoteNote(e.target.value)} placeholder={t("A personal note (optional)…")}
                   className="bg-input/40 border-border-strong/30 font-serif italic" />
                 <Button
                   onClick={() => {
                     if (!quoteText.trim()) return;
                     addQuote(book.id, { text: quoteText, page: quotePage, resonance: quoteRes, note: quoteNote });
                     setQuoteText(""); setQuotePage(""); setQuoteNote("");
-                    toast.success("Quote saved");
+                    toast.success(t("Quote saved"));
                   }}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                 >
-                  Save Quote
+                  {t("Save Quote")}
                 </Button>
               </div>
 
@@ -653,9 +654,9 @@ export default function BookBrain() {
               <div className="ink-card p-5 rounded-sm space-y-4">
                 <div className="flex items-baseline justify-between flex-wrap gap-2">
                   <div>
-                    <p className="eyebrow">Quote oracle</p>
+                    <p className="eyebrow">{t("Quote oracle")}</p>
                     <p className="font-serif italic text-muted-foreground text-sm mt-1">
-                      Pull the most-cited verbatim lines from <span className="text-foreground not-italic">{book.title}</span>.
+                      {t("Pull the most-cited verbatim lines from")} <span className="text-foreground not-italic">{book.title}</span>.
                     </p>
                   </div>
                   <Button
@@ -666,8 +667,8 @@ export default function BookBrain() {
                     className="border-primary/50 text-primary hover:bg-primary/10 font-display tracking-wider"
                   >
                     {loadingSuggested
-                      ? <><Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> Summoning</>
-                      : <><Wand2 className="h-3.5 w-3.5 mr-2" /> {suggested.length ? "Refresh" : "Find quotes"}</>}
+                      ? <><Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> {t("Summoning")}</>
+                      : <><Wand2 className="h-3.5 w-3.5 mr-2" /> {suggested.length ? t("Refresh") : t("Find quotes")}</>}
                   </Button>
                 </div>
 
@@ -683,11 +684,11 @@ export default function BookBrain() {
                           <button
                             onClick={() => {
                               addQuote(book.id, { text: s.text, resonance: "beautiful-language", note: s.context });
-                              toast.success("Saved to your vault");
+                              toast.success(t("Saved to your vault"));
                             }}
                             className="inline-flex items-center gap-1.5 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 hover:text-primary transition-colors"
                           >
-                            <Plus className="h-3 w-3" /> Save
+                            <Plus className="h-3 w-3" /> {t("Save")}
                           </button>
                         </div>
                       </div>
@@ -703,14 +704,14 @@ export default function BookBrain() {
                       "{q.text}"
                     </blockquote>
                     <figcaption className="mt-2 ml-5 mono text-[0.65rem] tracking-[0.25em] uppercase text-muted-foreground flex items-center gap-3 flex-wrap">
-                      {q.page && <span>Pg {q.page}</span>}
-                      {q.resonance && <span className="text-primary">· {RESONANCE.find(r => r.v === q.resonance)?.l}</span>}
+                      {q.page && <span>{t("Page")} {q.page}</span>}
+                      {q.resonance && <span className="text-primary">· {t(RESONANCE.find(r => r.v === q.resonance)?.l ?? "", RESONANCE.find(r => r.v === q.resonance)?.l)}</span>}
                     </figcaption>
                     {q.note && <p className="ml-5 mt-2 italic font-serif text-muted-foreground">— {q.note}</p>}
                   </figure>
                 ))}
                 {(!inst || (inst.quotes ?? []).length === 0) && (
-                  <p className="font-display italic text-muted-foreground">The vault is empty.</p>
+                  <p className="font-display italic text-muted-foreground">{t("The vault is empty.")}</p>
                 )}
               </div>
             </TabsContent>
@@ -724,7 +725,7 @@ export default function BookBrain() {
 
             {/* CONNECTIONS */}
             <TabsContent value="connections" className="mt-6 space-y-4">
-              <p className="eyebrow">Linked volumes</p>
+              <p className="eyebrow">{t("Linked volumes")}</p>
               <div className="space-y-2">
                 {book.connections.map(c => {
                   const target = books.find(b => b.id === c.toBookId);
@@ -736,24 +737,24 @@ export default function BookBrain() {
                         <p className="font-display text-base">{target.title}</p>
                         <p className="mono text-[0.6rem] tracking-[0.2em] uppercase text-primary/80">{c.type.replace(/-/g, " ")}</p>
                       </div>
-                      <Button size="sm" variant="ghost" onClick={() => navigate(`/book/${target.id}`)}>Open →</Button>
+                      <Button size="sm" variant="ghost" onClick={() => navigate(`/book/${target.id}`)}>{t("Open")} →</Button>
                     </div>
                   );
                 })}
               </div>
               {otherBooks.length > 0 && (
                 <div className="ink-card rounded-sm p-4 space-y-3">
-                  <Label className="eyebrow">Add a connection</Label>
+                  <Label className="eyebrow">{t("Add a connection")}</Label>
                   <div className="grid grid-cols-2 gap-2">
                     <select value={selectedConnTarget} onChange={(e) => setConnTarget(e.target.value)} className="bg-input border border-border-strong/40 rounded-sm px-3 py-2 text-sm font-serif">
                       {otherBooks.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
                     </select>
                     <select value={connType} onChange={(e) => setConnType(e.target.value)} className="bg-input border border-border-strong/40 rounded-sm px-3 py-2 text-sm font-serif">
-                      <option value="thematically-similar">Thematically similar</option>
-                      <option value="contradicts">Contradicts</option>
-                      <option value="continues">Continues</option>
-                      <option value="influenced-by">Influenced by</option>
-                      <option value="made-me-think-of">Made me think of</option>
+                      <option value="thematically-similar">{t("Thematically similar")}</option>
+                      <option value="contradicts">{t("Contradicts")}</option>
+                      <option value="continues">{t("Continues")}</option>
+                      <option value="influenced-by">{t("Influenced by")}</option>
+                      <option value="made-me-think-of">{t("Made me think of")}</option>
                     </select>
                   </div>
                   <Button
@@ -761,11 +762,11 @@ export default function BookBrain() {
                     onClick={() => {
                       if (!selectedConnTarget) return;
                       addConnection(book.id, { toBookId: selectedConnTarget, type: connType as any });
-                      toast.success("Connection drawn");
+                      toast.success(t("Connection drawn"));
                     }}
                     className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                   >
-                    Draw connection
+                    {t("Draw connection")}
                   </Button>
                 </div>
               )}
@@ -775,15 +776,15 @@ export default function BookBrain() {
             <TabsContent value="ai" className="mt-6 space-y-4">
               <div className="ink-card rounded-sm p-6 space-y-4">
                 <div>
-                  <p className="eyebrow mb-2">AI Dissection</p>
+                  <p className="eyebrow mb-2">{t("AI Dissection")}</p>
                   <p className="font-serif italic text-muted-foreground">
-                    A reflection of your particular reading — built from your notes, quotes, and emotional arc. Not Wikipedia.
+                    {t("A reflection of your particular reading — built from your notes, quotes, and emotional arc. Not Wikipedia.")}
                   </p>
                 </div>
                 <Button onClick={requestDissection} disabled={loadingDissection}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
                   {loadingDissection ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
-                  Generate dissection
+                  {t("Generate dissection")}
                 </Button>
                 {dissection && (
                   <div className="font-serif leading-relaxed text-foreground whitespace-pre-wrap pt-4 border-t border-border/40">
@@ -798,15 +799,15 @@ export default function BookBrain() {
         {/* RIGHT — meta + how I found + similar */}
         <aside className="col-span-12 lg:col-span-3 space-y-6">
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Tags</p>
+            <p className="eyebrow">{t("Tags")}</p>
             <div className="flex flex-wrap gap-1.5">
-              {book.tags.map(t => (
-                <span key={t} className="mono text-[0.6rem] tracking-[0.2em] uppercase px-2 py-1 border border-border-strong/40 text-muted-foreground rounded-sm">{t}</span>
+              {book.tags.map(tag => (
+                <span key={tag} className="mono text-[0.6rem] tracking-[0.2em] uppercase px-2 py-1 border border-border-strong/40 text-muted-foreground rounded-sm">{tag}</span>
               ))}
-              {book.tags.length === 0 && <span className="italic text-xs text-muted-foreground">none</span>}
+              {book.tags.length === 0 && <span className="italic text-xs text-muted-foreground">{t("none")}</span>}
             </div>
             <Input
-              placeholder="add tag, press enter"
+              placeholder={t("add tag, press enter")}
               className="bg-input/40 border-border-strong/30 mono text-xs mt-2"
               onKeyDown={(e) => {
                 const v = (e.target as HTMLInputElement).value.trim();
@@ -819,17 +820,17 @@ export default function BookBrain() {
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-2">
-            <p className="eyebrow">How I found it</p>
+            <p className="eyebrow">{t("How I found it")}</p>
             <p className="font-serif italic text-foreground/90 leading-relaxed text-sm">
-              {book.howIFound || <span className="text-muted-foreground">Lost to memory.</span>}
+              {book.howIFound || <span className="text-muted-foreground">{t("Lost to memory.")}</span>}
             </p>
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Adjacent in my library</p>
+            <p className="eyebrow">{t("Adjacent in my library")}</p>
             <div className="space-y-2">
               {books
-                .filter(b => b.id !== book.id && b.tags.some(t => book.tags.includes(t)))
+                .filter(b => b.id !== book.id && b.tags.some(tg => book.tags.includes(tg)))
                 .slice(0, 4)
                 .map(b => (
                   <button key={b.id} onClick={() => navigate(`/book/${b.id}`)} className="w-full text-left flex items-center gap-3 group">
@@ -840,8 +841,8 @@ export default function BookBrain() {
                     </div>
                   </button>
                 ))}
-              {books.filter(b => b.id !== book.id && b.tags.some(t => book.tags.includes(t))).length === 0 && (
-                <p className="italic text-xs text-muted-foreground">Nothing yet.</p>
+              {books.filter(b => b.id !== book.id && b.tags.some(tg => book.tags.includes(tg))).length === 0 && (
+                <p className="italic text-xs text-muted-foreground">{t("Nothing yet.")}</p>
               )}
             </div>
           </div>
@@ -849,12 +850,12 @@ export default function BookBrain() {
           {linkedRecs.length > 0 && (
             <div className="ink-card rounded-sm p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <p className="eyebrow">Saved searches for this book</p>
+                <p className="eyebrow">{t("Saved searches for this book")}</p>
                 <button
                   onClick={() => navigate("/recommendations")}
                   className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary hover:text-primary-glow"
                 >
-                  Open ↗
+                  {t("Open")} ↗
                 </button>
               </div>
               <div className="space-y-2">
@@ -862,7 +863,7 @@ export default function BookBrain() {
                   <div key={r.id} className="border border-border/40 rounded-sm p-2.5">
                     <p className="font-display text-xs text-foreground truncate">{r.detected?.title ?? r.query}</p>
                     <p className="mono text-[0.5rem] tracking-[0.2em] uppercase text-muted-foreground mt-1">
-                      {r.editions.length} editions · {new Date(r.savedAt).toLocaleDateString()}
+                      {r.editions.length} {t("editions")} · {new Date(r.savedAt).toLocaleDateString()}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1">
                       {r.editions.slice(0, 4).map((e) => (
