@@ -404,23 +404,23 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="eyebrow">Status</Label>
+                  <Label className="eyebrow">{t("Status")}</Label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as BookStatus)}
                     className="w-full bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-serif text-sm focus:outline-none focus:border-primary"
                   >
-                    {STATUSES.map(s => <option key={s.v} value={s.v}>{s.l}</option>)}
+                    {STATUSES.map(s => <option key={s.v} value={s.v}>{t(s.l)}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="eyebrow">Format</Label>
+                  <Label className="eyebrow">{t("Format")}</Label>
                   <select
                     value={format}
                     onChange={(e) => setFormat(e.target.value as BookFormat)}
                     className="w-full bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-serif text-sm focus:outline-none focus:border-primary"
                   >
-                    {FORMATS.map(f => <option key={f.v} value={f.v}>{f.l}</option>)}
+                    {FORMATS.map(f => <option key={f.v} value={f.v}>{t(f.l)}</option>)}
                   </select>
                 </div>
               </div>
