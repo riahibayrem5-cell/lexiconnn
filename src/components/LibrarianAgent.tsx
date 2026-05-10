@@ -269,7 +269,7 @@ export function LibrarianAgent() {
                       const added = await addBook({ title: r.title, author: r.author, year: r.year, isbn: r.isbn, coverUrl: r.coverUrl, coverSource: r.source ?? "openlibrary", pages: r.pages, language: "English", status: "want", tags: r.categories?.slice(0, 3).map(t => t.toLowerCase()) ?? [], aiTags: r.categories?.slice(0, 5).map(t => t.toLowerCase()) ?? [], isFiction: r.isFiction });
                       if (added) toast.success(`Shelved ${added.title}`);
                     }} className="mt-1 inline-flex items-center gap-1 mono text-[0.5rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow">
-                      <Plus className="h-3 w-3" /> Confirm add
+                      <Plus className="h-3 w-3" /> {t("Confirm add")}
                     </button>
                   </div>
                 </div>
