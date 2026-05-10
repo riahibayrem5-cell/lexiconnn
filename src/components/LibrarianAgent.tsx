@@ -240,7 +240,7 @@ export function LibrarianAgent() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !loading && run()}
-              placeholder={tab === "do" ? "Ask the shelf… (chain: add X, mark reading, tag Y)" : "Ask anything about your library…"}
+              placeholder={tab === "do" ? t("Ask the shelf… (chain: add X, mark reading, tag Y)") : t("Ask anything about your library…")}
               className="bg-input/60 font-serif"
               autoFocus
             />
