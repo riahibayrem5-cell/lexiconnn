@@ -52,6 +52,7 @@ const FOILS: { v: NonNullable<Book["foilStyle"]>; l: string }[] = [
 
 export function AddBookDrawer({ open, onOpenChange }: Props) {
   const { addBook } = useLibrary();
+  const { t } = useLang();
   const [q, setQ] = useState("");
   const [results, setResults] = useState<OLResult[]>([]);
   const [loading, setLoading] = useState(false);
