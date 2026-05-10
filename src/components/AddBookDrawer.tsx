@@ -507,10 +507,10 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
               {/* Customization */}
               <div className="space-y-4 pt-2 border-t border-border/40">
-                <Label className="eyebrow">Spine binding</Label>
+                <Label className="eyebrow">{t("Spine binding")}</Label>
 
                 <div className="space-y-2">
-                  <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">Color</div>
+                  <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">{t("Color")}</div>
                   <div className="flex flex-wrap gap-2">
                     {SPINE_PALETTE.map(c => (
                       <button
