@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { logHistory } from "@/lib/history";
 import { AICoverDialog } from "@/components/AICoverDialog";
+import { useLang } from "@/lib/i18n";
 
 interface Props { open: boolean; onOpenChange: (o: boolean) => void; }
 
