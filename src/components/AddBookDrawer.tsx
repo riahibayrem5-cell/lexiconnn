@@ -470,7 +470,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                     aria-label="Live thickness preview"
                   />
                   <p className="text-xs font-serif italic text-muted-foreground">
-                    Drag the slider to feel the weight of this volume on your shelf.
+                    {t("Drag the slider to feel the weight of this volume on your shelf.")}
                   </p>
                 </div>
                 <label className="flex items-center gap-2 text-xs font-serif text-muted-foreground pt-1">
@@ -481,7 +481,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                     className="accent-primary"
                   />
                   <Wand2 className="h-3 w-3 text-primary" />
-                  Generate a custom 2D spine artwork that matches this cover
+                  {t("Generate a custom 2D spine artwork that matches this cover")}
                 </label>
               </div>
 
