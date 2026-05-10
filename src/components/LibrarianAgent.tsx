@@ -200,9 +200,9 @@ export function LibrarianAgent() {
         <div className="mb-3 w-[min(400px,calc(100vw-2rem))] luxury-panel rounded-sm p-4 shadow-card animate-scale-in">
           <div className="flex items-center justify-between gap-3 mb-3">
             <div>
-              <p className="eyebrow flex items-center gap-2"><Sparkles className="h-3 w-3 text-primary" /> Librarian</p>
+              <p className="eyebrow flex items-center gap-2"><Sparkles className="h-3 w-3 text-primary" /> {t("Librarian agent")}</p>
               <p className="font-serif italic text-xs text-muted-foreground">
-                {contextBook ? <>On: <span className="text-primary">{contextBook.title}</span></> : "Commands or questions about your library."}
+                {contextBook ? <><span>{t("On:")}</span> <span className="text-primary">{contextBook.title}</span></> : t("Commands or questions about your library.")}
               </p>
             </div>
             <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-primary"><X className="h-4 w-4" /></button>
