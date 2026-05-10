@@ -529,24 +529,24 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">Texture</div>
+                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">{t("Texture")}</div>
                     <div className="flex gap-1">
-                      {TEXTURES.map(t => (
+                      {TEXTURES.map(t2 => (
                         <button
-                          key={t.v}
-                          onClick={() => setSpineTexture(t.v)}
+                          key={t2.v}
+                          onClick={() => setSpineTexture(t2.v)}
                           className={cn(
                             "flex-1 px-2 py-1.5 rounded-sm text-xs font-display tracking-wide border transition-colors",
-                            spineTexture === t.v
+                            spineTexture === t2.v
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border/40 text-muted-foreground hover:border-border-strong/60"
                           )}
-                        >{t.l}</button>
+                        >{t(t2.l)}</button>
                       ))}
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">Foil</div>
+                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">{t("Foil")}</div>
                     <div className="flex gap-1">
                       {FOILS.map(f => (
                         <button
