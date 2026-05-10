@@ -39,6 +39,7 @@ export function LibrarianAgent() {
   const location = useLocation();
   const params = useParams();
   const { books, addBook, removeBook, setStatus, setRating, addJournal, addQuote, updateBook, exportAll } = useLibrary();
+  const { t } = useLang();
 
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<"do" | "ask">("do");
