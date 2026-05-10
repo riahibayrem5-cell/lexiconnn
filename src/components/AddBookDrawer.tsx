@@ -197,7 +197,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
   const submit = async () => {
     if (!picked) {
-      toast.error("Pick a book from the search first");
+      toast.error(t("Pick a book from the search first"));
       return;
     }
     const count = Math.max(1, Math.min(20, copies));
