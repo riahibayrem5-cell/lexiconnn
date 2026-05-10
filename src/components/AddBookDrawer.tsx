@@ -426,7 +426,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
               </div>
 
               <div className="space-y-2">
-                <Label className="eyebrow">Copies to add</Label>
+                <Label className="eyebrow">{t("Copies to add")}</Label>
                 <Input
                   type="number"
                   min={1}
