@@ -252,13 +252,13 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
       <SheetContent side="right" className="w-full sm:max-w-xl bg-surface border-l border-border-strong/40 overflow-y-auto p-0">
         <div className="px-8 pt-8 pb-6 border-b border-border/60">
           <SheetHeader className="space-y-2">
-            <span className="eyebrow">Acquisition</span>
+            <span className="eyebrow">{t("Acquisition")}</span>
             <SheetTitle className="font-display text-3xl text-foreground">
-              Check in a new volume
+              {t("Check in a new volume")}
             </SheetTitle>
           </SheetHeader>
           <p className="mt-2 italic text-muted-foreground text-sm">
-            Search Open Library, then complete the personal record.
+            {t("Search Open Library, then complete the personal record.")}
           </p>
         </div>
 
