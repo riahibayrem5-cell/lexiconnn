@@ -440,7 +440,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
               {/* PAGES — slider drives 3D thickness in real time */}
               <div className="space-y-3 p-4 ink-card rounded-sm">
                 <div className="flex items-baseline justify-between">
-                  <Label className="eyebrow">Page count · spine thickness</Label>
+                  <Label className="eyebrow">{t("Page count · spine thickness")}</Label>
                   <span className="mono text-[0.7rem] text-primary">
                     {pageCount} pp · {(pageCount / 400).toFixed(2)}″
                   </span>
