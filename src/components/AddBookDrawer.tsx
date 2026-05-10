@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { logHistory } from "@/lib/history";
 import { AICoverDialog } from "@/components/AICoverDialog";
+import { useLang } from "@/lib/i18n";
 
 interface Props { open: boolean; onOpenChange: (o: boolean) => void; }
 
@@ -51,6 +52,7 @@ const FOILS: { v: NonNullable<Book["foilStyle"]>; l: string }[] = [
 
 export function AddBookDrawer({ open, onOpenChange }: Props) {
   const { addBook } = useLibrary();
+  const { t } = useLang();
   const [q, setQ] = useState("");
   const [results, setResults] = useState<OLResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -129,8 +131,8 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
       } else {
         setCoverPreview(undefined);
         setCoverSource("none");
-        toast("No verified cover found — a designed shelf spine will be used.", {
-          description: "You can upload a custom cover anytime.",
+        toast(t("No verified cover · shelf spine fallback"), {
+          description: t("Custom cover uploaded"),
         });
       }
       setAcquiring(false);
@@ -168,9 +170,9 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
     if (url) {
       setCoverPreview(url);
       setCoverSource("uploaded");
-      toast.success("Custom cover uploaded");
+      toast.success(t("Custom cover uploaded"));
     } else {
-      toast.error("Upload failed");
+      toast.error(t("Upload failed"));
     }
     setAcquiring(false);
   };
@@ -188,14 +190,14 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
     if (acquired) {
       setCoverPreview(acquired.url);
       setCoverSource(acquired.source);
-      toast.success("Cover found");
-    } else toast.error("Still no real cover — try uploading one");
+      toast.success(t("Cover found"));
+    } else toast.error(t("Still no real cover — try uploading one"));
     setAcquiring(false);
   };
 
   const submit = async () => {
     if (!picked) {
-      toast.error("Pick a book from the search first");
+      toast.error(t("Pick a book from the search first"));
       return;
     }
     const count = Math.max(1, Math.min(20, copies));
@@ -250,13 +252,13 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
       <SheetContent side="right" className="w-full sm:max-w-xl bg-surface border-l border-border-strong/40 overflow-y-auto p-0">
         <div className="px-8 pt-8 pb-6 border-b border-border/60">
           <SheetHeader className="space-y-2">
-            <span className="eyebrow">Acquisition</span>
+            <span className="eyebrow">{t("Acquisition")}</span>
             <SheetTitle className="font-display text-3xl text-foreground">
-              Check in a new volume
+              {t("Check in a new volume")}
             </SheetTitle>
           </SheetHeader>
           <p className="mt-2 italic text-muted-foreground text-sm">
-            Search Open Library, then complete the personal record.
+            {t("Search Open Library, then complete the personal record.")}
           </p>
         </div>
 
@@ -264,12 +266,12 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
           {!picked && (
             <>
               <div className="space-y-2">
-                <Label className="eyebrow">Search</Label>
+                <Label className="eyebrow">{t("Search")}</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     autoFocus
-                    placeholder="Title, author, or ISBN…"
+                    placeholder={t("Title, author, or ISBN…")}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     className="pl-10 bg-input border-border-strong/40 font-serif"
@@ -317,7 +319,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                   </button>
                 ))}
                 {!loading && q.length >= 3 && results.length === 0 && (
-                  <p className="text-sm text-muted-foreground italic px-1">No results — try different spelling.</p>
+                  <p className="text-sm text-muted-foreground italic px-1">{t("No results — try different spelling.")}</p>
                 )}
               </div>
             </>
@@ -344,7 +346,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                     {picked.author}{picked.year ? ` · ${picked.year}` : ""}
                   </div>
                   <div className="mt-2 mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground">
-                    {enriching ? "AI checking metadata…" : picked.pages ? `${picked.pages} pages · spine ready` : "Page count unknown"}
+                    {enriching ? t("AI checking metadata…") : picked.pages ? `${picked.pages} ${t("pages")} · ${t("spine ready", "spine ready")}` : t("Page count unknown")}
                   </div>
                   {coverSource !== "none" && (
                     <div className="mt-2 mono text-[0.55rem] tracking-[0.25em] uppercase text-primary/80">
@@ -360,7 +362,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                   )}
                   {coverSource === "none" && !acquiring && (
                     <div className="mt-2 mono text-[0.55rem] tracking-[0.25em] uppercase text-muted-foreground">
-                      No verified cover · shelf spine fallback
+                      {t("No verified cover · shelf spine fallback")}
                     </div>
                   )}
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -369,25 +371,25 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                       disabled={acquiring}
                       className="inline-flex items-center gap-1.5 text-[0.65rem] mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
                     >
-                      <Upload className="h-3 w-3" /> Upload
+                      <Upload className="h-3 w-3" /> {t("Upload")}
                     </button>
                     <button
                       onClick={retryRealCover}
                       disabled={acquiring}
                       className="inline-flex items-center gap-1.5 text-[0.65rem] mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
                     >
-                      <Search className="h-3 w-3" /> Retry search
+                      <Search className="h-3 w-3" /> {t("Retry search")}
                     </button>
                     {coverSource === "none" && !acquiring && (
                       <button
                         onClick={() => setAiCoverOpen(true)}
                         className="inline-flex items-center gap-1.5 text-[0.65rem] mono uppercase tracking-[0.2em] text-primary hover:text-primary-glow transition-colors"
                       >
-                        <Sparkles className="h-3 w-3" /> AI cover
+                        <Sparkles className="h-3 w-3" /> {t("AI cover")}
                       </button>
                     )}
                     <button onClick={() => setPicked(null)} className="text-[0.65rem] mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors">
-                      ← Search again
+                      ← {t("Search again")}
                     </button>
                   </div>
                   <input
@@ -402,29 +404,29 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="eyebrow">Status</Label>
+                  <Label className="eyebrow">{t("Status")}</Label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as BookStatus)}
                     className="w-full bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-serif text-sm focus:outline-none focus:border-primary"
                   >
-                    {STATUSES.map(s => <option key={s.v} value={s.v}>{s.l}</option>)}
+                    {STATUSES.map(s => <option key={s.v} value={s.v}>{t(s.l)}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="eyebrow">Format</Label>
+                  <Label className="eyebrow">{t("Format")}</Label>
                   <select
                     value={format}
                     onChange={(e) => setFormat(e.target.value as BookFormat)}
                     className="w-full bg-input border border-border-strong/40 rounded-sm px-3 py-2 font-serif text-sm focus:outline-none focus:border-primary"
                   >
-                    {FORMATS.map(f => <option key={f.v} value={f.v}>{f.l}</option>)}
+                    {FORMATS.map(f => <option key={f.v} value={f.v}>{t(f.l)}</option>)}
                   </select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label className="eyebrow">Copies to add</Label>
+                <Label className="eyebrow">{t("Copies to add")}</Label>
                 <Input
                   type="number"
                   min={1}
@@ -438,7 +440,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
               {/* PAGES — slider drives 3D thickness in real time */}
               <div className="space-y-3 p-4 ink-card rounded-sm">
                 <div className="flex items-baseline justify-between">
-                  <Label className="eyebrow">Page count · spine thickness</Label>
+                  <Label className="eyebrow">{t("Page count · spine thickness")}</Label>
                   <span className="mono text-[0.7rem] text-primary">
                     {pageCount} pp · {(pageCount / 400).toFixed(2)}″
                   </span>
@@ -468,7 +470,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                     aria-label="Live thickness preview"
                   />
                   <p className="text-xs font-serif italic text-muted-foreground">
-                    Drag the slider to feel the weight of this volume on your shelf.
+                    {t("Drag the slider to feel the weight of this volume on your shelf.")}
                   </p>
                 </div>
                 <label className="flex items-center gap-2 text-xs font-serif text-muted-foreground pt-1">
@@ -479,14 +481,14 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                     className="accent-primary"
                   />
                   <Wand2 className="h-3 w-3 text-primary" />
-                  Generate a custom 2D spine artwork that matches this cover
+                  {t("Generate a custom 2D spine artwork that matches this cover")}
                 </label>
               </div>
 
               <div className="space-y-2">
-                <Label className="eyebrow">How I found this book</Label>
+                <Label className="eyebrow">{t("How I found this book")}</Label>
                 <Input
-                  placeholder="A friend, a footnote, a 3am rabbit hole…"
+                  placeholder={t("A friend, a footnote, a 3am rabbit hole…")}
                   value={howIFound}
                   onChange={(e) => setHowIFound(e.target.value)}
                   className="bg-input border-border-strong/40 font-serif italic"
@@ -494,7 +496,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
               </div>
 
               <div className="space-y-2">
-                <Label className="eyebrow">Tags <span className="opacity-60">(comma-separated)</span></Label>
+                <Label className="eyebrow">{t("Tags")} <span className="opacity-60">{t("(comma-separated)")}</span></Label>
                 <Input
                   placeholder="solitude, time, prose"
                   value={tagsRaw}
@@ -505,10 +507,10 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
               {/* Customization */}
               <div className="space-y-4 pt-2 border-t border-border/40">
-                <Label className="eyebrow">Spine binding</Label>
+                <Label className="eyebrow">{t("Spine binding")}</Label>
 
                 <div className="space-y-2">
-                  <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">Color</div>
+                  <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">{t("Color")}</div>
                   <div className="flex flex-wrap gap-2">
                     {SPINE_PALETTE.map(c => (
                       <button
@@ -527,24 +529,24 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">Texture</div>
+                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">{t("Texture")}</div>
                     <div className="flex gap-1">
-                      {TEXTURES.map(t => (
+                      {TEXTURES.map(t2 => (
                         <button
-                          key={t.v}
-                          onClick={() => setSpineTexture(t.v)}
+                          key={t2.v}
+                          onClick={() => setSpineTexture(t2.v)}
                           className={cn(
                             "flex-1 px-2 py-1.5 rounded-sm text-xs font-display tracking-wide border transition-colors",
-                            spineTexture === t.v
+                            spineTexture === t2.v
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border/40 text-muted-foreground hover:border-border-strong/60"
                           )}
-                        >{t.l}</button>
+                        >{t(t2.l)}</button>
                       ))}
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">Foil</div>
+                    <div className="mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">{t("Foil")}</div>
                     <div className="flex gap-1">
                       {FOILS.map(f => (
                         <button
@@ -556,7 +558,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border/40 text-muted-foreground hover:border-border-strong/60"
                           )}
-                        >{f.l}</button>
+                        >{t(f.l)}</button>
                       ))}
                     </div>
                   </div>
@@ -569,10 +571,10 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                   disabled={acquiring}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                 >
-                  Check In
+                  {t("Check In")}
                 </Button>
                 <Button onClick={() => onOpenChange(false)} variant="ghost" className="text-muted-foreground">
-                  Cancel
+                  {t("Cancel")}
                 </Button>
               </div>
             </div>

@@ -10,6 +10,7 @@ import type { Book, BookStatus } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { logHistory } from "@/lib/history";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 const routes: Record<string, string> = {
   shelf: "/", oracle: "/oracle", review: "/review", ritual: "/ritual",
@@ -38,6 +39,7 @@ export function LibrarianAgent() {
   const location = useLocation();
   const params = useParams();
   const { books, addBook, removeBook, setStatus, setRating, addJournal, addQuote, updateBook, exportAll } = useLibrary();
+  const { t } = useLang();
 
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<"do" | "ask">("do");
@@ -67,10 +69,12 @@ export function LibrarianAgent() {
       })
       .sort((a, z) => z.days - a.days)[0];
     if (stalest && stalest.days >= 7) {
-      return `You haven't opened ${stalest.book.title} in ${stalest.days} days.`;
+      return t("You haven't opened {title} in {days} days.")
+        .replace("{title}", stalest.book.title)
+        .replace("{days}", String(stalest.days));
     }
     return null;
-  }, [books]);
+  }, [books, t]);
 
   const findBook = (query: string): Book | undefined => {
     if (!query) return undefined;
@@ -175,13 +179,13 @@ export function LibrarianAgent() {
       });
       if (data?.error) { toast.error(data.error); return; }
       const plan = data as Plan;
-      if (!plan?.actions?.length) { toast.error("I didn't understand that."); return; }
+      if (!plan?.actions?.length) { toast.error(t("I didn't understand that.")); return; }
       for (const a of plan.actions) {
         await execAction(a, raw);
       }
     } catch (e) {
       console.error(e);
-      toast.error("Agent error.");
+      toast.error(t("Agent failed"));
     } finally {
       setLoading(false);
     }
@@ -196,9 +200,9 @@ export function LibrarianAgent() {
         <div className="mb-3 w-[min(400px,calc(100vw-2rem))] luxury-panel rounded-sm p-4 shadow-card animate-scale-in">
           <div className="flex items-center justify-between gap-3 mb-3">
             <div>
-              <p className="eyebrow flex items-center gap-2"><Sparkles className="h-3 w-3 text-primary" /> Librarian</p>
+              <p className="eyebrow flex items-center gap-2"><Sparkles className="h-3 w-3 text-primary" /> {t("Librarian agent")}</p>
               <p className="font-serif italic text-xs text-muted-foreground">
-                {contextBook ? <>On: <span className="text-primary">{contextBook.title}</span></> : "Commands or questions about your library."}
+                {contextBook ? <><span>{t("On:")}</span> <span className="text-primary">{contextBook.title}</span></> : t("Commands or questions about your library.")}
               </p>
             </div>
             <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-primary"><X className="h-4 w-4" /></button>
@@ -213,10 +217,10 @@ export function LibrarianAgent() {
           {/* Tabs */}
           <div className="flex gap-1 mb-3 rounded-sm border border-border/40 p-0.5">
             <button onClick={() => setTab("do")} className={cn("flex-1 py-1.5 mono text-[0.55rem] tracking-[0.22em] uppercase rounded-[2px] flex items-center justify-center gap-1.5", tab === "do" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground")}>
-              <Wand2 className="h-3 w-3" /> Do
+              <Wand2 className="h-3 w-3" /> {t("Do")}
             </button>
             <button onClick={() => setTab("ask")} className={cn("flex-1 py-1.5 mono text-[0.55rem] tracking-[0.22em] uppercase rounded-[2px] flex items-center justify-center gap-1.5", tab === "ask" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground")}>
-              <MessageSquare className="h-3 w-3" /> Ask
+              <MessageSquare className="h-3 w-3" /> {t("Ask")}
             </button>
           </div>
 
@@ -224,7 +228,7 @@ export function LibrarianAgent() {
             <div className="mb-3 max-h-56 overflow-y-auto space-y-2 pr-1">
               {chat.map((m, i) => (
                 <div key={i} className={cn("text-xs", m.role === "user" ? "text-foreground" : "text-foreground/85 font-serif italic")}>
-                  <p className="mono text-[0.5rem] tracking-[0.2em] uppercase text-muted-foreground mb-0.5">{m.role === "user" ? "You" : "Librarian"}</p>
+                  <p className="mono text-[0.5rem] tracking-[0.2em] uppercase text-muted-foreground mb-0.5">{m.role === "user" ? t("You") : t("Librarian agent")}</p>
                   <p className="leading-relaxed">{m.text}</p>
                 </div>
               ))}
@@ -236,7 +240,7 @@ export function LibrarianAgent() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !loading && run()}
-              placeholder={tab === "do" ? "Ask the shelf… (chain: add X, mark reading, tag Y)" : "Ask anything about your library…"}
+              placeholder={tab === "do" ? t("Ask the shelf… (chain: add X, mark reading, tag Y)") : t("Ask anything about your library…")}
               className="bg-input/60 font-serif"
               autoFocus
             />
@@ -265,7 +269,7 @@ export function LibrarianAgent() {
                       const added = await addBook({ title: r.title, author: r.author, year: r.year, isbn: r.isbn, coverUrl: r.coverUrl, coverSource: r.source ?? "openlibrary", pages: r.pages, language: "English", status: "want", tags: r.categories?.slice(0, 3).map(t => t.toLowerCase()) ?? [], aiTags: r.categories?.slice(0, 5).map(t => t.toLowerCase()) ?? [], isFiction: r.isFiction });
                       if (added) toast.success(`Shelved ${added.title}`);
                     }} className="mt-1 inline-flex items-center gap-1 mono text-[0.5rem] tracking-[0.2em] uppercase text-primary hover:text-primary-glow">
-                      <Plus className="h-3 w-3" /> Confirm add
+                      <Plus className="h-3 w-3" /> {t("Confirm add")}
                     </button>
                   </div>
                 </div>
