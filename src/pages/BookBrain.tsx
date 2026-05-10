@@ -213,7 +213,7 @@ export default function BookBrain() {
       isFiction: r.isFiction ?? b.isFiction,
       tags: Array.from(new Set([...b.tags, ...((r.categories ?? []).slice(0, 3).map(t => t.toLowerCase()))])),
     }));
-    toast.success(`Edition applied from ${r.source ?? "source"}`);
+    toast.success(`${t("Apply edition")} · ${r.source ?? "source"}`);
   };
 
   const generateSpine = async () => {
