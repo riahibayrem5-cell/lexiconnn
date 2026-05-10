@@ -228,7 +228,7 @@ export function LibrarianAgent() {
             <div className="mb-3 max-h-56 overflow-y-auto space-y-2 pr-1">
               {chat.map((m, i) => (
                 <div key={i} className={cn("text-xs", m.role === "user" ? "text-foreground" : "text-foreground/85 font-serif italic")}>
-                  <p className="mono text-[0.5rem] tracking-[0.2em] uppercase text-muted-foreground mb-0.5">{m.role === "user" ? "You" : "Librarian"}</p>
+                  <p className="mono text-[0.5rem] tracking-[0.2em] uppercase text-muted-foreground mb-0.5">{m.role === "user" ? t("You") : t("Librarian agent")}</p>
                   <p className="leading-relaxed">{m.text}</p>
                 </div>
               ))}
