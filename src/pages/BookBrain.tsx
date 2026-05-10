@@ -536,17 +536,17 @@ export default function BookBrain() {
               <div className="space-y-3">
                 <Textarea
                   rows={5}
-                  placeholder="What did the page do to you today?"
+                  placeholder={t("What did the page do to you today?")}
                   value={journalDraft}
                   onChange={(e) => setJournalDraft(e.target.value)}
                   className="bg-input/40 border-border-strong/30 font-serif text-base italic placeholder:italic placeholder:text-muted-foreground/60 leading-relaxed"
                 />
                 <Button
-                  onClick={() => { addJournal(book.id, journalDraft); setJournalDraft(""); toast.success("Entry saved"); }}
+                  onClick={() => { addJournal(book.id, journalDraft); setJournalDraft(""); toast.success(t("Entry saved")); }}
                   disabled={!journalDraft.trim()}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                 >
-                  Inscribe
+                  {t("Inscribe")}
                 </Button>
               </div>
               <div className="space-y-4 mt-8">
@@ -559,7 +559,7 @@ export default function BookBrain() {
                   </article>
                 ))}
                 {(!inst || (inst.journal ?? []).length === 0) && (
-                  <p className="font-display italic text-muted-foreground">No marginalia yet.</p>
+                  <p className="font-display italic text-muted-foreground">{t("No marginalia yet.")}</p>
                 )}
               </div>
             </TabsContent>
