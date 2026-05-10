@@ -571,12 +571,11 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                   disabled={acquiring}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                 >
-                  Check In
+                  {t("Check In")}
                 </Button>
                 <Button onClick={() => onOpenChange(false)} variant="ghost" className="text-muted-foreground">
-                  Cancel
+                  {t("Cancel")}
                 </Button>
-              </div>
             </div>
           )}
         </div>
