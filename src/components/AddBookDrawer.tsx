@@ -319,7 +319,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                   </button>
                 ))}
                 {!loading && q.length >= 3 && results.length === 0 && (
-                  <p className="text-sm text-muted-foreground italic px-1">No results — try different spelling.</p>
+                  <p className="text-sm text-muted-foreground italic px-1">{t("No results — try different spelling.")}</p>
                 )}
               </div>
             </>
