@@ -131,8 +131,8 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
       } else {
         setCoverPreview(undefined);
         setCoverSource("none");
-        toast("No verified cover found — a designed shelf spine will be used.", {
-          description: "You can upload a custom cover anytime.",
+        toast(t("No verified cover · shelf spine fallback"), {
+          description: t("Custom cover uploaded"),
         });
       }
       setAcquiring(false);
