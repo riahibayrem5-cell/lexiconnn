@@ -799,15 +799,15 @@ export default function BookBrain() {
         {/* RIGHT — meta + how I found + similar */}
         <aside className="col-span-12 lg:col-span-3 space-y-6">
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Tags</p>
+            <p className="eyebrow">{t("Tags")}</p>
             <div className="flex flex-wrap gap-1.5">
-              {book.tags.map(t => (
-                <span key={t} className="mono text-[0.6rem] tracking-[0.2em] uppercase px-2 py-1 border border-border-strong/40 text-muted-foreground rounded-sm">{t}</span>
+              {book.tags.map(tag => (
+                <span key={tag} className="mono text-[0.6rem] tracking-[0.2em] uppercase px-2 py-1 border border-border-strong/40 text-muted-foreground rounded-sm">{tag}</span>
               ))}
-              {book.tags.length === 0 && <span className="italic text-xs text-muted-foreground">none</span>}
+              {book.tags.length === 0 && <span className="italic text-xs text-muted-foreground">{t("none")}</span>}
             </div>
             <Input
-              placeholder="add tag, press enter"
+              placeholder={t("add tag, press enter")}
               className="bg-input/40 border-border-strong/30 mono text-xs mt-2"
               onKeyDown={(e) => {
                 const v = (e.target as HTMLInputElement).value.trim();
@@ -820,17 +820,17 @@ export default function BookBrain() {
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-2">
-            <p className="eyebrow">How I found it</p>
+            <p className="eyebrow">{t("How I found it")}</p>
             <p className="font-serif italic text-foreground/90 leading-relaxed text-sm">
-              {book.howIFound || <span className="text-muted-foreground">Lost to memory.</span>}
+              {book.howIFound || <span className="text-muted-foreground">{t("Lost to memory.")}</span>}
             </p>
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Adjacent in my library</p>
+            <p className="eyebrow">{t("Adjacent in my library")}</p>
             <div className="space-y-2">
               {books
-                .filter(b => b.id !== book.id && b.tags.some(t => book.tags.includes(t)))
+                .filter(b => b.id !== book.id && b.tags.some(tg => book.tags.includes(tg)))
                 .slice(0, 4)
                 .map(b => (
                   <button key={b.id} onClick={() => navigate(`/book/${b.id}`)} className="w-full text-left flex items-center gap-3 group">
@@ -841,8 +841,8 @@ export default function BookBrain() {
                     </div>
                   </button>
                 ))}
-              {books.filter(b => b.id !== book.id && b.tags.some(t => book.tags.includes(t))).length === 0 && (
-                <p className="italic text-xs text-muted-foreground">Nothing yet.</p>
+              {books.filter(b => b.id !== book.id && b.tags.some(tg => book.tags.includes(tg))).length === 0 && (
+                <p className="italic text-xs text-muted-foreground">{t("Nothing yet.")}</p>
               )}
             </div>
           </div>
