@@ -850,12 +850,12 @@ export default function BookBrain() {
           {linkedRecs.length > 0 && (
             <div className="ink-card rounded-sm p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <p className="eyebrow">Saved searches for this book</p>
+                <p className="eyebrow">{t("Saved searches for this book")}</p>
                 <button
                   onClick={() => navigate("/recommendations")}
                   className="mono text-[0.55rem] tracking-[0.22em] uppercase text-primary hover:text-primary-glow"
                 >
-                  Open ↗
+                  {t("Open")} ↗
                 </button>
               </div>
               <div className="space-y-2">
@@ -863,7 +863,7 @@ export default function BookBrain() {
                   <div key={r.id} className="border border-border/40 rounded-sm p-2.5">
                     <p className="font-display text-xs text-foreground truncate">{r.detected?.title ?? r.query}</p>
                     <p className="mono text-[0.5rem] tracking-[0.2em] uppercase text-muted-foreground mt-1">
-                      {r.editions.length} editions · {new Date(r.savedAt).toLocaleDateString()}
+                      {r.editions.length} {t("editions")} · {new Date(r.savedAt).toLocaleDateString()}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1">
                       {r.editions.slice(0, 4).map((e) => (
