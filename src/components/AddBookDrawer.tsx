@@ -170,9 +170,9 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
     if (url) {
       setCoverPreview(url);
       setCoverSource("uploaded");
-      toast.success("Custom cover uploaded");
+      toast.success(t("Custom cover uploaded"));
     } else {
-      toast.error("Upload failed");
+      toast.error(t("Upload failed"));
     }
     setAcquiring(false);
   };
