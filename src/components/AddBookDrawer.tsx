@@ -486,9 +486,9 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
               </div>
 
               <div className="space-y-2">
-                <Label className="eyebrow">How I found this book</Label>
+                <Label className="eyebrow">{t("How I found this book")}</Label>
                 <Input
-                  placeholder="A friend, a footnote, a 3am rabbit hole…"
+                  placeholder={t("A friend, a footnote, a 3am rabbit hole…")}
                   value={howIFound}
                   onChange={(e) => setHowIFound(e.target.value)}
                   className="bg-input border-border-strong/40 font-serif italic"
@@ -496,7 +496,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
               </div>
 
               <div className="space-y-2">
-                <Label className="eyebrow">Tags <span className="opacity-60">(comma-separated)</span></Label>
+                <Label className="eyebrow">{t("Tags")} <span className="opacity-60">{t("(comma-separated)")}</span></Label>
                 <Input
                   placeholder="solitude, time, prose"
                   value={tagsRaw}
