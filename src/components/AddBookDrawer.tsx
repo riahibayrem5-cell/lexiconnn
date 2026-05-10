@@ -346,7 +346,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                     {picked.author}{picked.year ? ` · ${picked.year}` : ""}
                   </div>
                   <div className="mt-2 mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground">
-                    {enriching ? "AI checking metadata…" : picked.pages ? `${picked.pages} pages · spine ready` : "Page count unknown"}
+                    {enriching ? t("AI checking metadata…") : picked.pages ? `${picked.pages} ${t("pages")} · ${t("spine ready", "spine ready")}` : t("Page count unknown")}
                   </div>
                   {coverSource !== "none" && (
                     <div className="mt-2 mono text-[0.55rem] tracking-[0.25em] uppercase text-primary/80">
