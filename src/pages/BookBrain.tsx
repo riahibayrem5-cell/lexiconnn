@@ -446,7 +446,7 @@ export default function BookBrain() {
           </div>
 
           <div className="ink-card rounded-sm p-5 space-y-3">
-            <p className="eyebrow">Rating</p>
+            <p className="eyebrow">{t("Rating")}</p>
             <RatingDial value={inst?.rating} onChange={(v) => setRating(book.id, v)} size={170} />
           </div>
 
