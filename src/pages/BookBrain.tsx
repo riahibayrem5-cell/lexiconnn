@@ -435,13 +435,13 @@ export default function BookBrain() {
           </div>
 
           <div className="text-center space-y-2">
-            <span className="eyebrow">{STATUS_LABEL[book.status]}</span>
+            <span className="eyebrow">{t(STATUS_LABEL[book.status], STATUS_LABEL[book.status])}</span>
             <select
               value={book.status}
-              onChange={(e) => { setStatus(book.id, e.target.value as BookStatus); toast.success("Status updated"); }}
+              onChange={(e) => { setStatus(book.id, e.target.value as BookStatus); toast.success(t("Status updated")); }}
               className="block mx-auto bg-input border border-border-strong/40 rounded-sm px-3 py-1.5 text-xs font-mono uppercase tracking-wider focus:outline-none focus:border-primary"
             >
-              {STATUSES.map(s => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
+              {STATUSES.map(s => <option key={s} value={s}>{t(STATUS_LABEL[s], STATUS_LABEL[s])}</option>)}
             </select>
           </div>
 
