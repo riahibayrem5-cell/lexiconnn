@@ -558,7 +558,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border/40 text-muted-foreground hover:border-border-strong/60"
                           )}
-                        >{f.l}</button>
+                        >{t(f.l)}</button>
                       ))}
                     </div>
                   </div>
