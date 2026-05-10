@@ -191,9 +191,9 @@ export default function BookBrain() {
         coverSource: cover?.source ?? meta?.source ?? b.coverSource,
         tags: Array.from(new Set([...b.tags, ...((meta?.categories ?? []).slice(0, 3).map(t => t.toLowerCase())), ...((ai?.tags ?? []).slice(0, 5))])),
       }));
-      toast.success("Book details refreshed");
+      toast.success(t("Book details refreshed"));
     } catch (e: any) {
-      toast.error(e.message ?? "Metadata refresh failed");
+      toast.error(e.message ?? t("Metadata refresh failed"));
     } finally {
       setRefreshingMeta(false);
     }
