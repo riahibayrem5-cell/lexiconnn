@@ -10,6 +10,7 @@ import type { Book, BookStatus } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { logHistory } from "@/lib/history";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 const routes: Record<string, string> = {
   shelf: "/", oracle: "/oracle", review: "/review", ritual: "/ritual",
