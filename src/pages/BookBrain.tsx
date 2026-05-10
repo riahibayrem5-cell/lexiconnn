@@ -319,11 +319,11 @@ export default function BookBrain() {
         dossier, generatedAt,
       });
       setHasDossier(true);
-      toast.success("Dossier saved to your Memory Vault", {
-        action: { label: "Open", onClick: () => navigate(`/history?open=${book.id}`) },
+      toast.success(t("Dossier saved to your Memory Vault"), {
+        action: { label: t("Open"), onClick: () => navigate(`/history?open=${book.id}`) },
       });
     } catch (e: any) {
-      toast.error(e?.message ?? "Could not generate dossier");
+      toast.error(e?.message ?? t("Could not generate dossier"));
     } finally {
       setGeneratingDossier(false);
     }
