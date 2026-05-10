@@ -69,10 +69,12 @@ export function LibrarianAgent() {
       })
       .sort((a, z) => z.days - a.days)[0];
     if (stalest && stalest.days >= 7) {
-      return `You haven't opened ${stalest.book.title} in ${stalest.days} days.`;
+      return t("You haven't opened {title} in {days} days.")
+        .replace("{title}", stalest.book.title)
+        .replace("{days}", String(stalest.days));
     }
     return null;
-  }, [books]);
+  }, [books, t]);
 
   const findBook = (query: string): Book | undefined => {
     if (!query) return undefined;
