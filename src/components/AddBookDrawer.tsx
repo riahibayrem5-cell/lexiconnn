@@ -190,8 +190,8 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
     if (acquired) {
       setCoverPreview(acquired.url);
       setCoverSource(acquired.source);
-      toast.success("Cover found");
-    } else toast.error("Still no real cover — try uploading one");
+      toast.success(t("Cover found"));
+    } else toast.error(t("Still no real cover — try uploading one"));
     setAcquiring(false);
   };
 
