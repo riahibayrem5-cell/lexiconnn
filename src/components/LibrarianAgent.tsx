@@ -217,10 +217,10 @@ export function LibrarianAgent() {
           {/* Tabs */}
           <div className="flex gap-1 mb-3 rounded-sm border border-border/40 p-0.5">
             <button onClick={() => setTab("do")} className={cn("flex-1 py-1.5 mono text-[0.55rem] tracking-[0.22em] uppercase rounded-[2px] flex items-center justify-center gap-1.5", tab === "do" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground")}>
-              <Wand2 className="h-3 w-3" /> Do
+              <Wand2 className="h-3 w-3" /> {t("Do")}
             </button>
             <button onClick={() => setTab("ask")} className={cn("flex-1 py-1.5 mono text-[0.55rem] tracking-[0.22em] uppercase rounded-[2px] flex items-center justify-center gap-1.5", tab === "ask" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground")}>
-              <MessageSquare className="h-3 w-3" /> Ask
+              <MessageSquare className="h-3 w-3" /> {t("Ask")}
             </button>
           </div>
 
