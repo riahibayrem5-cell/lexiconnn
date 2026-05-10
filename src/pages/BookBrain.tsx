@@ -163,10 +163,10 @@ export default function BookBrain() {
         toast.error(data.error);
       } else {
         setSuggested(data?.quotes ?? []);
-        if ((data?.quotes ?? []).length === 0) toast.info("No quotes returned — try again.");
+        if ((data?.quotes ?? []).length === 0) toast.info(t("No quotes returned — try again."));
       }
     } catch (e: any) {
-      toast.error(e.message ?? "AI unavailable");
+      toast.error(e.message ?? t("AI unavailable"));
     } finally {
       setLoadingSuggested(false);
     }
