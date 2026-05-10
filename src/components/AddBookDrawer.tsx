@@ -266,12 +266,12 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
           {!picked && (
             <>
               <div className="space-y-2">
-                <Label className="eyebrow">Search</Label>
+                <Label className="eyebrow">{t("Search")}</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     autoFocus
-                    placeholder="Title, author, or ISBN…"
+                    placeholder={t("Title, author, or ISBN…")}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     className="pl-10 bg-input border-border-strong/40 font-serif"
