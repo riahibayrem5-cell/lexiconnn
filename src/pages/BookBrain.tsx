@@ -684,11 +684,11 @@ export default function BookBrain() {
                           <button
                             onClick={() => {
                               addQuote(book.id, { text: s.text, resonance: "beautiful-language", note: s.context });
-                              toast.success("Saved to your vault");
+                              toast.success(t("Saved to your vault"));
                             }}
                             className="inline-flex items-center gap-1.5 mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 hover:text-primary transition-colors"
                           >
-                            <Plus className="h-3 w-3" /> Save
+                            <Plus className="h-3 w-3" /> {t("Save")}
                           </button>
                         </div>
                       </div>
