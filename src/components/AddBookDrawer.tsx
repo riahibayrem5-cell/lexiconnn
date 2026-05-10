@@ -362,7 +362,7 @@ export function AddBookDrawer({ open, onOpenChange }: Props) {
                   )}
                   {coverSource === "none" && !acquiring && (
                     <div className="mt-2 mono text-[0.55rem] tracking-[0.25em] uppercase text-muted-foreground">
-                      No verified cover · shelf spine fallback
+                      {t("No verified cover · shelf spine fallback")}
                     </div>
                   )}
                   <div className="mt-3 flex flex-wrap gap-2">
