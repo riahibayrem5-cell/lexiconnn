@@ -776,15 +776,15 @@ export default function BookBrain() {
             <TabsContent value="ai" className="mt-6 space-y-4">
               <div className="ink-card rounded-sm p-6 space-y-4">
                 <div>
-                  <p className="eyebrow mb-2">AI Dissection</p>
+                  <p className="eyebrow mb-2">{t("AI Dissection")}</p>
                   <p className="font-serif italic text-muted-foreground">
-                    A reflection of your particular reading — built from your notes, quotes, and emotional arc. Not Wikipedia.
+                    {t("A reflection of your particular reading — built from your notes, quotes, and emotional arc. Not Wikipedia.")}
                   </p>
                 </div>
                 <Button onClick={requestDissection} disabled={loadingDissection}
                   className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider">
                   {loadingDissection ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
-                  Generate dissection
+                  {t("Generate dissection")}
                 </Button>
                 {dissection && (
                   <div className="font-serif leading-relaxed text-foreground whitespace-pre-wrap pt-4 border-t border-border/40">
