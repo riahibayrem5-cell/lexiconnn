@@ -146,7 +146,7 @@ export default function BookBrain() {
         setDissection(data?.text ?? "");
       }
     } catch (e: any) {
-      toast.error(e.message ?? "AI unavailable");
+      toast.error(e.message ?? t("AI unavailable"));
     } finally {
       setLoadingDissection(false);
     }
