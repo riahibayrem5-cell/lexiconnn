@@ -48,6 +48,7 @@ const FORMAT_ICON = {
 export default function BookBrain() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t, dir } = useLang();
   const { books, setRating, addJournal, addQuote, setArc, setStatus, addConnection, updateBook, removeBook } = useLibrary();
   const book = books.find(b => b.id === id);
 
