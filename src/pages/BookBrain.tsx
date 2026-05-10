@@ -334,14 +334,14 @@ export default function BookBrain() {
       {/* Top bar */}
       <div className="px-4 sm:px-8 lg:px-14 pt-8 flex items-center justify-between">
         <Button onClick={() => navigate("/")} variant="ghost" size="sm" className="text-muted-foreground hover:text-primary -ml-3">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to shelf
+          <ArrowLeft className="h-4 w-4 mr-2" /> {t("Back to shelf")}
         </Button>
         <div className="flex items-center gap-2">
           <Button onClick={refreshMetadata} disabled={refreshingMeta} variant="outline" size="sm" className="border-primary/40 text-primary">
-            {refreshingMeta ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5 mr-2" />} Improve details
+            {refreshingMeta ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5 mr-2" />} {t("Improve details")}
           </Button>
           <Button onClick={() => setEditionPickerOpen(true)} variant="outline" size="sm" className="border-primary/40 text-primary">
-            <Library className="h-3.5 w-3.5 mr-2" /> Choose edition
+            <Library className="h-3.5 w-3.5 mr-2" /> {t("Choose edition")}
           </Button>
           <Button
             onClick={generateAndSaveDossier}
@@ -349,29 +349,29 @@ export default function BookBrain() {
             variant="outline"
             size="sm"
             className="border-primary/40 text-primary"
-            title={hasDossier ? "Open in the Memory Vault" : "Generate a full dossier and save it to the Memory Vault"}
+            title={hasDossier ? t("Open dossier") : t("Generate dossier")}
           >
             {generatingDossier
               ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" />
               : <ScrollText className="h-3.5 w-3.5 mr-2" />}
-            {hasDossier ? "Open dossier" : generatingDossier ? "Composing…" : "Generate dossier"}
+            {hasDossier ? t("Open dossier") : generatingDossier ? t("Composing…") : t("Generate dossier")}
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" size="sm" className="border-destructive/50 text-destructive hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 mr-2" /> Delete</Button>
+              <Button variant="outline" size="sm" className="border-destructive/50 text-destructive hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 mr-2" /> {t("Delete")}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="ink-card rounded-sm">
               <AlertDialogHeader>
-                <AlertDialogTitle className="font-display text-2xl">Remove this volume?</AlertDialogTitle>
-                <AlertDialogDescription>This deletes “{book.title}” and its notes from this shelf. This cannot be undone.</AlertDialogDescription>
+                <AlertDialogTitle className="font-display text-2xl">{t("Remove this volume?")}</AlertDialogTitle>
+                <AlertDialogDescription>{t("This deletes the book and its notes from this shelf. This cannot be undone.")}</AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={() => { removeBook(book.id); toast.success("Book deleted"); navigate("/"); }}>Delete book</AlertDialogAction>
+                <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
+                <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={() => { removeBook(book.id); toast.success(t("Book deleted")); navigate("/"); }}>{t("Delete book")}</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <span className="stamp">Dossier · {book.id.slice(0, 6).toUpperCase()}</span>
+          <span className="stamp">{t("Dossier")} · {book.id.slice(0, 6).toUpperCase()}</span>
         </div>
       </div>
 
