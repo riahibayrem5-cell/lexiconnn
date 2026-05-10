@@ -725,7 +725,7 @@ export default function BookBrain() {
 
             {/* CONNECTIONS */}
             <TabsContent value="connections" className="mt-6 space-y-4">
-              <p className="eyebrow">Linked volumes</p>
+              <p className="eyebrow">{t("Linked volumes")}</p>
               <div className="space-y-2">
                 {book.connections.map(c => {
                   const target = books.find(b => b.id === c.toBookId);
@@ -737,24 +737,24 @@ export default function BookBrain() {
                         <p className="font-display text-base">{target.title}</p>
                         <p className="mono text-[0.6rem] tracking-[0.2em] uppercase text-primary/80">{c.type.replace(/-/g, " ")}</p>
                       </div>
-                      <Button size="sm" variant="ghost" onClick={() => navigate(`/book/${target.id}`)}>Open →</Button>
+                      <Button size="sm" variant="ghost" onClick={() => navigate(`/book/${target.id}`)}>{t("Open")} →</Button>
                     </div>
                   );
                 })}
               </div>
               {otherBooks.length > 0 && (
                 <div className="ink-card rounded-sm p-4 space-y-3">
-                  <Label className="eyebrow">Add a connection</Label>
+                  <Label className="eyebrow">{t("Add a connection")}</Label>
                   <div className="grid grid-cols-2 gap-2">
                     <select value={selectedConnTarget} onChange={(e) => setConnTarget(e.target.value)} className="bg-input border border-border-strong/40 rounded-sm px-3 py-2 text-sm font-serif">
                       {otherBooks.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
                     </select>
                     <select value={connType} onChange={(e) => setConnType(e.target.value)} className="bg-input border border-border-strong/40 rounded-sm px-3 py-2 text-sm font-serif">
-                      <option value="thematically-similar">Thematically similar</option>
-                      <option value="contradicts">Contradicts</option>
-                      <option value="continues">Continues</option>
-                      <option value="influenced-by">Influenced by</option>
-                      <option value="made-me-think-of">Made me think of</option>
+                      <option value="thematically-similar">{t("Thematically similar")}</option>
+                      <option value="contradicts">{t("Contradicts")}</option>
+                      <option value="continues">{t("Continues")}</option>
+                      <option value="influenced-by">{t("Influenced by")}</option>
+                      <option value="made-me-think-of">{t("Made me think of")}</option>
                     </select>
                   </div>
                   <Button
@@ -762,11 +762,11 @@ export default function BookBrain() {
                     onClick={() => {
                       if (!selectedConnTarget) return;
                       addConnection(book.id, { toBookId: selectedConnTarget, type: connType as any });
-                      toast.success("Connection drawn");
+                      toast.success(t("Connection drawn"));
                     }}
                     className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
                   >
-                    Draw connection
+                    {t("Draw connection")}
                   </Button>
                 </div>
               )}
