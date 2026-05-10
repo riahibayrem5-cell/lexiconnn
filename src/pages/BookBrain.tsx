@@ -231,12 +231,12 @@ export default function BookBrain() {
       if (error) throw error;
       if (data?.url) {
         updateBook(book.id, b => ({ ...b, spineUrl: data.url, spineGeneratedAt: new Date().toISOString() }));
-        toast.success("Spine artwork generated");
+        toast.success(t("Spine artwork generated"));
       } else {
-        toast.error("Spine generation returned no image");
+        toast.error(t("Spine generation returned no image"));
       }
     } catch (e: any) {
-      toast.error(e.message ?? "Spine generation failed");
+      toast.error(e.message ?? t("Spine generation failed"));
     } finally {
       setGeneratingSpine(false);
     }
