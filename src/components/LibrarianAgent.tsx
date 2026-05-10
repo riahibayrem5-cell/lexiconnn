@@ -179,13 +179,13 @@ export function LibrarianAgent() {
       });
       if (data?.error) { toast.error(data.error); return; }
       const plan = data as Plan;
-      if (!plan?.actions?.length) { toast.error("I didn't understand that."); return; }
+      if (!plan?.actions?.length) { toast.error(t("I didn't understand that.")); return; }
       for (const a of plan.actions) {
         await execAction(a, raw);
       }
     } catch (e) {
       console.error(e);
-      toast.error("Agent error.");
+      toast.error(t("Agent failed"));
     } finally {
       setLoading(false);
     }
