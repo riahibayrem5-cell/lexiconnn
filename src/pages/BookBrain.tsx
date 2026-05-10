@@ -515,12 +515,12 @@ export default function BookBrain() {
           <Tabs defaultValue="journal" className="w-full">
             <TabsList className="bg-transparent border-b border-border/60 rounded-none p-0 h-auto w-full justify-start gap-6">
               {[
-                { v: "journal", l: "Journal", i: NotebookPen },
-                { v: "timeline", l: "Timeline", i: Sparkles },
-                { v: "quotes", l: "Quotes", i: QuoteIcon },
-                { v: "arc", l: "Emotional Arc", i: Sparkles },
-                { v: "connections", l: "Connections", i: NetworkIcon },
-                { v: "ai", l: "AI Dissection", i: Sparkles },
+                { v: "journal", l: t("Journal"), i: NotebookPen },
+                { v: "timeline", l: t("Timeline"), i: Sparkles },
+                { v: "quotes", l: t("Quotes"), i: QuoteIcon },
+                { v: "arc", l: t("Emotional Arc"), i: Sparkles },
+                { v: "connections", l: t("Connections"), i: NetworkIcon },
+                { v: "ai", l: t("AI Dissection"), i: Sparkles },
               ].map(t => (
                 <TabsTrigger
                   key={t.v} value={t.v}
