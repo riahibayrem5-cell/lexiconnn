@@ -521,12 +521,12 @@ export default function BookBrain() {
                 { v: "arc", l: t("Emotional Arc"), i: Sparkles },
                 { v: "connections", l: t("Connections"), i: NetworkIcon },
                 { v: "ai", l: t("AI Dissection"), i: Sparkles },
-              ].map(t => (
+              ].map(tab => (
                 <TabsTrigger
-                  key={t.v} value={t.v}
+                  key={tab.v} value={tab.v}
                   className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent text-muted-foreground font-display tracking-wider px-0 pb-3 hover:text-foreground"
                 >
-                  <t.i className="h-3.5 w-3.5 mr-2" /> {t.l}
+                  <tab.i className="h-3.5 w-3.5 mr-2" /> {tab.l}
                 </TabsTrigger>
               ))}
             </TabsList>
