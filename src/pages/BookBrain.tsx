@@ -719,7 +719,7 @@ export default function BookBrain() {
             {/* ARC */}
             <TabsContent value="arc" className="mt-6">
               <div className="ink-card rounded-sm p-6">
-                <EmotionalArc arc={inst?.arc ?? []} onTap={(p, m) => { setArc(book.id, p, m); toast.success(`${p}% logged`); }} />
+                <EmotionalArc arc={inst?.arc ?? []} onTap={(p, m) => { setArc(book.id, p, m); toast.success(`${p}% ${t("logged")}`); }} />
               </div>
             </TabsContent>
 
