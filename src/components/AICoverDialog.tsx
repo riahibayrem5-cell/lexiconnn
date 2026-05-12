@@ -33,7 +33,7 @@ interface Props {
 }
 
 export function AICoverDialog({ open, onOpenChange, title, author, year, hint, onGenerated }: Props) {
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const [style, setStyle] = useState(STYLES[0]);
   const [palette, setPalette] = useState(PALETTES[0]);
   const [mood, setMood] = useState(MOODS[0]);
@@ -50,11 +50,11 @@ export function AICoverDialog({ open, onOpenChange, title, author, year, hint, o
       });
       if (error) throw error;
       if (!data?.url) throw new Error("No image returned");
-      toast.success("AI cover generated");
+      toast.success(t("AI cover generated"));
       onGenerated(data.url);
       onOpenChange(false);
     } catch (e: any) {
-      toast.error(e.message ?? "Cover generation failed");
+      toast.error(e.message ?? t("Cover generation failed"));
     } finally {
       setLoading(false);
     }
