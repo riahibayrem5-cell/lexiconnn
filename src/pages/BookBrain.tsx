@@ -735,7 +735,7 @@ export default function BookBrain() {
                       <div className="w-2 h-12" style={{ background: target.spineColor }} />
                       <div className="flex-1">
                         <p className="font-display text-base">{target.title}</p>
-                        <p className="mono text-[0.6rem] tracking-[0.2em] uppercase text-primary/80">{c.type.replace(/-/g, " ")}</p>
+                        <p className="mono text-[0.6rem] tracking-[0.2em] uppercase text-primary/80">{t(c.type.replace(/-/g, " "), c.type.replace(/-/g, " "))}</p>
                       </div>
                       <Button size="sm" variant="ghost" onClick={() => navigate(`/book/${target.id}`)}>{t("Open")} →</Button>
                     </div>
