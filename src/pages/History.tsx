@@ -117,11 +117,11 @@ export default function History() {
   return (
     <div className="min-h-screen bg-background">
       <PageHeader
-        eyebrow="The Memory Vault"
+        eyebrow={t("The Memory Vault")}
         title=""
         titleMain=""
-        titleEmphasis="Book History"
-        subtitle="Every dossier you've composed, kept forever. Open a book on your shelf and tap Generate to add it here."
+        titleEmphasis={t("Book History")}
+        subtitle={t("Every dossier you've composed, kept forever. Open a book on your shelf and tap Generate to add it here.")}
       />
 
       <div className="px-8 pb-12 space-y-6">
@@ -221,7 +221,7 @@ function BookCard({ card, onClick }: { card: VaultCard; onClick: () => void }) {
             <span className="font-display text-xs text-foreground/80 leading-tight line-clamp-6">{card.title}</span>
           </div>
         )}
-        <div className="absolute top-2 right-2 bg-primary/90 text-primary-foreground rounded-full p-1 shadow-gold" title="Dossier saved">
+        <div className="absolute top-2 right-2 bg-primary/90 text-primary-foreground rounded-full p-1 shadow-gold" title={t("Dossier saved")}>
           <Sparkles className="h-3 w-3" />
         </div>
         {(card.extensionCount ?? 0) > 0 && (
@@ -298,7 +298,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
       toast.success(passes === 1 ? t("Dossier extended") : `${t("Dossier extended")} ${passes}×`);
     } catch (e: any) {
       const which = extendProgress?.pass ?? 1;
-      toast.error(`Pass ${which} failed — kept previous version`);
+      toast.error(`${t("Pass")} ${which} ${t("failed — kept previous version")}`);
     } finally {
       setLoading(false);
       setLoadingMode(null);
@@ -382,7 +382,7 @@ function DossierFullScreen({ card, onClose }: { card: VaultCard; onClose: () => 
               )}
               {extendProgress && extendProgress.total > 1 && (
                 <span className="text-[0.65rem] mono tracking-[0.2em] uppercase text-primary">
-                  Pass {Math.max(extendProgress.pass, 1)}/{extendProgress.total}…
+                  {t("Pass")} {Math.max(extendProgress.pass, 1)}/{extendProgress.total}…
                 </span>
               )}
             </div>
