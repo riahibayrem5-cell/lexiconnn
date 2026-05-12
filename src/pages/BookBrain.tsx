@@ -274,7 +274,7 @@ export default function BookBrain() {
       const existingConnIds = new Set(b.connections.map((c) => c.toBookId));
       const newConnections = candidateConnections
         .filter((c) => !existingConnIds.has(c.id))
-        .map((c) => ({ toBookId: c.id, type: "thematically-similar" as const, note: `Same recommendation search · ${pending.edition.languageLabel}` }));
+        .map((c) => ({ toBookId: c.id, type: "thematically-similar" as const, note: `${t("Same recommendation search")} · ${pending.edition.languageLabel}` }));
 
       return {
         ...b,
