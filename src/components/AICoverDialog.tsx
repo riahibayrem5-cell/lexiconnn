@@ -33,7 +33,7 @@ interface Props {
 }
 
 export function AICoverDialog({ open, onOpenChange, title, author, year, hint, onGenerated }: Props) {
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const [style, setStyle] = useState(STYLES[0]);
   const [palette, setPalette] = useState(PALETTES[0]);
   const [mood, setMood] = useState(MOODS[0]);
@@ -50,11 +50,11 @@ export function AICoverDialog({ open, onOpenChange, title, author, year, hint, o
       });
       if (error) throw error;
       if (!data?.url) throw new Error("No image returned");
-      toast.success("AI cover generated");
+      toast.success(t("AI cover generated"));
       onGenerated(data.url);
       onOpenChange(false);
     } catch (e: any) {
-      toast.error(e.message ?? "Cover generation failed");
+      toast.error(e.message ?? t("Cover generation failed"));
     } finally {
       setLoading(false);
     }
@@ -78,35 +78,35 @@ export function AICoverDialog({ open, onOpenChange, title, author, year, hint, o
       <DialogContent className="max-w-lg bg-surface border-border-strong/40 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-primary" /> Generate AI cover
+            <Sparkles className="h-4 w-4 text-primary" /> {t("Generate AI cover")}
           </DialogTitle>
           <DialogDescription className="font-serif italic">
-            Last-resort fallback for "{title}" — design choices below shape the result.
-            Each generation costs AI credits, so no covers are made automatically.
+            {t("Last-resort fallback for")} "{title}" — {t("design choices below shape the result.")}
+            {" "}{t("Each generation costs AI credits, so no covers are made automatically.")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
-          <Section label="Design language">
+          <Section label={t("Design language")}>
             {STYLES.map(v => <Chip key={v} value={v} current={style} onClick={() => setStyle(v)} />)}
           </Section>
-          <Section label="Palette">
+          <Section label={t("Palette")}>
             {PALETTES.map(v => <Chip key={v} value={v} current={palette} onClick={() => setPalette(v)} />)}
           </Section>
-          <Section label="Mood">
+          <Section label={t("Mood")}>
             {MOODS.map(v => <Chip key={v} value={v} current={mood} onClick={() => setMood(v)} />)}
           </Section>
-          <Section label="Typography">
+          <Section label={t("Typography")}>
             {TYPOS.map(v => <Chip key={v} value={v} current={typography} onClick={() => setTypography(v)} />)}
           </Section>
-          <Section label="Imagery">
+          <Section label={t("Imagery")}>
             {IMAGERIES.map(v => <Chip key={v} value={v} current={imagery} onClick={() => setImagery(v)} />)}
           </Section>
 
           <div className="space-y-2">
-            <Label className="eyebrow">Extra direction (optional)</Label>
+            <Label className="eyebrow">{t("Extra direction (optional)")}</Label>
             <Textarea
-              placeholder="e.g. include a single moth, no faces, gilded title…"
+              placeholder={t("e.g. include a single moth, no faces, gilded title…")}
               value={extra}
               onChange={(e) => setExtra(e.target.value)}
               className="bg-input border-border-strong/40 font-serif text-sm"
@@ -121,10 +121,10 @@ export function AICoverDialog({ open, onOpenChange, title, author, year, hint, o
               className="bg-primary text-primary-foreground hover:bg-primary-glow font-display tracking-wider"
             >
               {loading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
-              Generate cover
+              {t("Generate cover")}
             </Button>
             <Button variant="ghost" onClick={() => onOpenChange(false)} disabled={loading} className="text-muted-foreground">
-              Cancel
+              {t("Cancel")}
             </Button>
           </div>
         </div>

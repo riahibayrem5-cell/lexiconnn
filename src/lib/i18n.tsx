@@ -596,6 +596,54 @@ const AR: Record<string, string> = {
   "Edition applied to this book": "طُبّقت الطبعة على الكتاب",
   "Dossier saved to your Memory Vault": "تم حفظ الملف في خزانة الذاكرة",
   "Could not generate dossier": "تعذّر إنشاء الملف",
+
+  // Book formats
+  "physical": "ورقي",
+  "ebook": "إلكتروني",
+  "audiobook": "صوتي",
+  "dual": "مزدوج",
+
+  // Cover sources
+  "google": "غوغل",
+  "openlibrary": "أوبن لايبرري",
+  "gutendex": "غوتنبرغ",
+  "internetarchive": "أرشيف الإنترنت",
+  "ai-generated": "مُولَّد بالذكاء",
+
+  // Connection types
+  "thematically similar": "تشابه موضوعي",
+  "contradicts": "يناقض",
+  "continues": "يُكمل",
+  "influenced by": "متأثر بـ",
+  "made me think of": "ذكّرني بـ",
+
+  // BookBrain misc
+  "logged": "سُجِّل",
+  "Same recommendation search": "نفس بحث التوصيات",
+
+  // EmotionalArc
+  "Log a check-in": "سجّل نقطة شعورية",
+  "OPEN": "البداية",
+  "CLOSE": "النهاية",
+  "Heavy": "ثقيل",
+  "Wary": "حذر",
+  "Even": "متوازن",
+  "Lifted": "مُنتشٍ",
+  "Elated": "مبتهج",
+
+  // AI cover dialog
+  "Last-resort fallback for": "حلٌّ أخير لـ",
+  "design choices below shape the result.": "الاختيارات أدناه تُشكّل النتيجة.",
+  "Each generation costs AI credits, so no covers are made automatically.": "كل توليد يستهلك رصيد ذكاء، لذلك لا تُنشأ الأغلفة تلقائيًا.",
+  "Design language": "اللغة البصرية",
+  "Palette": "اللوحة اللونية",
+  "Typography": "الخط",
+  "Imagery": "الصورة",
+  "Extra direction (optional)": "توجيه إضافي (اختياري)",
+  "e.g. include a single moth, no faces, gilded title…": "مثلاً: عثة وحيدة، بلا وجوه، عنوان مذهّب…",
+  "Generate cover": "أنشئ الغلاف",
+  "AI cover generated": "تم إنشاء الغلاف",
+  "Cover generation failed": "فشل إنشاء الغلاف",
 };
 
 export function LangProvider({ children }: { children: ReactNode }) {

@@ -274,7 +274,7 @@ export default function BookBrain() {
       const existingConnIds = new Set(b.connections.map((c) => c.toBookId));
       const newConnections = candidateConnections
         .filter((c) => !existingConnIds.has(c.id))
-        .map((c) => ({ toBookId: c.id, type: "thematically-similar" as const, note: `Same recommendation search · ${pending.edition.languageLabel}` }));
+        .map((c) => ({ toBookId: c.id, type: "thematically-similar" as const, note: `${t("Same recommendation search")} · ${pending.edition.languageLabel}` }));
 
       return {
         ...b,
@@ -500,7 +500,7 @@ export default function BookBrain() {
             )}
             <div className="mt-4 flex items-center gap-3 text-xs mono text-muted-foreground tracking-[0.18em] uppercase">
               <FormatIcon className="h-3.5 w-3.5 text-primary" />
-              <span>{book.format}</span>
+              <span>{t(book.format, book.format)}</span>
               {book.language && <><span>·</span><span>{book.language}</span></>}
               {book.pages && <><span>·</span><span>{book.pages} {t("pp")}</span></>}
             </div>
@@ -508,7 +508,7 @@ export default function BookBrain() {
               <DossierStat label={t("Pages")} value={book.pages ? String(book.pages) : "—"} />
               <DossierStat label={t("Quotes")} value={String(inst?.quotes?.length ?? 0)} />
               <DossierStat label={t("Sessions")} value={String(inst?.sessions?.length ?? 0)} />
-              <DossierStat label={t("Source")} value={book.coverSource === "none" || !book.coverSource ? t("spine") : book.coverSource} />
+              <DossierStat label={t("Source")} value={book.coverSource === "none" || !book.coverSource ? t("spine") : t(book.coverSource, book.coverSource)} />
             </div>
           </header>
 
@@ -719,7 +719,7 @@ export default function BookBrain() {
             {/* ARC */}
             <TabsContent value="arc" className="mt-6">
               <div className="ink-card rounded-sm p-6">
-                <EmotionalArc arc={inst?.arc ?? []} onTap={(p, m) => { setArc(book.id, p, m); toast.success(`${p}% logged`); }} />
+                <EmotionalArc arc={inst?.arc ?? []} onTap={(p, m) => { setArc(book.id, p, m); toast.success(`${p}% ${t("logged")}`); }} />
               </div>
             </TabsContent>
 
@@ -735,7 +735,7 @@ export default function BookBrain() {
                       <div className="w-2 h-12" style={{ background: target.spineColor }} />
                       <div className="flex-1">
                         <p className="font-display text-base">{target.title}</p>
-                        <p className="mono text-[0.6rem] tracking-[0.2em] uppercase text-primary/80">{c.type.replace(/-/g, " ")}</p>
+                        <p className="mono text-[0.6rem] tracking-[0.2em] uppercase text-primary/80">{t(c.type.replace(/-/g, " "), c.type.replace(/-/g, " "))}</p>
                       </div>
                       <Button size="sm" variant="ghost" onClick={() => navigate(`/book/${target.id}`)}>{t("Open")} →</Button>
                     </div>

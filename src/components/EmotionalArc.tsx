@@ -1,5 +1,6 @@
 import { ArcCheckin } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 interface Props { arc: ArcCheckin[]; onTap?: (point: ArcCheckin["point"], mood: ArcCheckin["mood"]) => void; }
 
@@ -8,6 +9,7 @@ const MOODS: ArcCheckin["mood"][] = [1, 2, 3, 4, 5];
 const MOOD_LABEL = ["", "Heavy", "Wary", "Even", "Lifted", "Elated"];
 
 export function EmotionalArc({ arc, onTap }: Props) {
+  const { t } = useLang();
   const w = 600, h = 200, padX = 30, padY = 30;
   const xFor = (p: number) => padX + ((w - padX * 2) * p) / 100;
   const yFor = (m: number) => padY + ((h - padY * 2) * (5 - m)) / 4;
@@ -53,28 +55,28 @@ export function EmotionalArc({ arc, onTap }: Props) {
         {POINTS.map(p => (
           <text key={p} x={xFor(p)} y={h - 8} textAnchor="middle" className="mono"
             fontSize="9" fill="hsl(var(--muted-foreground))" letterSpacing="2">
-            {p === 0 ? "OPEN" : p === 100 ? "CLOSE" : `${p}%`}
+            {p === 0 ? t("OPEN") : p === 100 ? t("CLOSE") : `${p}%`}
           </text>
         ))}
       </svg>
 
       {onTap && (
         <div className="space-y-3">
-          <p className="eyebrow">Log a check-in</p>
+          <p className="eyebrow">{t("Log a check-in")}</p>
           <div className="grid grid-cols-5 gap-2">
             {POINTS.map(p => {
               const cur = arc.find(a => a.point === p);
               return (
                 <div key={p} className="flex flex-col items-center gap-2 p-3 rounded-sm border border-border/50 bg-surface-2/50">
                   <span className="mono text-[0.55rem] tracking-[0.25em] text-muted-foreground">
-                    {p === 0 ? "OPEN" : p === 100 ? "CLOSE" : `${p}%`}
+                    {p === 0 ? t("OPEN") : p === 100 ? t("CLOSE") : `${p}%`}
                   </span>
                   <div className="flex flex-col gap-1">
                     {MOODS.slice().reverse().map(m => (
                       <button
                         key={m}
                         onClick={() => onTap(p, m)}
-                        title={MOOD_LABEL[m]}
+                        title={t(MOOD_LABEL[m], MOOD_LABEL[m])}
                         className={cn(
                           "w-6 h-2 rounded-full transition-all",
                           cur?.mood === m
