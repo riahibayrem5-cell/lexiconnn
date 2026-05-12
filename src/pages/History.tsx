@@ -199,6 +199,7 @@ function Grid({ cards, onOpen }: { cards: VaultCard[]; onOpen: (id: string) => v
 }
 
 function BookCard({ card, onClick }: { card: VaultCard; onClick: () => void }) {
+  const { t } = useLang();
   const [src, setSrc] = useState(card.coverUrl);
   const [failed, setFailed] = useState(false);
   useEffect(() => { setSrc(card.coverUrl); setFailed(false); }, [card.coverUrl]);
