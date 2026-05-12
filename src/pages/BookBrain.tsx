@@ -500,7 +500,7 @@ export default function BookBrain() {
             )}
             <div className="mt-4 flex items-center gap-3 text-xs mono text-muted-foreground tracking-[0.18em] uppercase">
               <FormatIcon className="h-3.5 w-3.5 text-primary" />
-              <span>{book.format}</span>
+              <span>{t(book.format, book.format)}</span>
               {book.language && <><span>·</span><span>{book.language}</span></>}
               {book.pages && <><span>·</span><span>{book.pages} {t("pp")}</span></>}
             </div>
