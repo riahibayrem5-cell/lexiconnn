@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { AppSidebar } from "./AppSidebar";
 import { LibrarianAgent } from "./LibrarianAgent";
 import { CommandPalette } from "./CommandPalette";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { useAdminSettings } from "@/lib/adminSettings";
 
 export function AppLayout() {
@@ -20,7 +21,9 @@ export function AppLayout() {
       <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(c => !c)} />
       <main className="flex-1 min-w-0 relative">
         <div key={pageKey} className="page-enter min-h-screen">
-          <Outlet />
+          <ErrorBoundary resetKey={pageKey}>
+            <Outlet />
+          </ErrorBoundary>
         </div>
         {settings.agentEnabled && <LibrarianAgent />}
         <CommandPalette />

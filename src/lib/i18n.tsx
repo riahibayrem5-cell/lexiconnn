@@ -644,6 +644,19 @@ const AR: Record<string, string> = {
   "Generate cover": "أنشئ الغلاف",
   "AI cover generated": "تم إنشاء الغلاف",
   "Cover generation failed": "فشل إنشاء الغلاف",
+
+  // Recommendations page (additions)
+  "e.g. crime and punishment, the prophet kahlil, sapiens harari…": "مثلاً: الجريمة والعقاب، النبي جبران، ساپينس هراري…",
+  "Search failed": "فشل البحث",
+  "copied": "تم النسخ",
+  "Publisher": "الناشر",
+  "Copy": "انسخ",
+  "Try “Sapiens”, “الكيمياء باولو كويلو”, “Le Petit Prince”, or just an author name.": "جرّب «ساپينس» أو «الكيمياء — باولو كويلو» أو «الأمير الصغير» أو حتى اسم مؤلف.",
+
+  // History page extras
+  "Dossier saved": "تم حفظ الملف",
+  "Pass": "تمرير",
+  "failed — kept previous version": "فشل — أُبقيت النسخة السابقة",
 };
 
 export function LangProvider({ children }: { children: ReactNode }) {
