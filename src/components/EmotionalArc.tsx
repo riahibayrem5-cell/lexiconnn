@@ -1,5 +1,6 @@
 import { ArcCheckin } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 interface Props { arc: ArcCheckin[]; onTap?: (point: ArcCheckin["point"], mood: ArcCheckin["mood"]) => void; }
 
@@ -8,6 +9,7 @@ const MOODS: ArcCheckin["mood"][] = [1, 2, 3, 4, 5];
 const MOOD_LABEL = ["", "Heavy", "Wary", "Even", "Lifted", "Elated"];
 
 export function EmotionalArc({ arc, onTap }: Props) {
+  const { t } = useLang();
   const w = 600, h = 200, padX = 30, padY = 30;
   const xFor = (p: number) => padX + ((w - padX * 2) * p) / 100;
   const yFor = (m: number) => padY + ((h - padY * 2) * (5 - m)) / 4;
