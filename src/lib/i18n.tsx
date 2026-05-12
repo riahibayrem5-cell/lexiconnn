@@ -632,13 +632,11 @@ const AR: Record<string, string> = {
   "Elated": "مبتهج",
 
   // AI cover dialog
-  "Generate AI cover": "أنشئ غلافًا بالذكاء",
   "Last-resort fallback for": "حلٌّ أخير لـ",
   "design choices below shape the result.": "الاختيارات أدناه تُشكّل النتيجة.",
   "Each generation costs AI credits, so no covers are made automatically.": "كل توليد يستهلك رصيد ذكاء، لذلك لا تُنشأ الأغلفة تلقائيًا.",
   "Design language": "اللغة البصرية",
   "Palette": "اللوحة اللونية",
-  "Mood": "المزاج",
   "Typography": "الخط",
   "Imagery": "الصورة",
   "Extra direction (optional)": "توجيه إضافي (اختياري)",
