@@ -508,7 +508,7 @@ export default function BookBrain() {
               <DossierStat label={t("Pages")} value={book.pages ? String(book.pages) : "—"} />
               <DossierStat label={t("Quotes")} value={String(inst?.quotes?.length ?? 0)} />
               <DossierStat label={t("Sessions")} value={String(inst?.sessions?.length ?? 0)} />
-              <DossierStat label={t("Source")} value={book.coverSource === "none" || !book.coverSource ? t("spine") : book.coverSource} />
+              <DossierStat label={t("Source")} value={book.coverSource === "none" || !book.coverSource ? t("spine") : t(book.coverSource, book.coverSource)} />
             </div>
           </header>
 
