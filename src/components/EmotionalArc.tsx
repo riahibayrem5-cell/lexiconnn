@@ -55,7 +55,7 @@ export function EmotionalArc({ arc, onTap }: Props) {
         {POINTS.map(p => (
           <text key={p} x={xFor(p)} y={h - 8} textAnchor="middle" className="mono"
             fontSize="9" fill="hsl(var(--muted-foreground))" letterSpacing="2">
-            {p === 0 ? "OPEN" : p === 100 ? "CLOSE" : `${p}%`}
+            {p === 0 ? t("OPEN") : p === 100 ? t("CLOSE") : `${p}%`}
           </text>
         ))}
       </svg>
