@@ -1,88 +1,100 @@
-# Dossier flow rework
+# LEXICON — General Audit & Roadmap
 
-Goal: every book gets a "Generate" button alongside Improve details / Delete. Generated dossiers are saved automatically and become the only thing the History page lists. The History page gets stronger Regenerate / Extend (with depth) controls and a richer template.
+A scan across `src/pages`, `src/components`, `src/lib`, and `supabase/functions` (≈10.7K LOC, 14 edge functions, 555 i18n keys, full RTL pass already in place). Below is a prioritized list of what's worth adding, continuing, fixing, and removing.
 
-## 1. `BookBrain.tsx` — Generate button on the book page
+---
 
-Add a third button in the top action row (next to *Improve details* and *Delete*):
+## 🟢 Continue (in-flight, finish strong)
 
-```text
-[← Back to shelf]                  [Improve details] [Generate dossier] [Delete] [Dossier · XXXXXX]
-```
+1. **RTL/Arabic polish endgame**
+   - i18n is wired across all pages; remaining gaps are in **History.tsx** (727 LOC, never imported `useLang`) and **Recommendations.tsx** detail strings. Sweep those and we hit 100%.
+   - Verify Arabic numerals/dates use `toLocaleString("ar")` consistently in History stats and Ritual streaks.
 
-Behavior:
-- On click → call `generateDossier({ title, author, year, mode: "create" })` then `saveDossierRemote({ bookId: book.id, ... })` from `src/lib/dossier.ts`.
-- Show inline state: "Generating…" → toast `"Dossier saved to your Memory Vault"`.
-- If a dossier already exists, the button label switches to **"Open dossier"** and routes to `/history` with `?open=<bookId>` (consumed by History to auto-open the modal). It no longer regenerates from this page — regenerate/extend live in History.
-- Same component is reused for any book that has a `BookBrain` route, which already covers both shelf books and searched books once added. (No separate flow is needed for the search drawer — generation happens after a book exists in `books`.)
-- Use `loadDossier(book.id)` on mount so the label reflects existing state.
+2. **Edition matching scoring**
+   - Already scoring ISBN/OCLC/title+author. Add a "why this match" tooltip in `EditionSourceDialog` so users trust the auto-pick.
 
-## 2. `History.tsx` — vault becomes saved-dossiers-only
+3. **Spine generation pipeline**
+   - `generate-spine` works but has no retry on transient AI failures and no visible queue state when bulk-importing from Goodreads.
 
-Strip:
-- The catalog/external `searchOpenLibrary` block, `external` state, `searching` state, `externalCards`, "From the wider catalog" section.
-- The auto-generate-on-open behavior in `DossierFullScreen` (no more silent generations from this page).
+---
 
-Replace the data source:
-- Add `loadAllDossiers()` to `src/lib/dossier.ts` — selects every row from `book_dossiers` for the user (or guest map). Returns `{ bookId, title, author, generatedAt, extendedAt, extensionCount }[]`.
-- For each row, hydrate cover/year by joining with `books` (in-memory `useLibrary().books`). Books that are no longer on the shelf still appear (using stored title/author and a placeholder cover).
-- Filters become: `all | recently extended | by author A–Z | last generated`. Search box stays but only filters this list.
-- Empty state: "No dossiers yet — open any book and tap **Generate dossier**."
+## 🔵 Add (high value, low risk)
 
-Auto-open when arriving with `?open=<bookId>` from BookBrain.
+1. **Reading goals dashboard widget**
+   - `src/lib/goals.ts` exists (49 lines) but is barely surfaced. Add a TodayBar / Shelf widget showing "X of Y books · pace: ahead/behind".
 
-## 3. Extend with 1× / 2× / 3× depth
+2. **Quote card export presets**
+   - `quoteCard.ts` generates one style. Add 3 presets (minimal, editorial, foil) and a copy-link button.
 
-Replace the single Extend button in the dossier toolbar with a small segmented control:
+3. **Global search via Command Palette**
+   - `CommandPalette.tsx` (117 LOC) currently navigates only. Index books, quotes, and journal entries for fuzzy search.
 
-```text
-[Regenerate] [Extend ▾ 1×|2×|3×] [Spoilers] [PDF]
-```
+4. **Keyboard shortcuts surface**
+   - Add a `?` overlay listing shortcuts (open palette, add book, jump to today, toggle theme/lang).
 
-- 1× = current behavior (one pass).
-- 2× = run `mode: "extend"` twice in sequence, feeding the previous output back in.
-- 3× = three passes. Each pass increments `extension_count` and updates `extended_at`.
-- Show progress: `Extending pass 2/3…`.
+5. **Backup / export-everything**
+   - One-click JSON export of the entire library + an import that round-trips. Foundation already there in `markdownExport.ts` and `goodreadsImport.ts`.
 
-Backend (`supabase/functions/book-dossier/index.ts`) already supports `mode: "extend"`. No backend change required — looping happens client-side in `runGenerate("extend", { passes })`.
+6. **Reading streak + heatmap on History**
+   - History page is large (727 LOC) but lacks a calendar heatmap of sessions. Big visual win.
 
-## 4. Template polish (DossierBody)
+7. **Book cover fallback chain UI**
+   - `covers.ts` tries multiple sources. Show source attribution under cover in BookBrain (already partially done — extend to Shelf hover).
 
-Tighten the dossier reading experience:
+---
 
-- Add a sticky **table of contents** sidebar on `lg:` screens (Essence / Ideas / People / Quotes / Lessons / Plot) with smooth scroll, replacing the tabbed layout for a long-form feel. Mobile keeps the existing tabs.
-- Hero strip: add `oneLiner` in larger drop-cap display, a thin gold rule, and `genre · setting · X mood tags` on a single mono line.
-- Ideas: numbered cards keep their structure but add a subtle `border-l-primary` glow and "Why it matters" indented in a small italic block instead of a separate bordered line.
-- Characters: two-column grid on `sm:` with role chip top-right, arc as `→` line at bottom.
-- Quotes: full-width pull quote treatment with hanging quotation mark, attribution on a thin line below.
-- Lessons: keep diamond bullets, but add a small "carry into life" header style.
-- Plot: keep the timeline, render twists as collapsible cards inside the spoiler wrap.
-- Footer: add `Extended ×N · last extended <date>` when `extensionCount > 0`.
+## 🟡 Fix (bugs / debt)
 
-Dossier PDF (`src/lib/dossierPdf.ts`) gets the same hero strip and TOC layout updates so the export matches the on-screen template.
+1. **`BookBrain.tsx` is 929 LOC** — split into `BookBrainHeader`, `BookBrainTabs`, `BookBrainSidebar`. Currently slow to edit and re-render heavy.
 
-## 5. Storage helper changes
+2. **`History.tsx` (727 LOC) has no i18n** — entire page renders English even when `lang === "ar"`.
 
-`src/lib/dossier.ts`:
+3. **`storage.ts` uses 5 separate `localStorage` keys with no schema version** — one bad write breaks load. Add a `schemaVersion` field + migration shim. Quota errors are also unhandled.
 
-- `loadAllDossiers(): Promise<CachedDossier[]>` — DB select-all for signed-in users; reads guest map otherwise. Returns rows including `title` and `author` for display.
-- `extendDossier({ bookId, passes }): Promise<CachedDossier>` — convenience wrapper that loops `generateDossier` + `saveDossierRemote` `passes` times.
+4. **No error boundaries** — a single render error in BookBrain blanks the whole route. Add a route-level boundary in `AppLayout`.
 
-No DB migrations needed; the `book_dossiers` table already has `extension_count` and `extended_at`.
+5. **`console.warn` left in production paths** (`covers.ts`, `arabicPdf.ts`, `AddBookDrawer.tsx`) — route through a tiny `logger.ts` that no-ops in prod.
 
-## Technical notes
+6. **Edge function input validation** — most `supabase/functions/*` accept JSON without zod/shape checks; malformed payloads return 500 instead of 400.
 
-- `History.tsx` removes `OLResult`/`searchOpenLibrary` imports.
-- The `lexicon-dossier-change` event is already dispatched on guest writes; emit it from the DB path too so the History list refreshes immediately after generating from BookBrain.
-- BookBrain's "Open dossier" navigation: `navigate("/history?open=" + book.id)`. History reads `useSearchParams()` to set `openId` once on mount.
-- Extend loop guards: stop on first error, surface a toast `"Pass 2 failed — kept pass 1"`.
-- All dossier writes continue to go through the existing `book-dossier` edge function; no new functions or secrets.
+7. **React Query unused** — `QueryClientProvider` is mounted but most data fetching uses ad-hoc `useEffect`+`useState`. Either adopt it (caching, retries) or remove the dep.
 
-## Files touched
+8. **Lazy routes have no preloading** — first navigation to BookBrain stalls on the chunk. Add `onMouseEnter` preload on shelf spines.
 
-- `src/pages/BookBrain.tsx` — Generate / Open dossier button, navigate to History.
-- `src/pages/History.tsx` — drop catalog search, list saved dossiers only, segmented Extend, auto-open via query param, template polish.
-- `src/lib/dossier.ts` — `loadAllDossiers`, `extendDossier`, dispatch change event after DB writes.
-- `src/lib/dossierPdf.ts` — match the new template structure.
+9. **AICoverDialog generation cost not enforced** — UI says "costs credits" but there's no client-side rate limit or confirmation for repeats.
 
-Out of scope: changing the dossier JSON schema, adding new edge functions, deleting old dossiers UI.
+10. **Missing route in nav editor** — `AdminPanel.PAGE_ORDER` omits `/recommendations` and `/history`, so admins can't rename them.
+
+---
+
+## 🔴 Remove / Simplify
+
+1. **`src/lib/seed.ts` (30 LOC)** — dev-only seed data; gate behind `import.meta.env.DEV` or delete if unused.
+
+2. **Duplicate toast systems** — both `@/components/ui/toaster` (shadcn) and `sonner` are mounted in `App.tsx`. Pick one (sonner is already the default in code).
+
+3. **`src/lib/utils.ts` is 6 lines** — fine to keep, but several pages re-implement `cn`-like helpers locally; consolidate.
+
+4. **Unused i18n keys** — after the big push, run a quick "key used?" audit; ~555 keys is a lot and some are likely orphaned.
+
+5. **`MANUS_AI.md` at repo root** — confirm it's still relevant or remove from the build context.
+
+---
+
+## 🛡️ Security & Backend
+
+1. Run `security--run_security_scan` — RLS coverage on user-scoped tables hasn't been re-validated since the recent schema additions.
+2. `agent-command` and `oracle-chat` should rate-limit per user (currently rely on Lovable AI gateway only).
+3. Confirm `verify_jwt` settings on each edge function in `supabase/config.toml` match intent (some public, some user-scoped).
+
+---
+
+## Suggested next sprint (pick 3–4)
+
+A. Finish i18n on **History** + **Recommendations** detail
+B. Split **BookBrain.tsx** + add route-level **ErrorBoundary**
+C. Make **CommandPalette** a true global search
+D. Add **JSON export/import** (true backup)
+E. Add **session heatmap** on History
+
+Tell me which bucket(s) to tackle first and I'll turn it into concrete tasks.
