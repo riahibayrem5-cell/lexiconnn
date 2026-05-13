@@ -354,7 +354,7 @@
   }
 
   body {
-    font-family: '"Inter Tight"', 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: "ss01" 1, "cv11" 1, "kern" 1, "liga" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -380,7 +380,7 @@
   }
 
   h1, h2, h3, h4, .serif-display, .font-display {
-    font-family: 'Fraunces', '"Instrument Serif"', Georgia, serif;
+    font-family: 'Fraunces', 'Instrument Serif', Georgia, serif;
     font-weight: 500;
     font-optical-sizing: auto;
     font-variation-settings: "opsz" 96, "SOFT" 50;
