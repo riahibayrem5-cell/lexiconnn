@@ -12,9 +12,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ['Fraunces', 'Instrument Serif', '"Noto Naskh Arabic"', 'Georgia', 'serif'],
-        display: ['Fraunces', 'Instrument Serif', 'Amiri', 'Georgia', 'serif'],
-        sans: ['Inter Tight', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Instrument Serif"', '"Noto Naskh Arabic"', 'Georgia', 'serif'],
+        display: ['"Instrument Serif"', 'Amiri', 'Georgia', 'serif'],
+        sans: ['"Work Sans"', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
         arabic: ['"Amiri"', '"Noto Naskh Arabic"', 'Georgia', 'serif'],
         "arabic-body": ['"Noto Naskh Arabic"', '"Amiri"', 'Georgia', 'serif'],
