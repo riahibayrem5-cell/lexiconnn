@@ -5,12 +5,14 @@ import { LibrarianAgent } from "./LibrarianAgent";
 import { CommandPalette } from "./CommandPalette";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { useAdminSettings } from "@/lib/adminSettings";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const loc = useLocation();
   const { settings } = useAdminSettings();
   const [pageKey, setPageKey] = useState(loc.pathname);
+  useScrollReveal(pageKey);
 
   useEffect(() => {
     setPageKey(loc.pathname);
